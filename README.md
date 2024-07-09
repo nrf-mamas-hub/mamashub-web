@@ -6,11 +6,26 @@ This is an admin web application created to
 2. Support Administration Functionality such as user management, reporting etc of the same application.
 
 
+### Running the application
+
 #### Development Mode
 
-`yarn dev`
+To run the app in a development environment,
 
-Production
+- Install the dependencies at the root of the project directory
+
+```
+
+yarn install
+```
+
+- Run the dev command which starts both the ui and backend servers
+
+```
+
+yarn dev
+```
+### Production
 
 To run a production build
 
@@ -25,8 +40,10 @@ Use Docker and docker-compose to build and run the images for the entire project
 
 #### Build entire project
 
-`docker-compose up -d --build`
+```
 
+docker-compose up -d --build`
+```
 This should bring up the following application.
 
 NOTE: By default, the application will be exposed on ports 8080 and 8081
@@ -37,16 +54,41 @@ http://[YOUR-IP-HERE]:8080 - Swagger UI Docs for the application's API.
 
 #### Build the UI only
 
-`docker build -t ./ui` or `yarn docker:build:ui`
+```
+
+docker build -t ./ui
+``` 
+or 
+
+```
+
+yarn docker:build:ui
+```
 
 #### Build the API only
 
-`docker build -t ./api` or `yarn docker:build:api`
+```
 
+docker build -t ./api
+```
+
+ or
+ 
+```
+
+yarn docker:build:api
+```
 
 Confirm the services are up and running.
 
-`docker-compose ps`
+```
+
+docker-compose ps
+```
 
 If this is the case. Ensure to run Prisma migrations to apply any pending database schema changes with
-`./api/run-dev-migrations.sh`
+
+```
+
+./api/run-dev-migrations.sh
+```
