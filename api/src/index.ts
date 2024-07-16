@@ -18,11 +18,9 @@ import Admin from './routes/admin'
 import Statistics from './routes/statistics';
 
 
-
-
-
 const app = express();
-const PORT = 8080;
+
+const { SERVER_PORT } = process.env;
 
 app.use(cors())
 
@@ -40,8 +38,6 @@ app.use('/client', Client)
 app.use('/statistics', Statistics)
 
 
-
-
-app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+app.listen(SERVER_PORT, () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${SERVER_PORT}`);
 });
