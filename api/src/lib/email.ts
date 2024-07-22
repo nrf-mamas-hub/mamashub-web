@@ -42,7 +42,7 @@ export let sendPasswordResetEmail = async (user:any, resetLink:string) => {
             },
             from:{
                 name: "Mama's Hub",
-                email: "railamolo@gmail.com"
+                email: "okemwawes@gmail.com"
             },
             body: `Dear ${user.names},\n\n\nUse the link below to reset your password \n\n${resetLink}`,
             html: ""
@@ -66,7 +66,7 @@ export let sendWelcomeEmail = async (user:any, resetLink:string) => {
             },
             from:{
                 name: "Mama's Hub",
-                email: "railamolo@gmail.com"
+                email: "okemwawes@gmail.com"
             },
             body: `Dear ${user.names},\n\n\nUse the link below to create your password \n\n${resetLink}`,
             html: "",
