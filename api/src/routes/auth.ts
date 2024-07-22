@@ -240,9 +240,15 @@ router.post("/reset-password", async (req: Request, res: Response) => {
         })
         res.statusCode = 200
         let resetUrl = `${process.env['WEB_URL']}/new-password?id=${user?.id}&token=${user?.resetToken}`
-        console.log(resetUrl)
-        let response = await sendPasswordResetEmail(user, resetUrl)
-        // console.log(response)
+        
+        // incase you need extra information on the send operation response, please assign it to a variable and extract the necessary properties
+        // For example:
+        // let response=await sendPasswordResetEmail(user, resetUrl);
+        // let responseStatus:string=response.body.Message[0].Status
+        // --- this will give you the operation status
+
+        await sendPasswordResetEmail(user, resetUrl);
+
         res.json({ message: `Password reset instructions have been sent to your email, ${user?.email}`, status: "success", });
         return
 
