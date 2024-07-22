@@ -9,16 +9,20 @@ export default function ResetPassword(){
     let [email, setEmail] = useState({})
     let navigate = useNavigate()
     let [open, setOpen] = useState(false)
-    let [message, setMessage] = useState(false)
+    let [message, setMessage] = useState('')
 
     let resetPassword = async () => {
-        let data = (await (await fetch(`${apiHost}/auth/reset-password`, 
-            {   method:'POST', 
-                headers:{"Content-Type":"application/json", },
+
+        let data = (await (await fetch(`${apiHost}/auth/reset-password`,
+            {
+                method: 'POST',
+                headers: { "Content-Type": "application/json", },
                 body: JSON.stringify(email)
             }
-            )).json())
+        )).json());
+
         console.log(data)
+
         if(data.status === "error"){
                 setMessage(data.error)
                 setOpen(true)
@@ -57,11 +61,11 @@ export default function ResetPassword(){
                     type="email"
                     placeholder="Email address"
                     size="small"
-                    onChange={e=>{setEmail({email:e.target.value})}}
+                    onChange={e => { setEmail({ email: e.target.value })}}
                     />
                     <br/><br/>   
                     <Button variant="contained"
-                     disableElevation onClick={e=>{resetPassword()}}
+                     disableElevation onClick={resetPassword}
                     sx={{width:"50%", marginLeft:"25%", backgroundColor:"#632165"}}
                     >RESET PASSWORD</Button>
                 </CardContent>
