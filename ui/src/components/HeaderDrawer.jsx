@@ -440,7 +440,7 @@ export default function HeaderDrawer({ children }) {
                 .filter(item => item.roles.includes(role))
                 .map((route, index) =>
                   route.children ? (
-                    <>
+                    <React.Fragment key={route.name}>
                       <ListItem
                         onClick={() => handleClick(index)}
                         sx={{
@@ -511,7 +511,7 @@ export default function HeaderDrawer({ children }) {
                             ))}
                         </List>
                       </Collapse>
-                    </>
+                    </React.Fragment>
                   ) : (
                     <ListItem
                       sx={{
