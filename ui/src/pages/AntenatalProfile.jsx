@@ -197,7 +197,7 @@ export default function AntenatalProfile() {
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
               >
-                <Tab label="Antenatal Profile" value="1" />
+                <Tab label="Antenatal Profile" value={value} />
               </TabList>
             </Box>
 
