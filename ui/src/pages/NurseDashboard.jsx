@@ -71,7 +71,7 @@ export default function NurseDashboard() {
               {Object.keys(data).length > 0 ? (
                 Object.keys(data).map((entry) => {
                   return (
-                    <Grid item xs={12} md={12} lg={3}>
+                    <Grid key={entry} item xs={12} md={12} lg={3}>
                       <StatCard
                         title={entry}
                         number={data[entry]}
