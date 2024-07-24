@@ -46,6 +46,7 @@ import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
 import antenatalFields from "../lib/forms/antenatalProfile";
 import { getSections } from "../lib/getFormSections";
+import antenatalProfileValidationSchema from "../lib/forms/validations/antenatalProfileValidation";
 
 export default function AntenatalProfile() {
   let [visit, setVisit] = useState();
@@ -64,13 +65,6 @@ export default function AntenatalProfile() {
   const [preview, setPreview] = useState(false);
 
   const fieldValues = Object.values(antenatalFields).flat();
-  const validationFields = fieldValues.map((item) => ({
-    [item.name]: item.validate,
-  }));
-
-  const validationSchema = yup.object({
-    ...Object.assign({}, ...validationFields),
-  });
 
   const initialValues = Object.assign(
     {},
@@ -81,7 +75,7 @@ export default function AntenatalProfile() {
     initialValues: {
       ...initialValues,
     },
-    validationSchema: validationSchema,
+    validationSchema: antenatalProfileValidationSchema,
     // submit form
     onSubmit: (values) => {
       console.log(values);
@@ -171,10 +165,6 @@ export default function AntenatalProfile() {
     }
   }, []);
 
-  const handleSubmit = async (values) => {
-    console.log(values);
-  };
-
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -182,7 +172,7 @@ export default function AntenatalProfile() {
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            onClose={""}
+            // onClose={}
             message={message}
             key={"loginAlert"}
           />
@@ -197,7 +187,7 @@ export default function AntenatalProfile() {
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
               >
-                <Tab label="Antenatal Profile" value="1" />
+                <Tab label="Antenatal Profile" value={value} />
               </TabList>
             </Box>
 
@@ -307,9 +297,9 @@ export default function AntenatalProfile() {
                     </Button>
                     <Button
                       variant="contained"
-                      type="submit"
                       disableElevation
                       sx={{ backgroundColor: "#632165" }}
+                      type="submit"
                     >
                       Preview
                     </Button>

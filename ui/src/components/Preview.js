@@ -19,7 +19,7 @@ export default function Preview({ title, format = {}, data, ...props }) {
 
   const displayData = (data, field) => {
     if (field.type === 'date') {
-      console.log(data[field.name]);
+      // console.log(data[field.name]);
       return data[field.name]
         ? new Date(data[field.name]).toLocaleDateString('en-GB')
         : '';
@@ -47,7 +47,7 @@ export default function Preview({ title, format = {}, data, ...props }) {
           <Grid container spacing={2} padding='.5em'>
             {sections.map((section, index) => {
               return (
-                <Grid item xs={12} md={12} lg={6}>
+                <Grid key={index} item xs={12} md={12} lg={6}>
                   <Typography
                     variant='p'
                     sx={{ fontSize: 'large', fontWeight: 'bold' }}
@@ -59,7 +59,7 @@ export default function Preview({ title, format = {}, data, ...props }) {
                   <Grid container spacing={1} padding='.5em'>
                     {format[section].map((field, index) => {
                       return (
-                        <Grid item xs={12} md={12} lg={12}>
+                        <Grid key={index} item xs={12} md={12} lg={12}>
                           {displayData(data, field) && (
                             <>
                               <Typography
