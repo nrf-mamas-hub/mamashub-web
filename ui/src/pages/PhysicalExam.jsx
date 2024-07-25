@@ -47,6 +47,7 @@ import * as yup from "yup";
 import physicalExaminationFields from "../lib/forms/physicalExamination";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
+import physicalExaminationValidationSchema from "../lib/forms/validations/physicalExaminationValidation";
 
 var Highcharts = require("highcharts");
 // Load module after Highcharts is loaded
@@ -75,13 +76,6 @@ export default function PhysicalExam() {
   const [value, setValue] = useState("1");
 
   const fieldValues = Object.values(physicalExaminationFields).flat();
-  const validationFields = fieldValues.map((item) => ({
-    [item.name]: item.validate,
-  }));
-
-  const validationSchema = yup.object({
-    ...Object.assign({}, ...validationFields),
-  });
 
   const initialValues = Object.assign(
     {},
@@ -94,7 +88,7 @@ export default function PhysicalExam() {
     initialValues: {
       ...initialValues,
     },
-    validationSchema: validationSchema,
+    validationSchema: physicalExaminationValidationSchema,
     // submit form
     onSubmit: (values) => {
       console.log(values);
@@ -147,11 +141,12 @@ export default function PhysicalExam() {
     try {
       //create Encounter
       let encounter = await createEncounter(patient, "PHYSICAL_EXAMINATION");
-      console.log(encounter);
+      // console.log(encounter);
 
       //Create and Post Observations
-      let res = await (
-        await FhirApi(`${apiHost}/crud/observations`, {
+        let res = (
+        await FhirApi({
+          url: `/crud/observations`,
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
@@ -159,7 +154,8 @@ export default function PhysicalExam() {
             observations: values,
           }),
         })
-      ).data;
+        ).data;
+      
       console.log(res);
 
       if (res.status === "success") {
@@ -270,7 +266,7 @@ export default function PhysicalExam() {
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            onClose={""}
+            // onClose={""}
             message={message}
             key={"loginAlert"}
           />
