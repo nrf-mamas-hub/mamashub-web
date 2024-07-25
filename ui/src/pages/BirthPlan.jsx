@@ -115,7 +115,7 @@ export default function BirthPlan({ userData }) {
     //Create and Post Observations
     let res = await (
       await FhirApi({
-        url: `${apiHost}/crud/observations`,
+        url: `/crud/observations`,
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
