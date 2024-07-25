@@ -68,7 +68,7 @@ export default function PatientDetails() {
       method: "GET",
     });
     console.log(data);
-    data = data.data;
+    // data = data.data;
     setOpen(false);
     if (data.status === "error") {
       setMessage(data.error);
@@ -90,8 +90,8 @@ export default function PatientDetails() {
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={open}
-          onClose={""}
-          message={message}
+          // onClose={""}
+          message={<span>{ message }</span>}
           key={"loginAlert"}
         />
         <Button
