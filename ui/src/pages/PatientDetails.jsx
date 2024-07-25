@@ -23,7 +23,7 @@ export default function PatientDetails() {
   let navigate = useNavigate();
   let [open, setOpen] = useState(false);
   let [openModal, setOpenModal] = useState(false);
-  let [message, setMessage] = useState(false);
+  let [message, setMessage] = useState("");
   let [observations, setObservations] = useState([]);
   let [encounters, setEncounters] = useState(null);
   const handleClose = () => setOpenModal(false);

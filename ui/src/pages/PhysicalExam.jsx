@@ -116,7 +116,7 @@ export default function PhysicalExam() {
     setLoading(true);
     let encounters = await (
       await FhirApi({
-        url: `${apiHost}/crud/encounters?patient=${patientId}&encounterCode=${"PHYSICAL_EXAMINATION"}`,
+        url: `/crud/encounters?patient=${patientId}&encounterCode=${"PHYSICAL_EXAMINATION"}`,
       })
     ).data;
     console.log(encounters);
