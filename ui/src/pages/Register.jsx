@@ -60,7 +60,7 @@ export default function Register() {
                     <Snackbar
                         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                         open={open}
-                        onClose={""}
+                        // onClose={""}
                         message={message}
                         key={"registerAlert"}
                     />

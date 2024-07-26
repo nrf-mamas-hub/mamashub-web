@@ -88,7 +88,7 @@ export default function MOH100({ id }) {
                         <Snackbar
                             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                             open={open}
-                            onClose={""}
+                            // onClose={""}
                             message={message}
                             key={"loginAlert"}
                         />

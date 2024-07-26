@@ -72,8 +72,8 @@ export default function Index() {
                     {(role === "ADMINISTRATOR" || role === "FACILITY_ADMINISTRATOR") ? <>
                         <Typography variant="h5">Welcome </Typography>
                         <Grid container spacing={1} padding=".5em" >
-                            {Object.keys(data).length > 0 && Object.keys(data).map((entry) => {
-                                return <Grid item xs={12} md={12} lg={3} >
+                        {Object.keys(data).length > 0 && Object.keys(data).map((entry) => {
+                            return <Grid key={entry} item xs={12} md={12} lg={3} >                                    
                                     <StatCard title={(entry).toUpperCase()} number={data[entry]} bg="#D0ADFC" />
                                 </Grid>
                             })}
