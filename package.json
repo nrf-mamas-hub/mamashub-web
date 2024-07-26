@@ -16,9 +16,6 @@
     "api",
     "ui"
   ],
-  "prisma": {
-    "seed": "ts-node api/prisma/seed.ts"
-  },
   "private": "true",
   "dependencies": {
     "spawn-command": "^0.0.3"

@@ -41,7 +41,7 @@
     "dev": "nodemon ./src/index.ts -w ./src",
     "start": "node ./build/index.js",
     "build": "yarn tsc --project tsconfig.json",
-    "prisma:migrate": "yarn prisma migrate dev --preview-feature",
+    "prisma:migrate": "yarn prisma migrate dev --preview-feature && ts-node prisma/seed.ts",
     "prisma:deploy": "yarn prisma migrate deploy",
     "prisma:studio": "yarn prisma studio",
     "prisma:generate": "yarn prisma generate"
