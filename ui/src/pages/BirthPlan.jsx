@@ -165,7 +165,7 @@ export default function BirthPlan({ userData }) {
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            onClose={""}
+            // onClose={""}
             message={message}
             key={"loginAlert"}
           />

@@ -201,7 +201,7 @@ export default function Users() {
                 <Snackbar
                     anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                     open={openSnackBar}
-                    onClose={""}
+                    // onClose={""}
                     message={message}
                     key={"loginAlert"}
                 />
