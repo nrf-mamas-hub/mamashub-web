@@ -1,16 +1,26 @@
 {
   "devDependencies": {
-    "concurrently": "^7.1.0"
+    "@types/node": "^20.14.12",
+    "concurrently": "^7.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   },
   "scripts": {
-    "dev":"concurrently 'yarn dev:api' 'yarn dev:ui'",
-    "dev:api":"yarn workspace api dev",
-    "dev:ui":"yarn workspace ui start",
-    "docker:build:api":"docker build ./api",
-    "docker:build:ui":"docker build ./ui"
+    "dev": "concurrently 'yarn dev:api' 'yarn dev:ui'",
+    "dev:api": "yarn workspace api dev",
+    "dev:ui": "yarn workspace ui start",
+    "docker:build:api": "docker build ./api",
+    "docker:build:ui": "docker build ./ui"
   },
-  "workspaces":[
-    "api", "ui"
+  "workspaces": [
+    "api",
+    "ui"
   ],
-  "private":"true"
+  "prisma": {
+    "seed": "ts-node api/prisma/seed.ts"
+  },
+  "private": "true",
+  "dependencies": {
+    "spawn-command": "^0.0.3"
+  }
 }
