@@ -1,14 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import db from '../src/lib/prisma';
+
 import bycrypt from 'bcrypt';
 
-const prisma = new PrismaClient();
-
-async function main() {
-  // Hash the password
+const main = async () => {
+  
   const salt = await bycrypt.genSalt(10);
+
   const hashedPassword = await bycrypt.hash('password', salt);
 
-  await prisma.user.create({
+  await db.user.create({
     data: {
       id: '1',
       email: "admin@mamashub.com",
@@ -30,5 +30,5 @@ main().catch((e) => {
     console.error(e);
     process.exit(1);
 }).finally(async () => {
-    await prisma.$disconnect();
+    await db.$disconnect();
 });
