@@ -123,16 +123,23 @@ export default function PatientRegistration({ userData }) {
         lmp: values.lmp,
       };
 
+      // save patient in HAPI FHIR server first
       let id = uuidv4();
       let response = await FhirApi({
         url: `/crud/patients/${id}`,
         method: "POST",
         data: JSON.stringify({ ...values, id: id }),
       });
-      prompt("Registering patient");
+
+      // save patient in local database
+      let saveResponse = (await (await fetch(`${apiHost}/client/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, id: id })
+      })).json());
 
       console.log(response);
-      if (response.status !== "success") {
+      if (response.status !== "success" && saveResponse.status !== "success") {        
         return;
       }
 
