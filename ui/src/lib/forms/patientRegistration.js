@@ -85,9 +85,10 @@ const formData = {
         "DOB must be between 10 and 49 yrs and cannot be a future date.",
         function (value) {
           // const { startDate } = this.parent;
-          return (value.getTime() < (new Date()).getTime()) && (
-            (new Date().getFullYear() - value.getFullYear()) > 9
-          ) && ((new Date().getFullYear() - value.getFullYear()) < 50);
+          const date = new Date(value);
+          return (date.getTime() < (new Date()).getTime()) && (
+            (new Date().getFullYear() - date.getFullYear()) > 9
+          ) && ((new Date().getFullYear() - date.getFullYear()) < 50);
         }
       ),
     },
