@@ -1,9 +1,7 @@
 {
   "name": "api",
   "version": "0.1.0",
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
+
   "dependencies": {
     "@js-fhir/client": "^0.2.4",
     "@prisma/client": "^4.5.0",
