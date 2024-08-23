@@ -48,13 +48,26 @@ CREATE USER yourusername WITH PASSWORD 'yourpassword';
 ```
 You can look to grant the necessary privileges to your created user
 
+- Start the necessary docker compose services
+
+Navigate to the `api` directory
+
+```
+cd api/
+```
+
+Start the compose services. Note: if the services were not already built, they will first before they start
+
+```
+sudo docker compose -f ../docker-compose-dev.yml up -d
+```
 - Create a new database (dbname should match the database name provided in the database configurations in your code)
 ```
 CREATE DATABASE dbname;
 ```
 You can now proceed to your IDE terminal (or where your project folder is open)
 
-- Navigate into the `api` directory
+- Navigate into the `api` directory (if not there already)
 ```
 cd api
 ```
