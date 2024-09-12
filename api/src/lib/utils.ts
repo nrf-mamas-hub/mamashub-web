@@ -85,10 +85,15 @@ export const filterPatientsByRegistrationDate = async (kmhflCode: string, from: 
 //     console.log(res)
 // })
 export const parseFhirPatient = (patient: any) => {
-    let identifiers = patient.identifier;
+    
+    let identifiers = patient.identifier || [];
     let _ids: any = {}
-    for (let id of identifiers) {
-        _ids[id.id] = id
+
+    if (Array.isArray(identifiers)) {
+        
+        for (let id of identifiers) {
+            _ids[id.id] = id
+        }
     }
     return {
         id: patient.id,
@@ -155,7 +160,7 @@ export const createEncounter = (patientId: string, encounterId: string, encounte
         return
     }
     return {
-        resourceType: "Encounter",
+        resourceType: "Encounter", 
         id: encounterId,
         reference: {
             "patient": `Patient/${patientId}`
