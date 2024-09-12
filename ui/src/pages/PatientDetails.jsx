@@ -230,7 +230,7 @@ export default function PatientDetails() {
                             return (
                               <>
                                 <Typography variant="p">
-                                  {entry.display}
+                                  {`${entry.display} : `}
                                 </Typography>
                                 <Typography variant="p">
                                   {observation.resource.valueQuantity
