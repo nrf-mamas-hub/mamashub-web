@@ -162,7 +162,7 @@ export default function PatientList() {
                     scrollButtons='auto'
                     aria-label='scrollable auto tabs example'
                   >
-                    <Tab label='Counselling' value='1' />
+                    <Tab label='Referrals' value='1' />
                   </TabList>
                 </Box>
 
