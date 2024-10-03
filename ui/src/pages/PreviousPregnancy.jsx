@@ -90,7 +90,6 @@ export default function PreviousPregnancy() {
     validationSchema: validationSchema,
     // submit form
     onSubmit: (values) => {
-      console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -119,8 +118,7 @@ export default function PreviousPregnancy() {
     try {
       //create Encounter
       let encounter = await createEncounter(patient, "PREVIOUS_PREGNANCY");
-      // console.log(encounter)
-
+      console.log("These are the prev preg values: ", values);
       //Create and Post Observations
       let res = await (
         await FhirApi({
@@ -128,7 +126,7 @@ export default function PreviousPregnancy() {
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
+            encounterId: encounter.id,
             observations: values,
           }),
         })
@@ -289,11 +287,9 @@ export default function PreviousPregnancy() {
                     </Button>
                     <Button
                       variant="contained"
-                      onClick={(e) => {
-                        savePreviousPregnancy();
-                      }}
                       disableElevation
-                      sx={{ backgroundColor: "#632165" }}
+                        sx={{ backgroundColor: "#632165" }}
+                        type="submit"
                     >
                       Save
                     </Button>

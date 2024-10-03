@@ -90,7 +90,7 @@ export default function Counselling() {
       //create Encounter
       let patient = visit.id;
       let encounter = await createEncounter(patient, "COUNSELLING");
-      console.log(encounter);
+      // console.log(encounter);
 
       //Create and Post Observations
       let res = await (
@@ -99,13 +99,13 @@ export default function Counselling() {
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
+            encounterId: encounter.id,
             observations: values,
           }),
           headers: { "Content-Type": "application/json" },
         })
       ).data;
-      console.log(res);
+      // console.log(res);
 
       if (res.status === "success") {
         prompt("Conselling Form saved successfully");

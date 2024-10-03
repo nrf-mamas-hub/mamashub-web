@@ -78,8 +78,7 @@ export default function AntenatalProfile() {
     validationSchema: antenatalProfileValidationSchema,
     // submit form
     onSubmit: (values) => {
-      console.log(values);
-      // saveAntenatalProfile(values);
+      // console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -112,7 +111,6 @@ export default function AntenatalProfile() {
       //create Encounter
       let patient = visit.id;
       let encounter = await createEncounter(patient, "ANTENATAL_PROFILE");
-      console.log(encounter);
 
       //Create and Post Observations
       let res = await (
@@ -121,7 +119,7 @@ export default function AntenatalProfile() {
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
+            encounterId: encounter.id,
             observations: values,
           }),
         })
