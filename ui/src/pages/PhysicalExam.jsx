@@ -91,7 +91,7 @@ export default function PhysicalExam() {
     validationSchema: physicalExaminationValidationSchema,
     // submit form
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -126,7 +126,7 @@ export default function PhysicalExam() {
       getPhysicalExamEncounters(visit.id);
       return;
     }
-    console.log(visit);
+    // console.log(visit);
   }, []);
 
   let savePhysicalExam = async (values) => {
@@ -150,13 +150,13 @@ export default function PhysicalExam() {
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
+            encounterId: encounter.id,
             observations: values,
           }),
         })
         ).data;
       
-      console.log(res);
+      // console.log(res);
 
       if (res.status === "success") {
         prompt("Physical Examination saved successfully");

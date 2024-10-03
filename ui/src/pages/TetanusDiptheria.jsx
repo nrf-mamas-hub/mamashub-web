@@ -179,7 +179,7 @@ export default function TetanusDiptheria() {
           method: "POST",
           body: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
+            encounterId: encounter.id,
             observations: values,
           }),
           headers: { "Content-Type": "application/json" },

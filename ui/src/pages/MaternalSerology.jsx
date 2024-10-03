@@ -102,21 +102,22 @@ export default function MaternalSerology() {
 
     //create encounter
     let encounter = await createEncounter(patient, "MATERNAL-SEROLOGY");
-    console.log(encounter);
+    // console.log(encounter);
 
     //save observations
     //Create and Post Observations
     let res = await (
-      await FhirApi(`${apiHost}/crud/observations`, {
+      await FhirApi({
+        url:`/crud/observations`,
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
-          encounterId: encounter,
+          encounterId: encounter.id,
           observations: values,
         }),
       })
     ).data;
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "success") {
       prompt("Maternal serology saved successfully");

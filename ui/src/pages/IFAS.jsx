@@ -120,23 +120,23 @@ export default function IFAS() {
 
     //create encounter
     let encounter = await createEncounter(patient, "IFAS");
-    console.log(encounter);
+    // console.log(encounter);
 
     //save observations
     let observationsList = [];
     //Create and Post Observations
     let res = await (
       await FhirApi({
-        url: `${apiHost}/crud/observations`,
+        url: `/crud/observations`,
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
-          encounterId: encounter,
+          encounterId: encounter.id,
           observations: values,
         }),
       })
     ).data;
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "success") {
       prompt("Birth Plan saved successfully");

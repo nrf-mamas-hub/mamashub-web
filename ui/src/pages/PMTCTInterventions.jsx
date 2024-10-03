@@ -101,7 +101,7 @@ export default function PMTCTInterventions() {
 
     //create encounter
     let encounter = await createEncounter(patient, "PMTCT Interventions");
-    console.log(encounter);
+    // console.log(encounter);
 
     //save observations
     //Create and Post Observations
@@ -111,12 +111,12 @@ export default function PMTCTInterventions() {
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
-          encounterId: encounter,
+          encounterId: encounter.id,
           observations: values,
         }),
       })
     ).data;
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "success") {
       prompt("PMTCT Interventions saved successfully");

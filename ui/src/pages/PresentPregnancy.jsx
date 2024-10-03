@@ -76,7 +76,7 @@ export default function PresentPregnancy() {
     validationSchema: validationSchema,
     // submit form
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -148,7 +148,7 @@ export default function PresentPregnancy() {
         url: `/crud/encounters?patient=${patientId}&encounterCode=${"PRESENT_PREGNANCY"}`,
       })
     ).data;
-    console.log(encounters);
+    // console.log(encounters);
     setPresentPregnancyEncounters(encounters.encounters);
     setLoading(false);
     return;
@@ -169,16 +169,17 @@ export default function PresentPregnancy() {
 
       //Create and Post Observations
       let res = await (
-        await FhirApi(`/crud/observations`, {
+        await FhirApi({
+          url:`/crud/observations`,
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
+            encounterId: encounter.id,
             observations: values,
           }),
         })
       ).data;
-      console.log(res);
+      // console.log(res);
 
       if (res.status === "success") {
         prompt("Present Pregnancy saved successfully");

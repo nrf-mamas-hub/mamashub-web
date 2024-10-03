@@ -107,7 +107,7 @@ export default function MalariaProphylaxis() {
 
     //create encounter
     let encounter = await createEncounter(patient, "MALARIA-PROPHYLAXIS");
-    console.log(encounter);
+    // console.log(encounter);
 
     //save observations
     //Create and Post Observations
@@ -117,13 +117,13 @@ export default function MalariaProphylaxis() {
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
-          encounterId: encounter,
+          encounterId: encounter.id,
           observations: values,
         }),
         headers: { "Content-Type": "application/json" },
       })
     ).data;
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "success") {
       prompt("Malaria Prophylaxis saved successfully");

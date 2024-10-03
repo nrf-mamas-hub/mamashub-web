@@ -107,7 +107,8 @@ export default function ANCProfile() {
   };
 
   let saveMedicalHistory = async (values) => {
-    console.log(values);
+    // console.log(values);
+
     //get current patient
     if (!visit) {
       prompt(
@@ -119,7 +120,6 @@ export default function ANCProfile() {
     try {
       //create Encounter
       let encounter = await createEncounter(patient, "MEDICAL_HISTORY");
-      console.log(encounter);
 
       //Create and Post Observations
       let res = (
@@ -128,12 +128,12 @@ export default function ANCProfile() {
           method: "POST",
           data: JSON.stringify({
             patientId: patient,
-            encounterId: encounter,
-            observations: medicalHistory,
+            encounterId: encounter.id,
+            observations: values,
           }),
         })
       ).data;
-      console.log(res);
+      // console.log(res);
 
       if (res.status === "success") {
         prompt("Medical and Surgical History saved successfully");

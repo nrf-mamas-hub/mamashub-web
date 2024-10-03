@@ -89,7 +89,7 @@ export default function Deworming() {
 
     //create encounter
     let encounter = await createEncounter(patient, "DEWORMING");
-    console.log(encounter);
+    // console.log(encounter);
 
     //save observations
     //Create and Post Observations
@@ -99,12 +99,13 @@ export default function Deworming() {
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
-          encounterId: encounter,
+          encounterId: encounter.id,
           observations: values,
         })
       })
     ).data;
-    console.log(res);
+    // console.log(res);
+
     if (res.status === "success") {
       prompt("Deworming saved successfully");
       return;

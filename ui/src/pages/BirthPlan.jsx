@@ -77,7 +77,7 @@ export default function BirthPlan({ userData }) {
     validationSchema: validationSchema,
     // submit form
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -109,7 +109,7 @@ export default function BirthPlan({ userData }) {
 
     //create encounter
     let encounter = await createEncounter(patient, "BIRTH-PLAN");
-    console.log(encounter);
+    // console.log(encounter);
 
     //save observations
     //Create and Post Observations
@@ -119,12 +119,12 @@ export default function BirthPlan({ userData }) {
         method: "POST",
         data: JSON.stringify({
           patientId: patient,
-          encounterId: encounter,
+          encounterId: encounter.id,
           observations: values,
         }),
       })
     ).data;
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "success") {
       prompt("Birth Plan saved successfully");
