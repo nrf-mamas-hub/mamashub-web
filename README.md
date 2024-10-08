@@ -56,7 +56,15 @@ Navigate to the `api` directory
 cd api/
 ```
 
-Start the compose services. Note: if the services were not already built, they will first before they start
+- Load the environment variables
+
+```
+cp .env.example .env
+```
+
+*Note:* Ensure you do the same for the frontend in the `ui` directory
+
+- Start the compose services. Note: if the services were not already built, they will first before they start
 
 ```
 sudo docker compose -f ../docker-compose-dev.yml up -d
@@ -75,19 +83,7 @@ cd api
 ```
 yarn run prisma:migrate
 ```
-Once the migrations are succesful, you can now proceed to set up the HAPI Server. Skip this step if you already have the server ready. 
-If you do not have docker installed, please ensure to install it for your appropriate platform
-
-In your terminal,
-- Run the following command to get the latest image of HAPI FHIR
-```
-sudo docker pull hapiproject/hapi:latest
-```
-
-- Create a HAPI FHIR container
-```
-sudo docker run -p 8080:8080 hapiproject/hapi:latest
-```
+Once the migrations are succesful, you can now proceed to run the application. 
 
 - Run the dev command which starts both the ui and backend servers (at the root of your project).
 
