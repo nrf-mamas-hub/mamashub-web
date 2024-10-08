@@ -95,6 +95,18 @@ export default function MalariaProphylaxis() {
     },
   });
 
+  const prompt=(text) => {
+    setMessage(text);
+    setOpen(true);
+
+    setTimeout(() => {
+      setOpen(false)
+    }, 4000);
+
+    return;
+  };
+
+
   let saveMalariaProphylaxis = async (values) => {
     //get current patient
     let patient = visit.id;

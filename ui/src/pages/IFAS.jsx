@@ -108,6 +108,18 @@ export default function IFAS() {
     return;
   }, []);
 
+  const prompt = (text) => {
+    
+    setMessage(text);
+    setOpen(true);
+
+    setTimeout(() => {
+      setOpen(false);
+    }, 4000);
+
+    return;
+  }
+
   let saveIFAS = async (values) => {
     //get current patient
     let patient = visit.id;
@@ -139,7 +151,7 @@ export default function IFAS() {
     // console.log(res);
 
     if (res.status === "success") {
-      prompt("Birth Plan saved successfully");
+      prompt("IFAS saved successfully");
       return;
     } else {
       prompt(res.error);
