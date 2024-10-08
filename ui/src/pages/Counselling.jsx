@@ -77,6 +77,19 @@ export default function Counselling() {
     },
   });
 
+  const prompt=(text)=>{
+
+    setMessage(text);
+    setOpen(true);
+
+    setTimeout(() => {
+      
+      setOpen(false);
+    }, 4000);
+
+    return;
+  }
+
   let saveCounsellingForm = async (values) => {
     //get current patient
     if (!visit) {
@@ -108,7 +121,7 @@ export default function Counselling() {
       // console.log(res);
 
       if (res.status === "success") {
-        prompt("Conselling Form saved successfully");
+        prompt("Counselling Form saved successfully");
         // navigate(`/patient/${patient}`);
         return;
       } else {
