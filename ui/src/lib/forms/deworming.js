@@ -30,7 +30,7 @@ const deworming = {
         md: 12,
         lg: 6,
       },
-      relevant: formValues => formValues.dewormingGiven === 'Yes',
+      relevant: formValues => formValues.dewormingDeworming === 'Yes',
     },
   ],
 };
