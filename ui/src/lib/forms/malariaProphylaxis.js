@@ -100,7 +100,7 @@ const malariaProphylaxis = {
       ],
     },
     {
-      name: 'malariaProphylaxisLLITNYesResulst',
+      name: 'malariaProphylaxisLLITNYesResult',
       label: 'If yes, date given',
       type: 'date',
       validate: yup.date(),
