@@ -4,7 +4,7 @@ import ifasOptions from '../../data/ifas.json';
 const ifas = {
   'Supplements Issuing to Client': [
     {
-      name: 'supplementsIssued',
+      name: 'iFASIronSuppliments',
       label: 'Were iron supplements issued to the patient?',
       type: 'radio',
       validate: yup
@@ -22,7 +22,7 @@ const ifas = {
       ],
     },
     {
-      name: 'drugName',
+      name: 'iFASDrugGiven',
       label: 'If yes, specify the drug given',
       type: 'radio',
       validate: yup.string(),
@@ -36,10 +36,10 @@ const ifas = {
         { label: 'Elemental iron', value: 'Elemental iron' },
         { label: 'Combined tablets', value: 'Combined tablets' },
       ],
-      relevant: formValues => formValues.supplementsIssued === 'Yes',
+      relevant: formValues => formValues.iFASIronSuppliments === 'Yes',
     },
     {
-      name: 'reasonNotIssued',
+      name: 'iFASReason',
       label: 'If no, provide reason',
       type: 'text',
       validate: yup.string(),
@@ -49,10 +49,10 @@ const ifas = {
         md: 12,
         lg: 6,
       },
-      relevant: formValues => formValues.supplementsIssued === 'No',
+      relevant: formValues => formValues.iFASIronSuppliments === 'No',
     },
     {
-      name: 'equivalentDose',
+      name: 'iFASOtherSuppliments',
       label: 'Any other equivalent provided',
       type: 'text',
       validate: yup.string(),
@@ -66,7 +66,7 @@ const ifas = {
   ],
   'ANC Contact': [
     {
-      name: 'ancContact',
+      name: 'iFASAncContact',
       label: 'ANC Contact',
       type: 'select',
       validate: yup.string().required('ANC Contact is required'),
@@ -82,7 +82,7 @@ const ifas = {
       })),
     },
     {
-      name: 'timingOfContact',
+      name: 'iFASContactTiming',
       label: 'Timing of contact',
       type: 'display',
       content: '',
@@ -92,10 +92,10 @@ const ifas = {
         md: 12,
         lg: 12,
       },
-      relevant: formValues => formValues.ancContact,
+      relevant: formValues => formValues.iFASAncContact,
     },
     {
-      name: 'noOfTablets',
+      name: 'iFASNoOfTablets',
       label: 'No of tablets',
       type: 'display',
       content: '',
@@ -105,7 +105,7 @@ const ifas = {
         md: 12,
         lg: 12,
       },
-      relevant: formValues => formValues.ancContact,
+      relevant: formValues => formValues.iFASAncContact,
     },
   ],
   Dosage: [
@@ -146,7 +146,7 @@ const ifas = {
       },
     },
     {
-      name: 'benefitsCounselingDone',
+      name: 'dosageIronAndFolicCounsellingDone',
       label: 'Was benefits of iron and folic acid counseling done?',
       type: 'radio',
       validate: yup

@@ -147,7 +147,7 @@ const presentPregnancy = {
       ],
     },
     {
-      name: 'gestationalAge',
+      name: 'hbTestGestation',
       label: 'Gestation in weeks',
       type: 'text',
       validate: yup.number().required('Gestational age is required'),

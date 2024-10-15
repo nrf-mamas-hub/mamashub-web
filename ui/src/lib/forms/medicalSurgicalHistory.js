@@ -221,7 +221,7 @@ const medicalSurgicalHistory = {
       relevant: values => values.drugAllergies === 'Yes',
     },
     {
-      name: 'otherNonDrugAllergies',
+      name: 'nonDrugAllergies',
       label: 'Other Non-Drug Allergies',
       type: 'radio',
       validate: yup.string(),
@@ -247,7 +247,7 @@ const medicalSurgicalHistory = {
         md: 12,
         lg: 6,
       },
-      relevant: values => values.otherNonDrugAllergies === 'Yes',
+      relevant: values => values.nonDrugAllergies === 'Yes',
     },
   ],
   'Family History': [
