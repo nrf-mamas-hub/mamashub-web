@@ -1,41 +1,49 @@
-## Requirements
-
-- [ ] This PR has a title that briefly describes the work done (including the ticket number if available).
-- [ ] My work conforms to the outlined coding, styling and documentation styles.
-
-## Summary
-
+## Description
 <!--
-Required
-Please describe the problem/issue that your PR addresses
+Provide a brief summary of the changes made in this pull request.
+Include the context and reasons for making these changes.
+If this PR fixes an issue, include "Fixes #<issue-number>".
 -->
 
-## Screenshots
+## Type of Change
+<!-- Please delete options that are not relevant. -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Refactor (code changes that neither fix a bug nor add a feature)
+- [ ] Other (please specify):
 
-*None.* 
+## Checklist
+<!-- Check all items that apply: -->
+- [ ] I have followed the coding standards for this project.
+- [ ] My code has been linted and formatted.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+- [ ] I have updated the documentation, if necessary.
+- [ ] The changes require review by another team member (add reviewer).
+
+## How Has This Been Tested?
 <!--
-Optional
-It is highly recommended you insert any screenshots/videos of your changes here. 
-If you fill this section, please remove the *None.* above.
+Describe the tests that you ran to verify your changes.
+Provide instructions so that reviewers can reproduce the test results.
+Include relevant details like the environment, test cases, and any edge cases tested.
 -->
 
-## Related issue
-
-*None.*
+## Related Issues
 <!--
-Required if applicable.
-If present, please link any related issue here, e.g. "https://issues.github.mamashub-web.org/browse.123".
-Do not forget to remove the *None.* above if you fill this section aswell.
+Link related issues or pull requests if applicable.
+E.g., "Related to #123", "Depends on #456".
 -->
 
-## Other
-
-*None.*
+## Screenshots or GIFs (if applicable)
 <!--
-Optional.
-Please include anything else that is not covered in the above sections here.
-Don't forget to remove the *None.* above if you do fill in this section.
+Include screenshots or animated GIFs to show any visual changes.
 -->
 
-## Reviewers
-@1wes @DavidSaruni.
+## Further Comments
+<!--
+Add any other information that reviewers may find useful.
+Include things like known issues, alternative approaches considered, or design decisions made.
+-->
+
