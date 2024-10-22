@@ -95,7 +95,8 @@ export const parseFhirPatient = (patient: any) => {
             _ids[id.id] = id
         }
     }
-    return {
+
+    const standardPatientInfo = {
         id: patient.id,
         fullNames: patient.name[0].family,
         ancNumber: _ids.ANC_NUMBER?.value || '',
@@ -110,9 +111,30 @@ export const parseFhirPatient = (patient: any) => {
         ward: patient.address[0].city,
         county: patient.address[0].state,
         subCounty: patient.address[0].district,
-        nextOfKinName: patient.contact[0].relationship[0].text,
-        nextOfKinRelationship: patient.contact[0].name.family,
-        nextOfKinPhone: patient.contact[0].telecom.value,
+    }
+
+    // check whether client is a mother or child using the next of kin property
+    // this property is required for mothers during ANC registration, unlike for new borns
+    const nextOfKinRelationship = patient.contact[0]?.relationship[0]?.text || '';
+
+    if (nextOfKinRelationship) {
+        return {
+            ...standardPatientInfo,
+            pncNumber: _ids.PNC_NUMBER?.value || '',        
+            nextOfKinRelationship: nextOfKinRelationship,
+            nextOfKinName: patient.contact[0].name.family,
+            nextOfKinPhone: patient.contact[0].telecom[0].value,
+        }
+    } else {
+        return {
+            ...standardPatientInfo,
+            motherName: patient.contact[0].name.family,
+            motherPhone: patient.contact[0].telecom[0].value,
+            fatherName: patient.contact[1].name.family,
+            fatherPhone: patient.contact[1].telecom[0].value,
+            guardianName: patient.contact[2].name.family,
+            guardianPhone: patient.contact[2].telecom[0].value
+        }
     }
 }
 
@@ -227,7 +249,7 @@ export const FhirApi = async (params: any) => {
     }
     try {
         let response = await fetch(String(`${apiHost}${params.url}`), {
-            headers: _defaultHeaders,
+            headers: params.headers ? params.headers:_defaultHeaders,
             method: params.method ? String(params.method) : 'GET',
             ...(params.method !== 'GET' && params.method !== 'DELETE') && { body: String(params.data) }
         });
@@ -455,12 +477,12 @@ export let Patient = (patient: any) => {
         identifier: [
             { "value": patient.idNumber, "id": "NATIONAL_ID" },
             { "value": patient.ancCode, "id": "ANC_NUMBER" },
-            { "value": patient.kmhflCode, "id": "KMHFL_CODE" }
+            { "value": patient.kmhflCode, "id": "KMHFL_CODE" },
         ],
         name: [
             { family: patient.names, given: [patient.names], },
         ],
-        telecom: [{ value: patient.phone, },],
+        telecom: [{ value: patient.phone, system:"phone" },],
         birthDate: new Date(patient.dob).toISOString().slice(0, 10),
         address: [
             {
@@ -484,6 +506,72 @@ export let Patient = (patient: any) => {
                     text: patient.nextOfKinRelationship
                 }]
             },
+            {
+                telecom: [
+                    {
+                        value: patient.motherPhone,
+                        system: "phone"
+                    }
+                ],
+                name: {
+                    family: patient.motherName
+                },
+                relationship: [
+                    {
+                        coding: [
+                            {
+                                system: "https://terminology.hl7.org/6.0.2/CodeSystem-v3-RoleCode.html",
+                                code: "MTH",
+                                display:"Mother"
+                            }
+                        ]
+                    }                    
+                ]
+            },
+            {
+                telecom: [
+                    {
+                        value: patient.fatherPhone,
+                        system: "phone"
+                    }
+                ],
+                name: {
+                    family: patient.fatherName                    
+                },
+                relationship: [
+                    {
+                        coding: [
+                            {
+                                system: "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                code: "FTH",
+                                display:"Father"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                telecom: [
+                    {
+                        value: patient.guardianPhone,
+                        system: "phone"                        
+                    }
+                ],
+                name: {
+                    family: patient.guardianName
+                },
+                relationship: [
+                    {
+                        coding: [
+                            {
+                                system: "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                                code: "GUARD",
+                                display: "Guardian"
+                            }
+                        ]
+                    }
+                ]
+            }
         ],
     };
 };
