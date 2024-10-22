@@ -233,6 +233,35 @@ router.post('/patients/:id', [requireJWTMiddleware], async (req: Request, res: R
         res.json({ error, status: "error" });
         return;
     }
+});
+
+// update client (mother) PNC number
+router.patch('/patients/:id', [requireJWTMiddleware], async (req: Request, res: Response) => {
+    
+    try {
+
+        let token = req.headers.authorization || null;
+        let { id } = req.params;
+        let { pncCode } = req.body;
+        
+        const patchContent = [
+            {
+                "op": "add",
+                "path": "/identifier/-",
+                "value": {
+                    "value": pncCode,
+                    "id": "PNC_NUMBER"
+                }
+            }
+        ];
+
+        await FhirApi({ url: `/Patient/${id}`, method: "PATCH", headers: { "Content-Type": "application/json-patch+json" }, data: JSON.stringify(patchContent) });        
+        
+        res.json({ message: "Client PNC number updated successfully", status: "success" });
+    } catch (error) {
+        res.json({ error, status: "error" });
+        return;
+    }
 })
 
 
