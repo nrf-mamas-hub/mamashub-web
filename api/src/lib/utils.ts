@@ -482,7 +482,8 @@ export let Patient = (patient: any) => {
         name: [
             { family: patient.names, given: [patient.names], },
         ],
-        telecom: [{ value: patient.phone, system:"phone" },],
+        telecom: [{ value: patient.phone, system: "phone" },],
+        gender: patient.sex,        
         birthDate: new Date(patient.dob).toISOString().slice(0, 10),
         address: [
             {
