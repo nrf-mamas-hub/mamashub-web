@@ -109,13 +109,11 @@ export const parseFhirPatient = (patient: any) => {
     id: patient.id,
     fullNames: patient.name[0].family,
     ancNumber: _ids.ANC_NUMBER?.value || "",
-    idNumber: _ids.NATIONAL_ID?.value || "",
     otherNames: patient.name[0].given[0],
     sex: patient.gender,
     dob: new Date(patient.birthDate).toDateString(),
     // maritalStatus: patient.maritalStatus.coding[0].display,
     deceased: patient.deceasedBoolean,
-    phone: patient.telecom[0].value,
     country: patient.address[0].country,
     ward: patient.address[0].city,
     county: patient.address[0].state,
@@ -129,14 +127,16 @@ export const parseFhirPatient = (patient: any) => {
   if (nextOfKinRelationship) {
     return {
       ...standardPatientInfo,
+      idNumber: _ids.NATIONAL_ID?.value || "",    
       pncNumber: _ids.PNC_NUMBER?.value || "",
+      phone: patient.telecom[0].value,    
       nextOfKinRelationship: nextOfKinRelationship,
       nextOfKinName: patient.contact[0].name.family,
       nextOfKinPhone: patient.contact[0].telecom[0].value,
     };
   } else {
     return {
-      ...standardPatientInfo,
+      ...standardPatientInfo, //more properties to be added based on the primary unique identifier for children, same as ANC/PNC number for mothers      
       motherName: patient.contact[0].name.family,
       motherPhone: patient.contact[0].telecom[0].value,
       fatherName: patient.contact[1].name.family,
@@ -582,9 +582,16 @@ export let Patient = (patient: any) => {
       ],
     },
     identifier: [
-      { value: patient.idNumber, id: "NATIONAL_ID" },
-      { value: patient.ancCode, id: "ANC_NUMBER" },
-      { value: patient.kmhflCode, id: "KMHFL_CODE" },
+      { value: patient.ancCode, id: "ANC_NUMBER" },  /*the anc number is supposed to be conditionally added for mothers only. Only left since it is required */
+      { value: patient.kmhflCode, id: "KMHFL_CODE" }, /* on the frontend when displaying list of patients, for now. */
+      ...(patient.idNumber ? [      
+        { value: patient.idNumber, id: "NATIONAL_ID" },              
+      ] : [
+          { value: patient.birthNotificationNumber, id: "BIRTH_NOTIFICATION_NUMBER" },          
+          { value: patient.iprNumber, id: "IMMUNIZATION_PERMANENT_REGISTER_NUMBER" },
+          { value: patient.cwcNumber, id: "CHILD_WELFARE_CLINIC_NUMBER" },
+          { value: patient.birthCertificateNumber, id: "BIRTH_CERTIFICATE_NUMBER" }        
+      ])
     ],
     name: [{ family: patient.names, given: [patient.names] }],
     telecom: [{ value: patient.phone, system: "phone" }],
