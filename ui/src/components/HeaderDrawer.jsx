@@ -15,7 +15,7 @@ import {
   HealthAndSafety,
   BiotechRounded,
   Sick,
-  CheckRounded,
+  ChildCare,
   AppRegistration,
   MedicationRounded,
   Vaccines,
@@ -274,37 +274,37 @@ export default function HeaderDrawer({ children }) {
         {
           name: "Child Civil Registration",
           icon: <i className="fa-solid fa-user-plus"></i>,
-          path: "child-civil-registration",
+          path: "/child-civil-registration",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Early Identification of Congenital Abnormalities",
           icon: <HealthAndSafety/>,
-          path: "early-identification-of-congenital-abnormalities",
+          path: "/early-identification-of-congenital-abnormalities",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Reproductive Organs Cancer Screening",
           icon: <i className="fa-solid fa-ribbon"></i>,
-          path: "reproductive-organs-cancer-screening",
+          path: "/reproductive-organs-cancer-screening",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Family Planning",
           icon: <FamilyRestroom />,
-          path: "family-planning",
+          path: "/family-planning",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Mother Postnatal Care",
           icon: <EscalatorWarning />,
-          path: "mother-postnatal-care",
+          path: "/mother-postnatal-care",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Child Postnatal Care",
           icon: <EscalatorWarning />,
-          path: "child-postnatal-care",
+          path: "/child-postnatal-care",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
@@ -316,15 +316,21 @@ export default function HeaderDrawer({ children }) {
         {
           name: "Feeding Information",
           icon: <i className="fa-solid fa-person-breastfeeding"></i>,
-          path: "feeding-information",
+          path: "/feeding-information",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Baby Problems",
           icon: <Sick/>,
-          path: "other-baby-problems",
+          path: "/other-baby-problems",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
+        {
+          name: "Record of Baby Teeth Development",
+          icon: <ChildCare/>,
+          path: "/baby-teeth-development",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        }
 
       ],
     },
