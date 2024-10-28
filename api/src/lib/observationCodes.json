@@ -316,6 +316,11 @@
         "placeOfBirthHealthFacility": "snomed:360300001:Sample Observation",
         "placeOfBirthHome": "snomed:360300001:Sample Observation",
         "placeOfBirthOther": "snomed:360300001:Sample Observation",
-        "childPhysicalAddress": "snomed:360300001:Sample Observation"
+        "childPhysicalAddress": "snomed:360300001:Sample Observation",
+        "familyPlanningDate": "snomed:360300001:Sample Observation",
+        "familyPlanningMethod": "snomed:360300001:Sample Observation",
+        "familyPlanningWeight": "snomed:360300001:Sample Observation",
+        "familyPlanningBloodPressure": "snomed:360300001:Sample Observation",
+        "familyPlanningRemarks": "snomed:360300001:Sample Observation"
     }
 }
