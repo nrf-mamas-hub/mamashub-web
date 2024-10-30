@@ -73,15 +73,19 @@ export default function FormFields({ formik, formData, encounters, ...props }) {
   };
 
   const handleChangeChecked = (e, field, option) => {
+    const currentValues = formik.values[field.name] || [];
+
     if (e.target.checked) {
       formik.setFieldValue(
         field.name,
-        formik.values[field.name].concat(option.value)
+        currentValues.concat(option.value)
       );
     } else {
       formik.setFieldValue(
         field.name,
-        formik.values[field.name].filter(item => item !== option.value)
+      Array.isArray(currentValues)
+        ? currentValues.filter(item => item !== option.value)
+        : []
       );
     }
     console.log(field.name + ':', formik.values[field.name]);
