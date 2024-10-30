@@ -5,9 +5,9 @@ const otherproblems = {
     {
       name: 'babysleepingproblems',
       label:
-        'does the baby have  sleeping problems?',
+        'Does the baby have  sleeping problems?',
       type: 'radio',
-      validate: yup.string().required('baby sleeping problems is required'),
+      validate: yup.string().required('Baby sleeping problems is required'),
       width: {
         xs: 12,
         sm: 12,
@@ -22,9 +22,9 @@ const otherproblems = {
     {
         name: 'babyIrritability',
         label:
-          'irritability?',
+          'Irritability?',
         type: 'radio',
-        validate: yup.string().required('irritability  is required'),
+        validate: yup.string().required('Irritability  is required'),
         width: {
           xs: 12,
           sm: 12,
