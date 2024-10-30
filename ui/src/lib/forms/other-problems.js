@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const otherproblems = {
   "Other problems as reported by parent/guardian": [
     {
-      name: 'babysleepingproblems',
+      name: 'babySleepingProblem',
       label:
         'Does the baby have  sleeping problems?',
       type: 'radio',
