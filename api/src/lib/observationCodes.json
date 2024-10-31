@@ -377,7 +377,24 @@
         "cervixViaScreeningDate": "snomed:360300001:Cervix VIA Screening Date",
         "cervixViaViliScreeningDate": "snomed:360300001:Cervix VIA VILI Screening Date",
         "cervixPapSmearScreeningDate": "snomed:360300001:Cervix Pap Smear Screening Date",
-        "breastUltrasoundScreeningDate": "snomed:360300001:Breast Ultrasound Screening Date"
-      
+        "breastUltrasoundScreeningDate": "snomed:360300001:Breast Ultrasound Screening Date",
+        "timingOfVisit": "snomed:360300001:Timing of Visit",
+        "dateOfVisit": "snomed:360300001:Date of Visit",
+        "bloodPressure": "snomed:360300001:Blood Pressure",
+        "motherTemperature": "snomed:360300001:Mother Temperature",
+        "respiratoryRate": "snomed:360300001:Respiratory Rate",
+        "generalCondition": "snomed:360300001:General Condition",
+        "breast": "snomed:360300001:Breast",
+        "involutionOfUterus": "snomed:360300001:Involution of Uterus",
+        "caeserianSectionScar": "snomed:360300001:Caeserian Section Scar",
+        "conditionOfEpisiotomy": "snomed:360300001:Condition of Episiotomy",
+        "pelvicExam": "snomed:360300001:Pelvic Exam",
+        "lochia": "snomed:360300001:Lochia",
+        "haemoglobin": "snomed:360300001:Haemoglobin",
+        "mothersHivStatus": "snomed:360300001:Mother's HIV Status",
+        "motherOnHaart": "snomed:360300001:Mother on HAART",
+        "hivRetestingAtSixWeeksPostChildbirth": "snomed:360300001:HIV Retesting at Six Weeks Post Childbirth",
+        "counselingOnFamilyPlanning": "snomed:360300001:Counseling on Family Planning",
+        "screenForMaternalMentalHealth": "snomed:360300001:Screen for Maternal Mental Health"      
     }
 }
