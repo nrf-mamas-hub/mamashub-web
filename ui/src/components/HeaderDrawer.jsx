@@ -279,7 +279,7 @@ export default function HeaderDrawer({ children }) {
         },
         {
           name: "Early Identification of Congenital Abnormalities",
-          icon: <HealthAndSafety/>,
+          icon: <HealthAndSafety />,
           path: "/early-identification-of-congenital-abnormalities",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
@@ -321,14 +321,32 @@ export default function HeaderDrawer({ children }) {
         },
         {
           name: "Baby Problems",
-          icon: <Sick/>,
+          icon: <Sick />,
           path: "/other-baby-problems",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Record of Baby Teeth Development",
-          icon: <ChildCare/>,
+          icon: <ChildCare />,
           path: "/baby-teeth-development",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Broad Clinical Review",
+          icon: <i class="fa-solid fa-stethoscope"></i>,
+          path: "/broad-clincial-review",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Developmental Milestones",
+          icon: <i class="fa-solid fa-shoe-prints"></i>,
+          path: "/developmental-milestones",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Identification of Early Eye Problems",
+          icon: <i class="fa-solid fa-eye"></i>,
+          path: "/identification-of-early-eye-problems",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         }
 
