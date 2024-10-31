@@ -148,6 +148,10 @@ const appRoutes = [
   {
     path: '/nurse-dashboard',
     element: NurseDashboard,
+  },
+  {
+    path: '/mother-postnatal-care',
+    element: MotherPostnatalCare,
   }
 ];
 
