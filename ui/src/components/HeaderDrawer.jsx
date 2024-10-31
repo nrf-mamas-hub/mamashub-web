@@ -353,6 +353,73 @@ export default function HeaderDrawer({ children }) {
       ],
     },
     {
+      name: "Immunization Forms",
+      icon: <i class="fa-solid fa-syringe"></i>,
+      roles: ["NURSE"],
+      children: [
+        {
+          name: "BCG Vaccine",
+          icon: <i class="fa-solid fa-shield-virus"></i>,
+          path: "/bcg-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Polio Vaccine",
+          icon: <i class="fa-solid fa-eye-dropper"></i>,
+          path: "/polio-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "IPV (Inactivated Polio Vaccine)",
+          icon: <i class="fa-solid fa-shield-virus"></i>,
+          path: "/ipv",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Diptheria/Pertussis",
+          icon: <i class="fa-solid fa-shield-virus"></i>,
+          path: "/diptheria-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Pneumococcal Conjugate Vaccine",
+          icon: <i class="fa-solid fa-shield-virus"></i>,
+          path: "/pneumococcal-conjugate-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Rota Virus Vaccine",
+          icon: <i class="fa-solid fa-eye-dropper"></i>,
+          path: "/rota-virus-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Measles Rubella Vaccine",
+          icon: <i class="fa-solid fa-shield-virus"></i>,
+          path: "/measles-rubella-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Yellow Fever Vaccine",
+          icon: <i class="fa-solid fa-shield-virus"></i>,
+          path: "/yellow-fever-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Other Vaccines",
+          icon: <i class="fa-solid fa-vials"></i>,
+          path: "/other-vaccines",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "AEFI",
+          icon: <i class="fa-solid fa-hand-dots"></i>,
+          path: "/any-adverse-event",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        }
+      ]
+    },
+    {
       name: "Reports",
       icon: <DescriptionRounded />,
       path: "/reports",
