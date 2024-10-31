@@ -27,6 +27,7 @@ import Facilites from './pages/Facilities';
 import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
+import MotherPostnatalCare from './pages/motherPostNatalCare';
 
 const appRoutes = [
   {
