@@ -310,7 +310,7 @@ export default function HeaderDrawer({ children }) {
         {
           name: "Reason For Special Care",
           icon: <i className='fa-solid fa-notes-medical' ></i>,
-          path: "reason-for-special-care",
+          path: "/reason-for-special-care",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
@@ -334,7 +334,7 @@ export default function HeaderDrawer({ children }) {
         {
           name: "Broad Clinical Review",
           icon: <i class="fa-solid fa-stethoscope"></i>,
-          path: "/broad-clincial-review",
+          path: "/broad-clinical-review",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
