@@ -417,6 +417,24 @@
         "legsAndFeet": "snomed:360300001:Legs And Feet",
         "genitalia": "snomed:360300001:Genitalia",
         "genitaliaAbnormalSpecify": "snomed:360300001:Genitalia Abnormal Specify",
-        "anus": "snomed:360300001:Anus" 
+        "anus": "snomed:360300001:Anus",
+        "generalTimingOfVisit": "snomed:360300001:General Timing Of Visit",
+        "nextVisit": "snomed:360300001:Next Visit",
+        "generalConditionSpecify": "snomed:360300001:General Condition Specify",
+        "babyTemperature": "snomed:360300001:Baby Temperature",
+        "breathsPerMinute": "snomed:360300001:Breaths Per Minute",
+        "exclusiveBreastfeeding": "snomed:360300001:Exclusive Breastfeeding",
+        "exclusiveBreastfeedingSpecify": "snomed:360300001:Exclusive Breastfeeding Specify",
+        "breastfeedingPositioning": "snomed:360300001:Breastfeeding Positioning",
+        "breastfeedingBestPositioning": "snomed:360300001:Breastfeeding Best Positioning",
+        "breastfeedingAttachment": "snomed:360300001:Breastfeeding Attachment",
+        "umblicalCordStatus": "snomed:360300001:Umbilical Cord Status",
+        "othersSpecify": "snomed:360300001:Others Specify",
+        "irritable": "snomed:360300001:Irritable",
+        "anyOtherProblem": "snomed:360300001:Any Other Problem",
+        "babyImmunizationStarted": "snomed:360300001:Baby Immunization Started",
+        "heiGivenArtProphylaxis": "snomed:360300001:HEI Given ART Prophylaxis",
+        "heiNotGivenArtProphylaxis": "snomed:360300001:HEI Not Given ART Prophylaxis",
+        "babyCotrimoxazoleProphylaxisInitiated": "snomed:360300001:Baby Cotrimoxazole Prophylaxis Initiated"
     }
 }
