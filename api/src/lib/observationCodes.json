@@ -481,7 +481,6 @@
         "jumpsOrDressesThemselvesAgeAchieved": "snomed:360300001:Jumps or Dresses Themselves Age Achieved",
         "jumpsOrDressesThemselvesMilestoneAchieved": "snomed:360300001:Jumps or Dresses Themselves Milestone Achieved",
         "breastFeeding": "snomed:360300001:Breastfeeding",
-        "otherFeedsBelowSixMonths": "snomed:360300001:Other Feeds Below Six Months",
-        "otherFeedsBelowSixMonthsYesType": "snomed:360300001:Other Feeds Below Six Months Yes Type"
+        "otherFeedsBelowSixMonths": "snomed:360300001:Other Feeds Below Six Months"
     }
 }
