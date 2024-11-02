@@ -34,7 +34,7 @@ const feedingInfoFields = {
     },
    
     {
-      name: 'otherFeedsBelowSixMonthsYesType',
+      name: 'otherFeedsBelowSixMonthsYesAge',
       label: 'If yes, at what age',
       type: 'text',
       validate: yup.string(),
@@ -48,7 +48,7 @@ const feedingInfoFields = {
       relevant: (formValues) => formValues.otherFeedsBelowSixMonths === 'Yes',
     },
     {
-      name: 'ComplementaryFoodFrom6Months:',
+      name: 'complementaryFoodFromSixMonths',
       label: 'Complementary food from 6 months:Other foods introduced:',
       type: 'text',
       type: 'radio',
