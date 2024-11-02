@@ -463,6 +463,22 @@
         "babysCondition": "snomed:360300001:Baby's Condition",
         "placeOfChildbirth": "snomed:360300001:Place Of Childbirth",
         "otherPlaceOfChildbirth": "snomed:360300001:Other Place Of Childbirth",
-        "EarlyInitiationOfBreastfedding": "snomed:360300001:Early Initiation Of Breastfeeding"
+        "EarlyInitiationOfBreastfedding": "snomed:360300001:Early Initiation Of Breastfeeding",
+        "socialSmileOrFollowsDangledObjectAgeAchieved": "snomed:360300001:Social Smile or Follows Dangled Object Age Achieved",
+        "socialSmileMilestoneAchieved": "snomed:360300001:Social Smile Milestone Achieved",      
+        "holdsHeadUprightAgeAchieved": "snomed:360300001:Holds Head Upright Age Achieved",
+        "holdsHeadUprightMilestoneAchieved": "snomed:360300001:Holds Head Upright Milestone Achieved",      
+        "rollsOverAgeAchieved": "snomed:360300001:Rolls Over Age Achieved",
+        "rollsOverMilestoneAchieved": "snomed:360300001:Rolls Over Milestone Achieved",      
+        "sitsWithoutSupportAgeAchieved": "snomed:360300001:Sits Without Support Age Achieved",
+        "sitsWithoutSupportMilestoneAchieved": "snomed:360300001:Sits Without Support Milestone Achieved",      
+        "takesStepsWithoutSupportAgeAchieved": "snomed:360300001:Takes Steps Without Support Age Achieved",
+        "takesStepsWithoutSupportMilestoneAchieved": "snomed:360300001:Takes Steps Without Support Milestone Achieved",      
+        "walksWithoutSupportAgeAchieved": "snomed:360300001:Walks Without Support Age Achieved",
+        "walksWithoutSupportMilestoneAchieved": "snomed:360300001:Walks Without Support Milestone Achieved",      
+        "kicksABallAgeAchieved": "snomed:360300001:Kicks a Ball Age Achieved",
+        "kicksABallMilestoneAchieved": "snomed:360300001:Kicks a Ball Milestone Achieved",      
+        "jumpsOrDressesThemselvesAgeAchieved": "snomed:360300001:Jumps or Dresses Themselves Age Achieved",
+        "jumpsOrDressesThemselvesMilestoneAchieved": "snomed:360300001:Jumps or Dresses Themselves Milestone Achieved"
     }
 }
