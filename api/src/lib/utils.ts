@@ -662,6 +662,42 @@ export let Patient = (patient: any) => {
   };
 };
 
+export let RelatedPerson = (relatedPerson: any) => {
+  return {
+    resourceType: "RelatedPerson",
+    ...(relatedPerson.id && { id: relatedPerson.id }),
+    ...(!relatedPerson.id && { id: uuidv4() }),
+    active: true,
+    patient: {
+      reference: `Patient/${relatedPerson.patientId}`,
+    },
+    relationship: [
+      {
+        coding: [
+          {
+            system: relatedPerson.codingSystem,
+            code: relatedPerson.code,
+            display: relatedPerson.display,
+          },
+        ],
+      },
+    ],
+    name: [
+      {
+        family: relatedPerson.name,
+        given: [relatedPerson.name],
+      },
+    ],
+    telecom: [
+      {
+        system: "phone",
+        value: `${relatedPerson.phone}`,
+        use: "mobile",
+      },
+    ],
+  };
+}; 
+
 export const createPractitioner = async (userId: string) => {
   try {
     let user = await db.user.findFirst({
