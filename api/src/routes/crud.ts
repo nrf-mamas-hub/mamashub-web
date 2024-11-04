@@ -1,7 +1,7 @@
 import express, { Response, Request } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import db from '../lib/prisma';
-import { createEncounter, createObservation, FhirApi, Patient } from "../lib/utils";
+import { createEncounter, createObservation, FhirApi, Patient, RelatedPerson } from "../lib/utils";
 import observationCodes from '../lib/observationCodes.json';
 import { decodeSession, requireJWTMiddleware } from "../lib/jwt";
 import { parseFhirPatient } from "../lib/utils";
@@ -264,5 +264,74 @@ router.patch('/patients/:id', [requireJWTMiddleware], async (req: Request, res: 
     }
 })
 
+// create RelatedPerson
+router.post("/related-person", [requireJWTMiddleware], async (req: Request, res: Response) => {
+    
+    try {
+
+        const { father, guardian, relatedPerson } = req.body;
+
+        if (!father.name && !guardian.name) {
+
+            res.statusCode = 400;
+
+            res.json({ error: "Father or guardian name is required", status: "error" })
+
+            return;
+        }
+
+        let relatedpeople: any[] = [];
+
+        for (let prop of Object.keys(req.body)) {
+
+            // dont loop over the related person property
+            if (prop === "relatedPerson") {
+                continue;
+            }
+
+            // also skip over objects with no name
+            if (!req.body[prop].name) {
+                continue;
+            }
+
+            let relatedPersonId = uuidv4();
+
+            const codingDetails: any = {
+                father: {
+                    codingSystem: "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    code: "FTH",
+                    display: "Father",
+                },
+                default: {
+                    codingSystem: "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                    code: "GUARD",
+                    display: " Guardian"
+                }
+            }
+
+            const { codingSystem, code, display } = codingDetails[prop] || codingDetails.default;
+
+            const relatedPersonDetails = {
+                ...req.body[prop],
+                id: relatedPersonId,
+                patientId: relatedPerson,
+                codingSystem: codingSystem,
+                code: code,
+                display: display
+            }
+
+            await FhirApi({ url: `/RelatedPerson/${relatedPersonId}`, method: "PUT", data: JSON.stringify(RelatedPerson(relatedPersonDetails)) });
+
+            relatedpeople.push(relatedPersonId);
+        }
+
+        res.json({ relatedPeople: relatedpeople, status: "success" });
+        return;
+    }
+    catch (err) {
+        res.statusCode = 400;
+        res.json({ err, status: "error" });
+    }
+});
 
 export default router
