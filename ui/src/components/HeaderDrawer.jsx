@@ -335,87 +335,104 @@ export default function HeaderDrawer({ children }) {
         },
         {
           name: "Broad Clinical Review",
-          icon: <i class="fa-solid fa-stethoscope"></i>,
+          icon: <i className="fa-solid fa-stethoscope"></i>,
           path: "/broad-clinical-review",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Developmental Milestones",
-          icon: <i class="fa-solid fa-shoe-prints"></i>,
+          icon: <i className="fa-solid fa-shoe-prints"></i>,
           path: "/developmental-milestones",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Identification of Early Eye Problems",
-          icon: <i class="fa-solid fa-eye"></i>,
+          icon: <i className="fa-solid fa-eye"></i>,
           path: "/identification-of-early-eye-problems",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
-        }
-
+        },
+        {
+          name: "Vitamin A Supplementation (VAS)",
+          icon: <i className="fa-solid fa-pills"></i>,
+          path: "/vas",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Micronutrient Powders (MNPs)",
+          icon: <i className="fa-solid fa-prescription-bottle-medical"></i>,              
+          path: "/micronutrient-powders",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"]
+        },
+        {
+          name: "Hopital Admissions",
+          icon: <i className="fa-solid fa-bed"></i>,              
+          path: "/hospital-admissions",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"]
+        },
       ],
     },
     {
       name: "Immunization Forms",
-      icon: <i class="fa-solid fa-syringe"></i>,
+      icon: <i className="fa-solid fa-syringe"></i>,
       roles: ["NURSE"],
       children: [
         {
           name: "BCG Vaccine",
-          icon: <i class="fa-solid fa-shield-virus"></i>,
+          icon: <i className="fa-solid fa-shield-virus"></i>,
           path: "/bcg-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Polio Vaccine",
-          icon: <i class="fa-solid fa-eye-dropper"></i>,
+          icon: <i className="fa-solid fa-eye-dropper"></i>,
           path: "/polio-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "IPV (Inactivated Polio Vaccine)",
-          icon: <i class="fa-solid fa-shield-virus"></i>,
+          icon: <i className="fa-solid fa-shield-virus"></i>,
           path: "/ipv",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Diptheria/Pertussis",
-          icon: <i class="fa-solid fa-shield-virus"></i>,
+          icon: <i className="fa-solid fa-shield-virus"></i>,
           path: "/diptheria-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Pneumococcal Conjugate Vaccine",
-          icon: <i class="fa-solid fa-shield-virus"></i>,
+          icon: <i className="fa-solid fa-shield-virus"></i>,
           path: "/pneumococcal-conjugate-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Rota Virus Vaccine",
-          icon: <i class="fa-solid fa-eye-dropper"></i>,
+          icon: <i className="fa-solid fa-eye-dropper"></i>,
           path: "/rota-virus-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Measles Rubella Vaccine",
-          icon: <i class="fa-solid fa-shield-virus"></i>,
+          icon: <i className="fa-solid fa-shield-virus"></i>,
           path: "/measles-rubella-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Yellow Fever Vaccine",
-          icon: <i class="fa-solid fa-shield-virus"></i>,
+          icon: <i className="fa-solid fa-shield-virus"></i>,
           path: "/yellow-fever-vaccine",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Other Vaccines",
-          icon: <i class="fa-solid fa-vials"></i>,
+          icon: <i className="fa-solid fa-vials"></i>,
           path: "/other-vaccines",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "AEFI",
-          icon: <i class="fa-solid fa-hand-dots"></i>,
+          icon: <i className="fa-solid fa-hand-dots"></i>,
           path: "/any-adverse-event",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         }
