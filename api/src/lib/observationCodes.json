@@ -215,6 +215,7 @@
         "ppYear": "snomed:267037003-A:Year",
         "ancVisits": "snomed:267037003-A:ANC Visits",
         "placeOfBirth": "snomed:267037003-A:Place of Birth",
+        "otherPlaceOfBirth": "snomed: 267037003-A: Other Place of Birth",        
         "durationOfLabor": "snomed:267037003-A:Duration of labor",
         "modeOfDelivery": "snomed:267037003-A:Mode of Delivery",
         "tetanusDiptheriaInjectionTTProvided": "snomed:267037003-A:Tetanus Diptheria Provided",
