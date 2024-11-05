@@ -1,7 +1,7 @@
 import * as yup from 'yup'; 
 import counties from '../../data/counties.json';
 
-const childCivilRegistrationDetailsForm = {
+const childCivilRegistrationFormFields = {
   'A.Particulars Of the Child': [
     {
       name: 'names',
@@ -18,7 +18,7 @@ const childCivilRegistrationDetailsForm = {
     {
       name: 'sex',
       label: 'Sex Of Child',
-      type: 'text',
+      type: 'select',
       validate: yup.string().required("The Sex of the Child is required"),
       width: {
         xs: 12,
@@ -26,6 +26,12 @@ const childCivilRegistrationDetailsForm = {
         md: 12,
         lg: 6,
       },
+      options: [
+        { label: 'Male', value: 'male' },
+        { label: 'Female', value: 'female' },
+        { label: 'Other', value: 'other' },
+        { label: 'Unknown', value: 'unknown' },
+      ],
     },
     {
       name: 'gestationAtBirth',
@@ -43,7 +49,7 @@ const childCivilRegistrationDetailsForm = {
       },
     },
     {
-      name: 'dateOfBirth',
+      name: 'dob',
       label: 'Date Of Birth (DD/MM/YY)',
       type: 'date',
       validate: yup.date().required("The Date of birth is required"),
@@ -88,19 +94,19 @@ const childCivilRegistrationDetailsForm = {
     {
       name: 'otherBirthCharacteristics',
       label: 'Other Birth Characteristics',
-      type: 'text',
+      type: 'textarea',
       validate: yup.string(),
       width: {
         xs: 12,
         sm: 12,
         md: 12,
-        lg: 12,
+        lg: 6,
       },
     },
     {
       name: 'birthOrder',
-      label: 'Birth Order in Family (e.g., 1st, 2nd, 3rd born)',
-      type: 'select',
+      label: 'Birth Order in Family (e.g., 1, 2, 3 born)',
+      type: 'text',
       validate: yup.string().required('Birth order is required'),
       width: {
         xs: 12,
@@ -108,19 +114,10 @@ const childCivilRegistrationDetailsForm = {
         md: 12,
         lg: 6,
       },
-      options: [
-        { label: '1st born', value: '1st' },
-        { label: '2nd born', value: '2nd' },
-        { label: '3rd born', value: '3rd' },
-        { label: '4th born', value: '4th' },
-        { label: '5th born', value: '5th' },
-        { label: '6th born', value: '6th' },
-        { label: 'Other', value: 'Other' },
-      ],
     },
     {
       name: 'dateFirstSeen',
-      label: 'Date 1st Seen (DD/MM/YY)',
+      label: 'Date First Seen (DD/MM/YY)',
       type: 'date',
       validate: yup.date().required("The date first seen is required"),
       width: {
@@ -151,14 +148,14 @@ const childCivilRegistrationDetailsForm = {
     ],
   },
   {
-    name: 'otherHealthFacility',
+    name: 'otherPlaceOfBirth',
     label: 'If Other, Specify',
     type: 'text',
     width: {
       xs: 12,
       sm: 12,
       md: 12,
-      lg: 12,
+      lg: 6,
     },
     relevant: formValues => formValues.placeOfBirth === 'Other',
   },
@@ -214,10 +211,11 @@ const childCivilRegistrationDetailsForm = {
       },
     },
     {
-      name: 'healthFacilityName',
+      name: 'facilityName',
       label: 'Health Facility Name',
       type: 'text',
-      validate: yup.string().required('Health facility name is required'),
+      required: true,
+      disabled: true,
       width: {
         xs: 12,
         sm: 12,
@@ -229,7 +227,8 @@ const childCivilRegistrationDetailsForm = {
       name: 'kmhflCode',
       label: 'Master Facility List (KMHFL) Code',
       type: 'text',
-      validate: yup.string().required('KMHFL code is required'),
+      required: true,
+      disabled: true,
       width: {
         xs: 12,
         sm: 12,
@@ -274,7 +273,7 @@ const childCivilRegistrationDetailsForm = {
       xs: 12,
       sm: 12,
       md: 12,
-      lg: 12,
+      lg: 6,
     },
   },
 ],
@@ -297,8 +296,7 @@ const childCivilRegistrationDetailsForm = {
     label: "Father's Tel No.",
     type: 'text',
     validate: yup
-      .number()
-      .typeError('must be a number'),
+      .string(),
     width: {
       xs: 12,
       sm: 12,
@@ -322,8 +320,7 @@ const childCivilRegistrationDetailsForm = {
     name: 'motherPhone',
     label: "Mother's Tel No.",
     type: 'text',
-    validate: yup.string().required("Mother's telephone number is required")
-      .typeError('must be a number'),
+    validate: yup.string().required("Mother's telephone number is required"),
     width: {
       xs: 12,
       sm: 12,
@@ -348,8 +345,7 @@ const childCivilRegistrationDetailsForm = {
     label: "Guardian's Tel No.",
     type: 'text',
     validate: yup
-    .number()
-    .typeError('must be a number'),
+    .string(),
     width: {
       xs: 12,
       sm: 12,
@@ -432,7 +428,7 @@ const childCivilRegistrationDetailsForm = {
     },
   },
   {
-    name: 'residenceEstateHouseNo',
+    name: 'village',
     label: 'Estate & House No./Village',
     type: 'text',
     validate: yup.string(),
@@ -460,4 +456,4 @@ const childCivilRegistrationDetailsForm = {
 };
 
 // Export the forms as named exports
-export default childCivilRegistrationDetailsForm;
+export default childCivilRegistrationFormFields;
