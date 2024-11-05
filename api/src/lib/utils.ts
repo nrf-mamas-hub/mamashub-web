@@ -127,22 +127,18 @@ export const parseFhirPatient = (patient: any) => {
   if (nextOfKinRelationship) {
     return {
       ...standardPatientInfo,
-      idNumber: _ids.NATIONAL_ID?.value || "",    
+      idNumber: _ids.NATIONAL_ID?.value || "",
       pncNumber: _ids.PNC_NUMBER?.value || "",
-      phone: patient.telecom[0].value,    
+      phone: patient.telecom[0].value,
       nextOfKinRelationship: nextOfKinRelationship,
       nextOfKinName: patient.contact[0].name.family,
       nextOfKinPhone: patient.contact[0].telecom[0].value,
     };
   } else {
     return {
-      ...standardPatientInfo, //more properties to be added based on the primary unique identifier for children, same as ANC/PNC number for mothers      
+      ...standardPatientInfo, //more properties to be added based on the primary unique identifier for children, same as ANC/PNC number for mothers
       motherName: patient.contact[0].name.family,
       motherPhone: patient.contact[0].telecom[0].value,
-      fatherName: patient.contact[1].name.family,
-      fatherPhone: patient.contact[1].telecom[0].value,
-      guardianName: patient.contact[2].name.family,
-      guardianPhone: patient.contact[2].telecom[0].value,
     };
   }
 };
@@ -582,16 +578,31 @@ export let Patient = (patient: any) => {
       ],
     },
     identifier: [
-      { value: patient.ancCode, id: "ANC_NUMBER" },  /*the anc number is supposed to be conditionally added for mothers only. Only left since it is required */
-      { value: patient.kmhflCode, id: "KMHFL_CODE" }, /* on the frontend when displaying list of patients, for now. */
-      ...(patient.idNumber ? [      
-        { value: patient.idNumber, id: "NATIONAL_ID" },              
-      ] : [
-          { value: patient.birthNotificationNumber, id: "BIRTH_NOTIFICATION_NUMBER" },          
-          { value: patient.iprNumber, id: "IMMUNIZATION_PERMANENT_REGISTER_NUMBER" },
-          { value: patient.cwcNumber, id: "CHILD_WELFARE_CLINIC_NUMBER" },
-          { value: patient.birthCertificateNumber, id: "BIRTH_CERTIFICATE_NUMBER" }        
-      ])
+      {
+        value: patient.ancCode,
+        id: "ANC_NUMBER",
+      } /*the anc number is supposed to be conditionally added for mothers only. Only left since it is required */,
+      {
+        value: patient.kmhflCode,
+        id: "KMHFL_CODE",
+      } /* on the frontend when displaying list of patients, for now. */,
+      ...(patient.idNumber
+        ? [{ value: patient.idNumber, id: "NATIONAL_ID" }]
+        : [
+            {
+              value: patient.birthNotificationNumber,
+              id: "BIRTH_NOTIFICATION_NUMBER",
+            },
+            {
+              value: patient.iprNumber,
+              id: "IMMUNIZATION_PERMANENT_REGISTER_NUMBER",
+            },
+            { value: patient.cwcNumber, id: "CHILD_WELFARE_CLINIC_NUMBER" },
+            {
+              value: patient.birthCertificateNumber,
+              id: "BIRTH_CERTIFICATE_NUMBER",
+            },
+          ]),
     ],
     name: [{ family: patient.names, given: [patient.names] }],
     telecom: [{ value: patient.phone, system: "phone" }],
@@ -647,54 +658,45 @@ export let Patient = (patient: any) => {
               },
             ],
           },
-          {
-            telecom: [
-              {
-                value: patient.fatherPhone,
-                system: "phone",
-              },
-            ],
-            name: {
-              family: patient.fatherName,
-            },
-            relationship: [
-              {
-                coding: [
-                  {
-                    system: "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-                    code: "FTH",
-                    display: "Father",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            telecom: [
-              {
-                value: patient.guardianPhone,
-                system: "phone",
-              },
-            ],
-            name: {
-              family: patient.guardianName,
-            },
-            relationship: [
-              {
-                coding: [
-                  {
-                    system:
-                      "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
-                    code: "GUARD",
-                    display: "Guardian",
-                  },
-                ],
-              },
-            ],
-          },
         ],
   };
 };
+
+export let RelatedPerson = (relatedPerson: any) => {
+  return {
+    resourceType: "RelatedPerson",
+    ...(relatedPerson.id && { id: relatedPerson.id }),
+    ...(!relatedPerson.id && { id: uuidv4() }),
+    active: true,
+    patient: {
+      reference: `Patient/${relatedPerson.patientId}`,
+    },
+    relationship: [
+      {
+        coding: [
+          {
+            system: relatedPerson.codingSystem,
+            code: relatedPerson.code,
+            display: relatedPerson.display,
+          },
+        ],
+      },
+    ],
+    name: [
+      {
+        family: relatedPerson.name,
+        given: [relatedPerson.name],
+      },
+    ],
+    telecom: [
+      {
+        system: "phone",
+        value: `${relatedPerson.phone}`,
+        use: "mobile",
+      },
+    ],
+  };
+}; 
 
 export const createPractitioner = async (userId: string) => {
   try {
