@@ -192,7 +192,8 @@ export const createEncounter = (
   patientId: string,
   encounterId: string,
   encounterType: number = 2,
-  encounterCode: string | null = null
+  encounterCode: string | null = null,
+  locationId?: string  
 ) => {
   if (encounterType > 3 || encounterType < 1) {
     console.error("Encounter type is either 1, 2 or 3");
@@ -251,6 +252,15 @@ export const createEncounter = (
         ],
       },
     ],
+    ...(locationId && {
+      location: [
+        {
+          location: {
+            reference: `Location/${locationId}`            
+          }
+        }
+      ]
+    })
   };
 };
 
@@ -697,6 +707,18 @@ export let RelatedPerson = (relatedPerson: any) => {
     ],
   };
 }; 
+
+export const Location = (placeOfBirth: string, id: string) => {  
+  
+  return {
+    resourceType: "Location",
+    ...(id && { id: id }),
+    ...(!id && { id: uuidv4() }),    
+    status: "active",
+    name: placeOfBirth,
+    mode:"kind"
+  }
+}
 
 export const createPractitioner = async (userId: string) => {
   try {
