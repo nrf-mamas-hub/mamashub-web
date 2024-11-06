@@ -1,7 +1,7 @@
 import express, { Response, Request } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import db from '../lib/prisma';
-import { createEncounter, createObservation, FhirApi, Patient, RelatedPerson } from "../lib/utils";
+import { createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location } from "../lib/utils";
 import observationCodes from '../lib/observationCodes.json';
 import { decodeSession, requireJWTMiddleware } from "../lib/jwt";
 import { parseFhirPatient } from "../lib/utils";
@@ -83,9 +83,10 @@ router.get('/observations', [], async (req: Request, res: Response) => {
 
 router.post('/encounters', [requireJWTMiddleware], async (req: Request, res: Response) => {
     try {
-        let { encounterCode, patientId, encounterType } = req.body;
+        let { encounterCode, patientId, encounterType, locationId } = req.body;
+        console.log(locationId);
         let encounterId = uuidv4();
-        let encounter = createEncounter(patientId, encounterId, encounterType ?? 2, encounterCode);
+        let encounter = createEncounter(patientId, encounterId, encounterType ?? 2, encounterCode, locationId);
         let response = await (await FhirApi({
             url: `/Encounter/${encounterId}`,
             data: JSON.stringify(encounter),
@@ -333,5 +334,31 @@ router.post("/related-person", [requireJWTMiddleware], async (req: Request, res:
         res.json({ err, status: "error" });
     }
 });
+
+router.post("/location", [requireJWTMiddleware], async (req: Request, res: Response) => {
+
+    try {
+
+        const { location } = req.body;
+
+        if (!location) {
+            res.statusCode = 400;
+    
+            res.json({ error: "Location is required", status: "error" });
+    
+            return;
+        }
+    
+        let locationId = uuidv4();
+
+        await FhirApi({ url: `/Location/${locationId}`, method: "PUT", data: JSON.stringify(Location(location, locationId)) })
+
+        res.json({status:"success", locationId});
+        
+    } catch (err) {
+        res.json({ err, status: "error" });
+    }
+    
+})
 
 export default router
