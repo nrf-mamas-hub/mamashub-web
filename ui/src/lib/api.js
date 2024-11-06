@@ -2,13 +2,14 @@ import { getCookie } from './cookie';
 
 export let apiHost = (process.env['REACT_APP_NODE_ENV'] === "development") ? "http://127.0.0.1:5000" : process.env['REACT_APP_API_URL'];
 
-export let createEncounter = async (patientId, encounterCode) => {
+export let createEncounter = async (patientId, encounterCode, locationId) => {
     try {
         let encounter = await (await fetch(`${apiHost}/crud/encounters`, {
             method: 'POST',
             body: JSON.stringify({
                 encounterCode,
-                patientId: patientId
+                patientId: patientId,
+                locationId
             }),
             headers: {
                 "Content-Type": 'application/json',
