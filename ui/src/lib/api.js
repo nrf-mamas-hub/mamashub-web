@@ -15,7 +15,6 @@ export let createEncounter = async (patientId, encounterCode) => {
                 "Authorization": `Bearer ${getCookie("token")}`,
             }
         })).json()
-        console.log(encounter.id)
         return encounter.encounter
     } catch (error) {
         return null
@@ -52,4 +51,23 @@ export let FhirApi = async (params) => {
         return res
     }
     //To-do: process response and response type
+}
+
+export const createLocation = async (location) => {    
+    
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/location`,
+            method: "POST",
+            data: JSON.stringify({
+                location
+            })
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null
+    }
 }
