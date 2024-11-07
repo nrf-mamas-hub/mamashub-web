@@ -2,20 +2,20 @@ import { getCookie } from './cookie';
 
 export let apiHost = (process.env['REACT_APP_NODE_ENV'] === "development") ? "http://127.0.0.1:5000" : process.env['REACT_APP_API_URL'];
 
-export let createEncounter = async (patientId, encounterCode) => {
+export let createEncounter = async (patientId, encounterCode, locationId) => {
     try {
         let encounter = await (await fetch(`${apiHost}/crud/encounters`, {
             method: 'POST',
             body: JSON.stringify({
                 encounterCode,
-                patientId: patientId
+                patientId: patientId,
+                locationId
             }),
             headers: {
                 "Content-Type": 'application/json',
                 "Authorization": `Bearer ${getCookie("token")}`,
             }
         })).json()
-        console.log(encounter.id)
         return encounter.encounter
     } catch (error) {
         return null
@@ -52,4 +52,23 @@ export let FhirApi = async (params) => {
         return res
     }
     //To-do: process response and response type
+}
+
+export const createLocation = async (location) => {    
+    
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/location`,
+            method: "POST",
+            data: JSON.stringify({
+                location
+            })
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null
+    }
 }
