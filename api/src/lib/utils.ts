@@ -770,3 +770,81 @@ export const Practitioner = async (id: string) => {
     return null;
   }
 };
+
+export const Appointment = (appointment: any) => {  
+
+  if (appointment.serviceCategory < 1 || appointment.serviceCategory > 5) {
+    console.error("Service categories should range from 1 to 4");
+    return;
+  }
+
+  // these are the most common service categories I have identified for appointments in PNC
+  // advise if more or less are needed [@moturiphil, @bushisky]
+  // 1- Child Development
+  // 2- Community Healthcare
+  // 3- Counselling
+  // 4- General Practice
+  // 5- Physical Activities
+
+  const serviceCategoryCoding = () => {    
+    
+    switch(appointment.serviceCategory){
+
+      case 1:
+        return {
+          code: "5",
+          display:"Child Development"
+        }
+      
+      case 2:
+        return {
+          code: "7",
+          display: "Community Health Care"          
+        }
+      
+      case 3:
+        return {
+          code: "8",
+          display: "Counselling"
+        }
+      
+      case 4:
+        return {
+          code: "17",
+          display: "General Practice"
+        }
+      
+      default:
+        return {
+          code: "23",
+          display: "Physical Activity & Recreation"
+        }
+    }
+  }
+
+  return {
+    resourceType: "Appointment",
+    id: appointment.id || uuidv4(),    
+    status: "booked",
+    class: [{
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/v3-ActCode", 
+          code: "AMB",
+          display: "ambulatory" //since immunization is still an outpatient encounter
+        }
+      ],
+    }],
+    serviceCategory: [{
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/service-category",
+          ...({
+            ...serviceCategoryCoding()
+          })
+        }
+      ]
+    }],
+    
+  }
+}
