@@ -193,7 +193,7 @@ export const createEncounter = (
   encounterId: string,
   encounterType: number = 2,
   encounterCode: string | null = null,
-  locationId?: string  
+  locationId?: string
 ) => {
   if (encounterType > 3 || encounterType < 1) {
     console.error("Encounter type is either 1, 2 or 3");
@@ -256,11 +256,11 @@ export const createEncounter = (
       location: [
         {
           location: {
-            reference: `Location/${locationId}`            
-          }
-        }
-      ]
-    })
+            reference: `Location/${locationId}`,
+          },
+        },
+      ],
+    }),
   };
 };
 
@@ -706,19 +706,18 @@ export let RelatedPerson = (relatedPerson: any) => {
       },
     ],
   };
-}; 
+};
 
-export const Location = (placeOfBirth: string, id: string) => {  
-  
+export const Location = (placeOfBirth: string, id: string) => {
   return {
     resourceType: "Location",
     ...(id && { id: id }),
-    ...(!id && { id: uuidv4() }),    
+    ...(!id && { id: uuidv4() }),
     status: "active",
     name: placeOfBirth,
-    mode:"kind"
-  }
-}
+    mode: "kind",
+  };
+};
 
 export const createPractitioner = async (userId: string) => {
   try {
@@ -769,4 +768,205 @@ export const Practitioner = async (id: string) => {
     console.error(error);
     return null;
   }
+};
+
+export const Appointment = (appointment: any) => {
+  if (appointment.serviceCategory < 1 || appointment.serviceCategory > 5) {
+    console.error("Service categories should range from 1 to 4");
+    return;
+  }
+
+  if (appointment.reason < 1 || appointment.reason > 8) {
+    console.error("Appointment reasons should range from 1 to 8");
+    return;
+  }
+
+  // these are the most common service categories I have identified for appointments in PNC
+  // advise if more or less are needed [@moturiphil, @bushisky]
+  // 1- Child Development
+  // 2- Community Healthcare
+  // 3- Counselling
+  // 4- General Practice
+  // 5- Physical Activities
+
+  const serviceCategoryCoding = () => {
+    switch (appointment.serviceCategory) {
+      case 1:
+        return {
+          code: "5",
+          display: "Child Development",
+        };
+
+      case 2:
+        return {
+          code: "7",
+          display: "Community Health Care",
+        };
+
+      case 3:
+        return {
+          code: "8",
+          display: "Counselling",
+        };
+
+      case 4:
+        return {
+          code: "17",
+          display: "General Practice",
+        };
+
+      default:
+        return {
+          code: "23",
+          display: "Physical Activity & Recreation",
+        };
+    }
+  };
+
+  // and these are the reasons I have identified as most fitting for all PNC appointments
+  const appointmentReasonCoding = () => {
+    switch (appointment.reason) {
+      case 1:
+        return {
+          code: "413744002",
+          display: " Cancer screening follow up",
+        };
+
+      case 2:
+        return {
+          code: "281010000",
+          display: "Child development checks",
+        };
+
+      case 3:
+        return {
+          code: "33879002",
+          display: "Administration of vaccine to produce active immunity",
+        };
+
+      case 4:
+        return {
+          code: "767224000",
+          display: "Administration of vitamin A",
+        };
+
+      case 5:
+        return {
+          code: "709542007",
+          display: " Administration of nutritional supplement",
+        };
+
+      case 6:
+        return {
+          code: "14369007",
+          display: "Deworming",
+        };
+
+      case 7:
+        return {
+          code: "399256002",
+          display: "Polymerase chain reaction test for HIV 1",
+        };
+
+      default:
+        return {
+          code: "409788009",
+          display: "Rapid HIV-1 antibody test",
+        };
+    }
+  };
+
+  return {
+    resourceType: "Appointment",
+    id: appointment.id || uuidv4(),
+    status: "booked",
+    class: [
+      {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            code: "AMB",
+            display: "ambulatory",
+          },
+        ],
+      },
+    ],
+    serviceCategory: [
+      {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/service-category",
+            ...{
+              ...serviceCategoryCoding(),
+            },
+          },
+        ],
+      },
+    ],
+    appointmentType: {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/v2-0276",
+          code: "FOLLOWUP",
+          display: "A follow up visit from a previous appointment",
+        },
+      ],
+    },
+    reasonCode: [
+      {
+        coding: [
+          {
+            system: "http://snomed.info/sct",
+            ...{
+              ...appointmentReasonCoding(),
+            },
+          },
+        ],
+      },
+    ],
+    description: appointment.description,
+    start: new Date(appointment.nextVisit).toISOString(),
+    end: new Date(appointment.nextVisit).toISOString(),
+    created: new Date().toISOString(),
+    ...(appointment.note && {
+      note: [
+        {
+          text: appointment.note,
+        },
+      ],
+    }),
+    subject: {
+      reference: `Patient/${appointment.patientId}`,
+    },
+    participant: [
+      {
+        actor: {
+          reference: `Patient/${appointment.patientId}`,
+          display: appointment.patientName,
+        },
+        required: "required",
+        status: "accepted",
+      },
+      {
+        type: [
+          {
+            coding: [
+              {
+                system:
+                  "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                code: "ATND",
+                display: "attender",
+              },
+            ],
+          },
+        ],
+        actor: {
+          reference: `Practitioner/${appointment.practitionerId}`,
+          display: appointment.practitionerName,
+        },
+        required: "required",
+        status: "accepted",
+      },
+    ],
+  };
 };

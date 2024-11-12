@@ -72,3 +72,20 @@ export const createLocation = async (location) => {
         return null
     }
 }
+
+export const createAppointment = async (appointmentDetails) => {        
+
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/appointment`,
+            method: "POST",
+            data: JSON.stringify(appointmentDetails)
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null
+    }
+}

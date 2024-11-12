@@ -1,7 +1,7 @@
 import express, { Response, Request } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import db from '../lib/prisma';
-import { createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location } from "../lib/utils";
+import { createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location, Appointment } from "../lib/utils";
 import observationCodes from '../lib/observationCodes.json';
 import { decodeSession, requireJWTMiddleware } from "../lib/jwt";
 import { parseFhirPatient } from "../lib/utils";
@@ -84,7 +84,7 @@ router.get('/observations', [], async (req: Request, res: Response) => {
 router.post('/encounters', [requireJWTMiddleware], async (req: Request, res: Response) => {
     try {
         let { encounterCode, patientId, encounterType, locationId } = req.body;
-        console.log(locationId);
+
         let encounterId = uuidv4();
         let encounter = createEncounter(patientId, encounterId, encounterType ?? 2, encounterCode, locationId);
         let response = await (await FhirApi({
@@ -351,14 +351,38 @@ router.post("/location", [requireJWTMiddleware], async (req: Request, res: Respo
     
         let locationId = uuidv4();
 
-        await FhirApi({ url: `/Location/${locationId}`, method: "PUT", data: JSON.stringify(Location(location, locationId)) })
+        let result = await FhirApi({ url: `/Location/${locationId}`, method: "PUT", data: JSON.stringify(Location(location, locationId)) });
+        
+        console.log(result);
 
-        res.json({status:"success", locationId});
+        res.json({ status: "success", locationId });
         
     } catch (err) {
         res.json({ err, status: "error" });
     }
     
+});
+
+router.post("/appointment", [requireJWTMiddleware], async(req:Request, res:Response)=>{
+
+    try {
+
+        let id = uuidv4();
+        
+        let appointmentDetails = {
+            id,
+            ...req.body
+        }
+
+        let appointment = Appointment(appointmentDetails);
+
+        await FhirApi({ url: `/Appointment/${id}`, method: "PUT", data: JSON.stringify(appointment) });
+
+        res.json({ status: "success", appointmentId: id });
+        
+    } catch (err) {
+        res.json({ err, status: "error" });
+    }
 })
 
 export default router
