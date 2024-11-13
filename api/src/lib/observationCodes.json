@@ -490,6 +490,7 @@
         "specifyOtherReasonForSpecialCare": "snomed:360300001:Specify Other Reason For Special Care",
         "cervixViaResultSuspiciousForCancer": "snomed:7197003:Suspicious For Cancer (VIA)",
         "cervixViaViliResultSuspiciousForCancer": "snomed:7197003:Suspicious For Cancer (VILI)",
-        "breastUltrasoundTreatmentDiagnosisTreatmentIndicate": "snomed:119314000:Diagnosis Indicated By Breast Ultrasound"
+        "breastUltrasoundTreatmentDiagnosisTreatmentIndicate": "snomed:119314000:Diagnosis Indicated By Breast Ultrasound",
+        "breastCbeResult": "snomed:16983000:Breast CBE Result"
     }
 }
