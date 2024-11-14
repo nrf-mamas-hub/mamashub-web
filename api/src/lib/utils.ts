@@ -970,3 +970,97 @@ export const Appointment = (appointment: any) => {
     ],
   };
 };
+
+export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any, routeCoding:any, unitCoding:any) => {
+  
+  return {
+    resourceType: "Immunization",
+    id: immunization.id || uuidv4(),
+    status: "completed",
+    vaccineCode: {
+      coding: [
+        {
+          system: vaccineCoding.system === "snomed" ? "http://snomed.info/sct" :
+            vaccineCoding.system === "hl7" ? "http://hl7.org/fhir/sid/cvx" :
+              vaccineCoding.system === "urn" ? "urn:oid:1.2.36.1.2001.1005.17" :
+                "http://41.89.93.172/fhir",
+          code: vaccineCoding.code,
+          display: vaccineCoding.display,
+        }
+      ]
+    },
+    patient: {
+      reference: `Patient/${immunization.patientId}`      
+    },
+    encounter: {
+      reference: `Encounter/${immunization.encounterId}`
+    },
+    occurrenceDateTime: new Date(immunization.immunizationDate).toISOString(),
+    recorded: new Date().toISOString(),
+    ...(immunization.manufacturerId && {
+      manufacturer: {
+        reference: `Organization/${immunization.manufacturerId}`
+      }
+    }),
+    lotNumber: immunization.lotNumber,
+    expirationDate: new Date(immunization.expiryDate).toISOString().split("T")[0],
+    site: {
+      coding: [
+        {
+          system: siteCoding.system === "snomed" ? "http://snomed.info/sct" :
+            siteCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-ActSite" :
+              "http://41.89.93.172/fhir",
+          code: siteCoding.code,
+          display:siteCoding.display,
+        }
+      ]
+    },
+    route: {
+      coding: [
+        {
+          system: routeCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration" :
+            routeCoding.system === "snomed" ? "http://snomed.info/sct" :
+              "http://41.89.93.172/fhir",
+          code: routeCoding.code,
+          display: routeCoding.display
+        }
+      ]
+    },
+    doseQuantity: {
+      value: immunization.dosage,
+      unit: unitCoding.display,      
+      system: "http://unitsofmeasure.org",
+      code: unitCoding.code
+    },
+    performer: [{
+      actor: {
+        reference: `Practitioner/${immunization.practitionerId}`
+      }
+    }],
+    ...(immunization.additionalComments && {
+      note: [{
+        text:immunization.additionalComments
+      }]
+    }),
+    reasonCode: [{
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "127785005",
+          display: "Administration to produce immunity, either active or passive"
+        }
+      ]
+    }],
+    ...(immunization.fundingSource && {
+      fundingSource: {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+            code: immunization.fundingSourceCode,
+            display: immunization.fundingSourceDisplay
+          }
+        ]
+      }
+    })
+  }
+}
