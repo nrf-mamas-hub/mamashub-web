@@ -25,9 +25,9 @@
         "oralSwallow":"hl7:PO:Swallow, oral",
         "injectionIntramuscular":"hl7:IM:Injection, intramuscular",
         "injectionSubcutaneous":"hl7:SQ:Injection, subcutaneous",
-        "mls":"mL:milliliter",
-        "ml":"mL:milliliter",
-        "drop":"[drp]:drop",
-        "drops":"[drp]:drop"
+        "mls":"hl7:mL:milliliter",
+        "ml":"hl7:mL:milliliter",
+        "drop":"hl7:[drp]:drop",
+        "drops":"hl7:[drp]:drop"
     }
 }
