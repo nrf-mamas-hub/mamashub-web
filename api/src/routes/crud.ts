@@ -396,7 +396,7 @@ router.post("/immunization", [requireJWTMiddleware], async (req: Request, res: R
 
         let id = uuidv4();
 
-        const { patientId, encounterId, practitionerId, vaccine } = req.body;
+        const { patientId, encounterId, practitionerId, manufacturerId, vaccine } = req.body;
         const { expiryDate, immunizationDate, lotNumber, dosage, additionalComments, unit } = vaccine;
     
 
@@ -436,6 +436,7 @@ router.post("/immunization", [requireJWTMiddleware], async (req: Request, res: R
             patientId,
             encounterId,
             practitionerId,
+            manufacturerId,
             immunizationDate,
             lotNumber,
             expiryDate, 
