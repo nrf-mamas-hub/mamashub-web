@@ -997,7 +997,7 @@ export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any
     },
     occurrenceDateTime: new Date(immunization.immunizationDate).toISOString(),
     recorded: new Date().toISOString(),
-    ...(immunization.manufacturerId && {
+    ...(immunization.manufacturerId && immunization.manufacturerId!=="" && {
       manufacturer: {
         reference: `Organization/${immunization.manufacturerId}`
       }
@@ -1037,7 +1037,7 @@ export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any
         reference: `Practitioner/${immunization.practitionerId}`
       }
     }],
-    ...(immunization.additionalComments && {
+    ...(immunization.additionalComments && immunization.additionalComments!=="" && {
       note: [{
         text:immunization.additionalComments
       }]
