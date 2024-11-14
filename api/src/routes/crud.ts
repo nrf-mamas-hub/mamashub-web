@@ -1,8 +1,12 @@
 import express, { Response, Request } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import db from '../lib/prisma';
-import { createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location, Appointment } from "../lib/utils";
+import {
+    createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location, Appointment,
+    Immunization
+ } from "../lib/utils";
 import observationCodes from '../lib/observationCodes.json';
+import medicalCodesList from '../lib/medicalCodes.json';
 import { decodeSession, requireJWTMiddleware } from "../lib/jwt";
 import { parseFhirPatient } from "../lib/utils";
 import { getPatients } from "../lib/reports";
@@ -12,6 +16,7 @@ const router = express.Router();
 router.use(express.json());
 
 let codes: { [index: string]: string } = observationCodes.codes;
+let medicalCodes: { [index: string]: string } = medicalCodesList.medicalCodes;
 
 router.post('/observations', async (req: Request, res: Response) => {
     try {
@@ -363,7 +368,7 @@ router.post("/location", [requireJWTMiddleware], async (req: Request, res: Respo
     
 });
 
-router.post("/appointment", [requireJWTMiddleware], async(req:Request, res:Response)=>{
+router.post("/appointment", [requireJWTMiddleware], async (req: Request, res: Response) => {
 
     try {
 
@@ -379,6 +384,71 @@ router.post("/appointment", [requireJWTMiddleware], async(req:Request, res:Respo
         await FhirApi({ url: `/Appointment/${id}`, method: "PUT", data: JSON.stringify(appointment) });
 
         res.json({ status: "success", appointmentId: id });
+        
+    } catch (err) {
+        res.json({ err, status: "error" });
+    }
+});
+
+router.post("/immunization", [requireJWTMiddleware], async (req: Request, res: Response) => {
+    
+    try {
+
+        let id = uuidv4();
+
+        const { patientId, encounterId, practitionerId, vaccine } = req.body;
+        const { expiryDate, immunizationDate, lotNumber, dosage, additionalComments, unit } = vaccine;
+    
+
+        let codings: { [key: string]: any } = {};        
+        
+            for (let prop of Object.keys(vaccine)) {
+                
+                if (prop !== "site" && prop !== "name" && prop !== "route" && prop !== "unit") {
+                    continue;
+                }
+
+                const medicalCodesKeys = vaccine[prop];
+
+                if (Object.keys(medicalCodes).indexOf(medicalCodesKeys) > -1) {
+
+                    let propWithCodingVariable = `${prop}Coding`;
+
+                    let codingData = medicalCodes[medicalCodesKeys];
+
+                    let coding = {                        
+                        system: codingData.split(":")[0], code: codingData.split(":")[1], display: codingData.split(":")[2]                        
+                    }                    
+                    
+                    codings = {
+                        ...codings,
+                        [propWithCodingVariable]: coding
+                    }
+                } else {
+                    console.log(`Error: property ${prop} not found`)
+                }
+            }
+
+        let { nameCoding:vaccineCoding, siteCoding, routeCoding, unitCoding } = codings;
+
+        const immunization = {
+            id,
+            patientId,
+            encounterId,
+            practitionerId,
+            immunizationDate,
+            lotNumber,
+            expiryDate, 
+            dosage,
+            additionalComments,
+            dosageUnit: unit,            
+        }
+
+        const immmunizationDetails = Immunization(immunization, vaccineCoding, siteCoding, routeCoding, unitCoding);
+
+        await FhirApi({ url: `/Immunization/${id}`, method: "PUT", data: JSON.stringify(immmunizationDetails) });
+
+        res.json({ status: "success", immunizationId: id });
         
     } catch (err) {
         res.json({ err, status: "error" });
