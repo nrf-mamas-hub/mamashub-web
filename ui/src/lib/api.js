@@ -89,3 +89,36 @@ export const createAppointment = async (appointmentDetails) => {
         return null
     }
 }
+
+export const createImmunization = async (immunizationDetails) => {
+    
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/immunization`,
+            method: "POST",
+            data: JSON.stringify({
+                patientId: immunizationDetails.patientId,
+                encounterId: immunizationDetails.encounterId,
+                practitionerId: immunizationDetails.practitionerId,
+                manufacturerId:immunizationDetails.manufacturerId,
+                vaccine: {
+                    name: immunizationDetails.name,
+                    immunizationDate: immunizationDetails.immunizationDate,
+                    lotNumber: immunizationDetails.lotNumber,
+                    expiryDate: immunizationDetails.expiryDate,
+                    site: immunizationDetails.site,
+                    route: immunizationDetails.route,
+                    dosage: immunizationDetails.dosage,
+                    additionalComments: immunizationDetails.additionalComments,
+                    unit: immunizationDetails.unit
+                }
+            })
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null;
+    }
+}
