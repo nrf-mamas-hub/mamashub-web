@@ -80,7 +80,17 @@ export const createAppointment = async (appointmentDetails) => {
         let res = await (await FhirApi({
             url: `/crud/appointment`,
             method: "POST",
-            data: JSON.stringify(appointmentDetails)
+            data: JSON.stringify({
+                serviceCategory: appointmentDetails.serviceCategory, //check utils file to see types of service categories
+                reason: appointmentDetails.reason,                   //also check same file for this 
+                description: appointmentDetails.description, 
+                nextVisit: appointmentDetails.nextVisit,
+                note: appointmentDetails.note, //include it in your object if form contains a remarks/notes/clinical notes field pertaining to next visits
+                patientId: appointmentDetails.patientId,
+                patientName: appointmentDetails.patientName,
+                practitionerId: appointmentDetails.practitionerId,
+                practitionerName: appointmentDetails.practitionerName
+            })
         })).data;
 
         return res;
