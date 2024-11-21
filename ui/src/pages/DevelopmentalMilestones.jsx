@@ -1,6 +1,5 @@
 import {
     Container,
-    TextField,
     Stack,
     Button,
     Grid,
@@ -13,8 +12,6 @@ import {
   } from "@mui/material";
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
-  import Layout from "../components/Layout";
-  import { getCookie } from "../lib/cookie";
   import Tab from "@mui/material/Tab";
   import TabContext from "@mui/lab/TabContext";
   import TabList from "@mui/lab/TabList";
@@ -40,7 +37,6 @@ import {
     let [observations, setObservations] = useState([]);
     let isMobile = useMediaQuery("(max-width:600px)");
     const [newVisit, setNewVisit] = useState(false);
-    let [developmentalMilestones, setDevelopmentalMilestones] = useState({});
     let [DevelopmentalMilestonesEncounters, setDevelopmentalMilestonesEncounters] = useState(
       []
     );
@@ -90,7 +86,7 @@ import {
       return;
     }
   
-    const handleChange = (event, newValue) => {
+    const handleChange = (newValue) => {
       setValue(newValue);
     };
   
@@ -184,7 +180,6 @@ import {
   
         if (res.status === "success") {
           prompt("Developmental Miestones saved successfully");
-          // setValue('2')
           navigate(`/patients/${patient}`);
           await getDevelopmentalMilestonesEncounters(patient);
           setNewVisit(false);
@@ -220,7 +215,6 @@ import {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              // onClose={""}
               message={message}
               key={"loginAlert"}
             />
@@ -394,7 +388,6 @@ import {
                                   </>
                                 );
                               })}
-                            {/* <br /> */}
                             <p></p>
                           </Grid>
                         </>
