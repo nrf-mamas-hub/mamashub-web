@@ -28,6 +28,7 @@ import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
 import FamilyPlanning from './pages/FamilyPlanning';
+import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 
 
 const appRoutes = [
@@ -154,6 +155,10 @@ const appRoutes = [
   {
     path: '/family-planning',
     element: FamilyPlanning,
+  },
+  {
+    path: '/developmental-milestones',
+    element: DevelopmentalMilestones,
   }
 ];
 
