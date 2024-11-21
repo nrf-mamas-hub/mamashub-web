@@ -1,6 +1,7 @@
 import {
     Container,
     Button,
+    Stack,
     Grid,
     Snackbar,
     Typography,
@@ -38,7 +39,7 @@ import {
     let isMobile = useMediaQuery("(max-width:600px)");
     const [newVisit, setNewVisit] = useState(false);
     
-    let [diphtheriaVaccinationEncounters, setdiphtheriaVaccinationEncounters] = useState(
+    let [diphtheriaVaccinationEncounters, setDiphtheriaVaccinationEncounters] = useState(
       []
     );
     const handleClose = () => setOpenModal(false);
@@ -126,7 +127,7 @@ import {
       let visit = window.localStorage.getItem("currentPatient") ?? null;
       visit = JSON.parse(visit) ?? null;
       if (visit) {
-        getdiphtheriaVaccinationEncounters(visit.id);
+        getDiphtheriaVaccinationEncounters(visit.id);
       }
     }, []);
   
@@ -142,7 +143,7 @@ import {
       return;
     };
   
-    let getdiphtheriaVaccinationEncounters = async (patientId) => {
+    let getDiphtheriaVaccinationEncounters = async (patientId) => {
       setLoading(true);
       let encounters = await (
         await FhirApi({
@@ -150,7 +151,7 @@ import {
         })
       ).data;
       console.log(encounters);
-      setdiphtheriaVaccinationEncounters(encounters.encounters);
+      setDiphtheriaVaccinationEncounters(encounters.encounters);
       setLoading(false);
       return;
     };
@@ -185,7 +186,7 @@ import {
           unit:'mls'
         }
         let immunization=await createImmunization(immunizationDetails)
-        console.log(immunization)
+        
 
         let appointmentDetails={
           serviceCategory:1,
@@ -201,25 +202,25 @@ import {
         let appointment=await  diphtheriaVaccinationEncounters.length < 2 && createAppointment(appointmentDetails)
 
   
-        //Create and Post Observations
-        // let res = await (
-        //   await fetch(`${apiHost}/crud/observations`, {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       patientId: patient,
-        //       encounterId: encounter.id,
-        //       // observations: values.ret,
-        //     }),
-        //     headers: { "Content-Type": "application/json" },
-        //   })
-        // ).json();
-        console.log(immunization)
+        // Create and Post Observations
+        let res = await (
+          await fetch(`${apiHost}/crud/observations`, {
+            method: "POST",
+            body: JSON.stringify({
+              patientId: patient,
+              encounterId: encounter.id,
+              // observations: values.ret,
+            }),
+            headers: { "Content-Type": "application/json" },
+          })
+        ).json();
+        
   
         if (immunization.status  === "success" && (diphtheriaVaccinationEncounters.length < 2 && appointment.status === "success")) {
           prompt("Diphtheria vaccination  saved successfully");
           // setValue('2')
           navigate(`/patients/${patient}`);
-          await getdiphtheriaVaccinationEncounters(patient);
+          await getDiphtheriaVaccinationEncounters(patient);
           setNewVisit(false);
           return;
         } else {
