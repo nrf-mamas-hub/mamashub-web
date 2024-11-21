@@ -12,21 +12,13 @@ import {
   } from "@mui/material";
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
-  import Layout from "../components/Layout";
-  import { getCookie } from "../lib/cookie";
   import Tab from "@mui/material/Tab";
   import TabContext from "@mui/lab/TabContext";
   import TabList from "@mui/lab/TabList";
   import TabPanel from "@mui/lab/TabPanel";
   import { Box } from "@mui/material";
-  import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-  import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
   import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
   import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-  import Radio from "@mui/material/Radio";
-  import RadioGroup from "@mui/material/RadioGroup";
-  import FormControlLabel from "@mui/material/FormControlLabel";
-  import FormLabel from "@mui/material/FormLabel";
   import CurrentPatient from "../components/CurrentPatient";
   import { apiHost, createEncounter, FhirApi } from "../lib/api";
   import { useFormik } from "formik";
@@ -228,7 +220,6 @@ import {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              // onClose={""}
               message={message}
               key={"loginAlert"}
             />
@@ -256,7 +247,6 @@ import {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    {/* <p></p> */}
                     {!newVisit && (
                     <Grid container spacing={1} padding=".5em">
                       {FamilyPlanningEncounters.length > 0 &&
@@ -398,7 +388,6 @@ import {
                                   </>
                                 );
                               })}
-                            {/* <br /> */}
                             <p></p>
                           </Grid>
                         </>
