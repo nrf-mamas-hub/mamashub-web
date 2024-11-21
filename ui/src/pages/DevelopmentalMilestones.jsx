@@ -152,7 +152,6 @@ import {
       return;
     };
     let saveDevelopmentalMilestones = async (values) => {
-      //get current patient
       if (!visit) {
         prompt(
           "No patient visit not been initiated. To start a visit, Select a patient in the Patient's list"
