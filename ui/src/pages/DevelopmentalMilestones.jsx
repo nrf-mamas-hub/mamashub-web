@@ -37,7 +37,7 @@ export default function DevelopmentalMilestones() {
   let [observations, setObservations] = useState([]);
   let isMobile = useMediaQuery("(max-width:600px)");
   const [newVisit, setNewVisit] = useState(false);
-  let [DevelopmentalMilestonesEncounters, setDevelopmentalMilestonesEncounters] = useState(
+  let [developmentalMilestonesEncounters, setDevelopmentalMilestonesEncounters] = useState(
     []
   );
   const handleClose = () => setOpenModal(false);
@@ -48,7 +48,7 @@ export default function DevelopmentalMilestones() {
   const [inputData, setInputData] = useState({});
   const [preview, setPreview] = useState(false);
 
-  const fieldValues = Object.values(getSections(developmentalMilestonesFields, DevelopmentalMilestonesEncounters.length, DevelopmentalMilestonesEncounters.length+1)).flat();
+  const fieldValues = Object.values(getSections(developmentalMilestonesFields, developmentalMilestonesEncounters.length, developmentalMilestonesEncounters.length+1)).flat();
   const validationFields = fieldValues
     .filter((item) => item.validate)
     .map((item) => ({
@@ -221,7 +221,7 @@ export default function DevelopmentalMilestones() {
           {preview ? (
             <Preview
               title="Developmental Milestones Preview"
-              format={getSections(developmentalMilestonesFields, DevelopmentalMilestonesEncounters.length, DevelopmentalMilestonesEncounters.length+1)}
+              format={getSections(developmentalMilestonesFields, developmentalMilestonesEncounters.length, developmentalMilestonesEncounters.length+1)}
               data={{ ...inputData }}
               close={() => setPreview(false)}
               submit={saveDevelopmentalMilestones}
@@ -246,8 +246,8 @@ export default function DevelopmentalMilestones() {
                   {!newVisit && (
                     
                   <Grid container spacing={1} padding=".5em">
-                    {DevelopmentalMilestonesEncounters.length > 0 &&
-                      DevelopmentalMilestonesEncounters.map((x, index) => {
+                    {developmentalMilestonesEncounters.length > 0 &&
+                      developmentalMilestonesEncounters.map((x, index) => {
                         return (
                           <Grid item xs={12} md={12} lg={3}>
                             <Button
@@ -262,7 +262,7 @@ export default function DevelopmentalMilestones() {
                           </Grid>
                         );
                       })}
-                       {DevelopmentalMilestonesEncounters.length < 8 && (
+                       {developmentalMilestonesEncounters.length < 8 && (
                     <Grid
                         item
                         xs={12}
@@ -291,7 +291,7 @@ export default function DevelopmentalMilestones() {
                     
                   </Grid>)}
                   
-                  {DevelopmentalMilestonesEncounters.length < 1 && loading && (
+                  {developmentalMilestonesEncounters.length < 1 && loading && (
                     <>
                       <CircularProgress />
                     </>
@@ -300,7 +300,7 @@ export default function DevelopmentalMilestones() {
                   {newVisit &&(
                     <>
                   <FormFields
-                  formData={getSections(developmentalMilestonesFields, DevelopmentalMilestonesEncounters.length, DevelopmentalMilestonesEncounters.length+1)}
+                  formData={getSections(developmentalMilestonesFields, developmentalMilestonesEncounters.length, developmentalMilestonesEncounters.length+1)}
                   formik={formik}
                 />
                   
