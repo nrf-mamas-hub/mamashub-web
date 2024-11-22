@@ -29,6 +29,7 @@ import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
 import FamilyPlanning from './pages/FamilyPlanning';
 import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
+import DiphtheriaVaccination from './pages/Diphtheria';
 
 
 const appRoutes = [
@@ -159,6 +160,10 @@ const appRoutes = [
   {
     path: '/developmental-milestones',
     element: DevelopmentalMilestones,
+  },
+  {
+    path: '/diptheria-vaccine',
+    element: DiphtheriaVaccination,
   }
 ];
 
