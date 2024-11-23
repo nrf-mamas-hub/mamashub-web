@@ -1,39 +1,28 @@
 import {
   Container,
-  TextField,
   Stack,
   Button,
-  Grid,
   Snackbar,
   Typography,
   Divider,
   useMediaQuery,
-  Radio,
-  RadioGroup,
-  Alert,
-  FormControlLabel,
-  FormLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
 import { getCookie } from "../lib/cookie";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { Box } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import CurrentPatient from "../components/CurrentPatient";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
 import cancerScreeningFields from "../lib/forms/cancerScreening";
-import { apiHost, createEncounter, FhirApi } from "./../lib/api";
+import { createEncounter, FhirApi } from "./../lib/api";
 import cancerScreeningValidationSchema from "../lib/forms/validations/cancerScreeningValidation";
 
 export default function CancerScreening() {
@@ -116,7 +105,7 @@ export default function CancerScreening() {
       }
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = ( newValue) => {
       setValue(newValue);
   };
 
