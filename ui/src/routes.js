@@ -27,6 +27,10 @@ import Facilites from './pages/Facilities';
 import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
+import CancerScreening from './pages/cancerScreening';
+import FamilyPlanning from './pages/FamilyPlanning';
+import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
+import DiphtheriaVaccination from './pages/Diphtheria';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
 
 const appRoutes = [
@@ -151,9 +155,25 @@ const appRoutes = [
     element: NurseDashboard,
   },
   {
+    path: '/reproductive-organs-cancer-screening',
+    element: CancerScreening,
+  },
+  {
+    path: '/family-planning',
+    element: FamilyPlanning,
+  },
+  {
+    path: '/developmental-milestones',
+    element: DevelopmentalMilestones,
+  },
+  {
+    path: '/diptheria-vaccine',
+    element: DiphtheriaVaccination,
+  },
+  {
     path: '/mother-postnatal-care',
     element: MotherPostnatalCare,
-  }
+  },
 ];
 
 export default appRoutes;
