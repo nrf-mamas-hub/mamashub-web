@@ -27,8 +27,10 @@ import Facilites from './pages/Facilities';
 import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
+import FamilyPlanning from './pages/FamilyPlanning';
+import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
+import DiphtheriaVaccination from './pages/Diphtheria';
 import OtherProblems from './pages/OtherProblems';
-
 
 const appRoutes = [
   {
@@ -152,9 +154,21 @@ const appRoutes = [
     element: NurseDashboard,
   },
   {
+    path: '/family-planning',
+    element: FamilyPlanning,
+  },
+  {
+    path: '/developmental-milestones',
+    element: DevelopmentalMilestones,
+  },
+  {
+    path: '/diptheria-vaccine',
+    element: DiphtheriaVaccination,
+  },
+  {
     path: '/other-baby-problems',
     element: OtherProblems,
-  }
+  },
 ];
 
 export default appRoutes;
