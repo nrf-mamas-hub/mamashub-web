@@ -199,7 +199,12 @@ import {
           practitionerName:names,
         }
 
-        let appointment = diphtheriaVaccinationEncounters.length < 2 && (await createAppointment(appointmentDetails))
+        if (immunization.status = "success") {          
+          diphtheriaVaccinationEncounters.length < 2 && await createAppointment(appointmentDetails);            
+        } else {
+          prompt("Could not submit diphtheria vaccination details.");
+          return;
+        }
         
         const diphtheriaObservations = {
           dateOfImmunization: values.dateGiven,
@@ -222,8 +227,8 @@ import {
           })
         ).json();
         
-        if (immunization.status  === "success" || (diphtheriaVaccinationEncounters.length < 2 && appointment.status === "success")) {
-          prompt("Diphtheria vaccination  saved successfully");
+        if (res.status === "success") {          
+          prompt("Diphtheria vaccination saved successfully");
           navigate(`/patients/${patient}`);
           await getDiphtheriaVaccinationEncounters(patient);
           setNewVisit(false);
@@ -307,7 +312,7 @@ import {
                             </Grid>
                           );
                         })}
-                         {diphtheriaVaccinationEncounters.length < 8 && (
+                         {diphtheriaVaccinationEncounters.length < 3 && (
                       <Grid
                           item
                           xs={12}
