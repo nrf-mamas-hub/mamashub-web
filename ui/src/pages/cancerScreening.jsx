@@ -60,7 +60,6 @@ export default function CancerScreening() {
       },
       validationSchema: cancerScreeningValidationSchema,
       onSubmit: (values) => {
-          //alert("clicked");
           console.log(values);
           setPreview(true);
           setInputData(values);
@@ -105,8 +104,6 @@ export default function CancerScreening() {
 
           if (res.status === "success") {
               prompt("Cancer Screening saved successfully");
-              // Navigate to patient page after successful save
-              // navigate(`/patient/${patient}`);
               return;
           } else {
               prompt(res.error);
