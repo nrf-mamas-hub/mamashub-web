@@ -185,8 +185,8 @@ import {
           dosage:0.5,
           unit:'mls'
         }
-        let immunization=await createImmunization(immunizationDetails)
-        
+
+        let immunization = await createImmunization(immunizationDetails);
 
         let appointmentDetails={
           serviceCategory:1,
@@ -199,26 +199,31 @@ import {
           practitionerName:names,
         }
 
-        let appointment=diphtheriaVaccinationEncounters.length < 2 && (await createAppointment(appointmentDetails))
+        let appointment = diphtheriaVaccinationEncounters.length < 2 && (await createAppointment(appointmentDetails))
+        
+        const diphtheriaObservations = {
+          dateOfImmunization: values.dateGiven,
+          ...(diphtheriaVaccinationEncounters.length < 2 && {
+            nextVaccination: values.dateOfNextVisit
+          })
+        };
 
-  
-        // Create and Post Observations
         let res = await (
           await fetch(`${apiHost}/crud/observations`, {
             method: "POST",
             body: JSON.stringify({
               patientId: patient,
               encounterId: encounter.id,
-              // observations: values.ret,
+              observations: {
+                ...diphtheriaObservations
+              }
             }),
             headers: { "Content-Type": "application/json" },
           })
         ).json();
         
-  
         if (immunization.status  === "success" || (diphtheriaVaccinationEncounters.length < 2 && appointment.status === "success")) {
           prompt("Diphtheria vaccination  saved successfully");
-          // setValue('2')
           navigate(`/patients/${patient}`);
           await getDiphtheriaVaccinationEncounters(patient);
           setNewVisit(false);
