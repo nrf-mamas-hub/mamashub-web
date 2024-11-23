@@ -492,7 +492,7 @@
         "cervixViaViliResultSuspiciousForCancer": "snomed:7197003:Suspicious For Cancer (VILI)",
         "breastUltrasoundTreatmentDiagnosisTreatmentIndicate": "snomed:119314000:Diagnosis Indicated By Breast Ultrasound",
         "breastCbeResult": "snomed:16983000:Breast CBE Result", 
-        "dateOfImmunization":"snomed:7241000122103:Date of immunisation",
+        "dateOfImmunization":"snomed:7241000122103:Date of vaccination",
         "nextVaccination":"snomed:789539003:Date immunization due"
     }
 }
