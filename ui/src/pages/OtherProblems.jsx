@@ -69,7 +69,6 @@ import {
         ...initialValues,
       },
       validationSchema: validationSchema,
-      // submit form
       onSubmit: (values) => {
         console.log(values);
         setPreview(true);
@@ -90,7 +89,6 @@ import {
     }
   
     let saveOtherProblems = async (values) => {
-      //get current patient
       let patient = visit.id;
       if (!patient) {
         prompt(
@@ -99,12 +97,8 @@ import {
         return;
       }
   
-      //create encounter
+      
       let encounter = await createEncounter(patient, "OTHER_PROBLEMS");
-      // console.log(encounter);
-  
-      //save observations
-      //Create and Post Observations
       let res = await (
         await FhirApi({
           url: `/crud/observations`,
@@ -116,7 +110,7 @@ import {
           })
         })
       ).data;
-      // console.log(res);
+      
   
       if (res.status === "success") {
         prompt("Other problems saved successfully");
