@@ -173,7 +173,7 @@ const appRoutes = [
   {
     path: '/mother-postnatal-care',
     element: MotherPostnatalCare,
-  },
+  }
 ];
 
 export default appRoutes;
