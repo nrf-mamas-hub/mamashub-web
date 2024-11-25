@@ -317,7 +317,6 @@
         "familyPlanningMethod": "snomed:360300001:FP method",
         "familyPlanningWeight": "snomed:360300001:FP weight",
         "familyPlanningBloodPressure": "snomed:360300001:FP blood pressure",
-        "familyPlanningRemarks": "snomed:360300001:FP remarks"
         "familyPlanningRemarks": "snomed:360300001:FP remarks",
         "cervixHpvScreeningDate": "snomed:360300001:Cervix HPV Screening Date",
         "cervixHpvTest": "snomed:360300001:Cervix HPV Test",
