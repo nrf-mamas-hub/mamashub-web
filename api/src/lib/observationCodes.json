@@ -482,7 +482,6 @@
         "jumpsOrDressesThemselvesAgeAchieved": "snomed:360300001:Jumps or Dresses Themselves Age Achieved",
         "jumpsOrDressesThemselvesMilestoneAchieved": "snomed:360300001:Jumps or Dresses Themselves Milestone Achieved",
         "breastFeeding": "snomed:360300001:Breastfeeding",
-        "otherFeedsBelowSixMonths": "snomed:360300001:Other Feeds Below Six Months"
         "otherFeedsBelowSixMonths": "snomed:360300001:Other Feeds Below Six Months", 
         "reasonsForSpecialCare": "snomed:360300001:Reasons For Special Care",
         "birthLessThanTwoYearsAfterLastBirth": "snomed:360300001:Birth Less Than Two Years After Last Birth",
