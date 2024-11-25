@@ -1,0 +1,33 @@
+{
+    "medicalCodes":{
+        "CHX":"snomed:373568007:Chlorhexidine",
+        "vitK":"snomed:66656000:Vitamin K1",
+        "teo":"snomed:1201750003:Tetracycline hydrochloride 10 mg/g eye ointment",
+        "vitaminA":"snomed:438501000124103:Vitamin A supplement",
+        "micronutrientPowders":"ciel:165417:Micronutrient powder",
+        "albendazole200":"snomed:377131004:Albendazole 200 mg oral tablet",
+        "albendazole400":"snomed:1193657004:Albendazole 400 mg chewable tablet",
+        "bcg":"hl7:19:BCG",
+        "polio":"urn:OPV:Polio",
+        "ipv":"hl7:10:IPV",
+        "diptheria":"hl7:50:DTaP-Hib",
+        "pneumococcal":"hl7:133:Pneumococcal conjugate PCV 13",
+        "rotaVirus":"hl7:119:rotavirus, monovalent",
+        "measlesRubella":"hl7:04:M/R",
+        "yellowFever":"hl7:37:yellow fever",
+        "leftUpperForeArm":"hl7:LUFA:left upper forearm",
+        "mouth":"snomed:74262004:Oral cavity",
+        "rightThigh":"hl7:RT:right thigh",
+        "leftThigh":"hl7:LT:left thigh",
+        "rightUpperArm":"hl7:RUA:right upper arm",
+        "leftUpperDeltoid":"hl7:LUA:left upper arm",
+        "injectionIntradermal":"hl7:IDINJ:Injection, intradermal",
+        "oralSwallow":"hl7:PO:Swallow, oral",
+        "injectionIntramuscular":"hl7:IM:Injection, intramuscular",
+        "injectionSubcutaneous":"hl7:SQ:Injection, subcutaneous",
+        "mls":"hl7:mL:milliliter",
+        "ml":"hl7:mL:milliliter",
+        "drop":"hl7:[drp]:drop",
+        "drops":"hl7:[drp]:drop"
+    }
+}
