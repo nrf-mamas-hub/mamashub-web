@@ -1,30 +1,19 @@
 import {
   Container,
-  TextField,
   Stack,
   Button,
-  Grid,
   Snackbar,
   Typography,
   Divider,
   useMediaQuery,
-  Radio,
-  RadioGroup,
-  Alert,
-  FormControlLabel,
-  FormLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
-import { getCookie } from "../lib/cookie";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { Box } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import CurrentPatient from "../components/CurrentPatient";
@@ -33,7 +22,7 @@ import * as yup from "yup";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
 import broadClinicalReviewFields from "../lib/forms/broadClinicalReview";
-import { apiHost, createEncounter, FhirApi } from "../lib/api";
+import { createEncounter, FhirApi } from "../lib/api";
 
 export default function BroadClinicalReview() {
   let navigate = useNavigate();
@@ -72,7 +61,6 @@ export default function BroadClinicalReview() {
       ...initialValues,
     },
     validationSchema: validationSchema,
-    // submit form
     onSubmit: (values) => {
       console.log(values);
       setPreview(true);
@@ -93,7 +81,6 @@ export default function BroadClinicalReview() {
   }
 
   let saveBroadClinicalReview = async (values) => {
-    //get current patient
     let patient = visit.id;
     if (!patient) {
       prompt(
@@ -102,12 +89,8 @@ export default function BroadClinicalReview() {
       return;
     }
 
-    //create encounter
     let encounter = await createEncounter(patient, "BROAD_CLINICAL_REVIEW");
-    // console.log(encounter);
 
-    //save observations
-    //Create and Post Observations
     let res = await (
       await FhirApi({
         url: `/crud/observations`,
@@ -119,10 +102,10 @@ export default function BroadClinicalReview() {
         })
       })
     ).data;
-    // console.log(res);
 
     if (res.status === "success") {
       prompt("Broad Clinical Review saved successfully");
+      navigate("/patients");
       return;
     } else {
       prompt(res.error);
@@ -149,7 +132,6 @@ export default function BroadClinicalReview() {
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            // onClose={""}
             message={message}
             key={"loginAlert"}
           />
@@ -175,8 +157,6 @@ export default function BroadClinicalReview() {
                     <Tab label="Broad clinical review at first contact below 6 months" value="1" />
                   </TabList>
                 </Box>
-
-                {/* Preventive Services  */}
 
                 <TabPanel value="1">
                   <FormFields formData={broadClinicalReviewFields} formik={formik} />
