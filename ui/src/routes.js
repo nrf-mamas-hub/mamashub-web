@@ -31,6 +31,7 @@ import CancerScreening from './pages/cancerScreening';
 import FamilyPlanning from './pages/FamilyPlanning';
 import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 import DiphtheriaVaccination from './pages/Diphtheria';
+import OtherProblems from './pages/OtherProblems';
 
 const appRoutes = [
   {
@@ -168,7 +169,11 @@ const appRoutes = [
   {
     path: '/diptheria-vaccine',
     element: DiphtheriaVaccination,
-  }
+  },
+  {
+    path: '/other-baby-problems',
+    element: OtherProblems,
+  },
 ];
 
 export default appRoutes;
