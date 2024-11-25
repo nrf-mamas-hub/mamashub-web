@@ -350,8 +350,25 @@ export default function HeaderDrawer({ children }) {
           icon: <i className="fa-solid fa-eye"></i>,
           path: "/identification-of-early-eye-problems",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
-        }
-
+        },
+        {
+          name: "Vitamin A Supplementation (VAS)",
+          icon: <i className="fa-solid fa-pills"></i>,
+          path: "/vas",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Micronutrient Powders (MNPs)",
+          icon: <i className="fa-solid fa-prescription-bottle-medical"></i>,              
+          path: "/micronutrient-powders",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"]
+        },
+        {
+          name: "Hopital Admissions",
+          icon: <i className="fa-solid fa-bed"></i>,              
+          path: "/hospital-admissions",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"]
+        },
       ],
     },
     {
