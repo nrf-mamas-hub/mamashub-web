@@ -105,7 +105,7 @@ export default function BroadClinicalReview() {
 
     if (res.status === "success") {
       prompt("Broad Clinical Review saved successfully");
-      navigate("/patients");
+      navigate(`/patients/${patient}`);
       return;
     } else {
       prompt(res.error);
@@ -113,9 +113,10 @@ export default function BroadClinicalReview() {
     }
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
+  
   useEffect(() => {
     let visit = window.localStorage.getItem("currentPatient");
     if (!visit) {
