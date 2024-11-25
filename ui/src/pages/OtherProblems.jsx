@@ -100,7 +100,7 @@ import {
       
   
       if (res.status === "success") {
-        prompt("Other problems saved successfully");
+        prompt("Other baby problems saved successfully");
         return;
       } else {
         prompt(res.error);
@@ -108,7 +108,7 @@ import {
       }
     };
   
-    const handleChange = (event, newValue) => {
+    const handleChange = (newValue) => {
       setValue(newValue);
     };
     useEffect(() => {
@@ -127,14 +127,13 @@ import {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              // onClose={""}
               message={message}
               key={"loginAlert"}
             />
             {visit && <CurrentPatient data={visit} />}
             {preview ? (
               <Preview
-                title="Other problems Preview"
+                title="Other baby problems Preview"
                 format={otherproblemsFields}
                 data={{ ...inputData }}
                 close={() => setPreview(false)}
@@ -150,11 +149,11 @@ import {
                       variant="scrollable"
                       scrollButtons="auto"
                     >
-                      <Tab label="Other problems" value="1" />
+                      <Tab label="Other baby problems" value="1" />
                     </TabList>
                   </Box>
   
-                  {/* Preventive Services  */}
+                
   
                   <TabPanel value="1">
                     <FormFields formData={otherproblemsFields} formik={formik} />
