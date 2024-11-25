@@ -32,6 +32,7 @@ import FamilyPlanning from './pages/FamilyPlanning';
 import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 import DiphtheriaVaccination from './pages/Diphtheria';
 import OtherProblems from './pages/OtherProblems';
+import BroadClinicalReview from  './pages/BroadClinicalReview';
 
 const appRoutes = [
   {
@@ -154,7 +155,7 @@ const appRoutes = [
     path: '/nurse-dashboard',
     element: NurseDashboard,
   },
-  {
+  {  
     path: '/reproductive-organs-cancer-screening',
     element: CancerScreening,
   },
@@ -173,6 +174,10 @@ const appRoutes = [
   {
     path: '/other-baby-problems',
     element: OtherProblems,
+  },
+  {
+    path: '/broad-clinical-review',
+    element: BroadClinicalReview,
   },
 ];
 
