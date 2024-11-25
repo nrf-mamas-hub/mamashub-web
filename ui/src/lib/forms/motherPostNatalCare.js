@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 const MotherPostNatalCare = {
     'Visit details': [
-        {
+      {
         name: 'timingOfVisit',
         label: 'Timing of Visit',
         type: 'select',
@@ -17,14 +17,13 @@ const MotherPostNatalCare = {
         validate: yup.string().required('Timing of visit required'),
         },
         {
-        name: 'dateOfVisit',
-        label: 'Date/visit',
-        type: 'date',
-        required: true,
-        width: { xs: 12, sm: 12, md: 12, lg: 4 },
-        validate: yup.date().required('Date of visit is required'),
-      },
-     
+          name: 'dateOfVisit',
+          label: 'Date/visit',
+          type: 'date',
+          required: true,
+          width: { xs: 12, sm: 12, md: 12, lg: 4 },
+          validate: yup.date().required('Date of visit is required'),
+        },  
     ],
     'Blood pressure': [
       {
@@ -143,8 +142,8 @@ const MotherPostNatalCare = {
         required: true,
         options: [
           { value: 'Not tested', label: 'Not tested' },
-          { value: 'Tested Negative', label: 'Tested Negative' },
-          { value: 'Reactive', label: 'Reactive (HAART started)' },
+          { value: 'Negative', label: 'Negative' },
+          { value: 'Reactive', label: 'Reactive' },
         ],
         width: { xs: 12, sm: 12, md: 12, lg: 10 },
         validate: yup.string().required('HIV status is required'),
