@@ -33,6 +33,7 @@ import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 import DiphtheriaVaccination from './pages/Diphtheria';
 import OtherProblems from './pages/OtherProblems';
 import BroadClinicalReview from  './pages/BroadClinicalReview';
+import MotherPostnatalCare from './pages/motherPostNatalCare';
 
 const appRoutes = [
   {
@@ -179,6 +180,10 @@ const appRoutes = [
     path: '/broad-clinical-review',
     element: BroadClinicalReview,
   },
+  {
+    path: '/mother-postnatal-care',
+    element: MotherPostnatalCare,
+  }
 ];
 
 export default appRoutes;
