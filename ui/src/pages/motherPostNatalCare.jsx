@@ -91,7 +91,7 @@ export default function MotherPostnatalCare() {
         let visit = window.localStorage.getItem("currentPatient");
         if (!visit) {
         setMessage(
-            "No patient visit not been initiated. To start a visit, Select a patient in the Patients list"
+            "No patient visit has been initiated. To start a visit, Select a patient in the Patients list"
         );
         setOpen(true);
         setTimeout(() => {
@@ -103,25 +103,11 @@ export default function MotherPostnatalCare() {
         return;
     }, []);  
 
-    useEffect(() => {
-        let visit = window.localStorage.getItem("currentPatient");
-        if (!visit) {
-          prompt(
-            "No patient visit has been initiated. To start a visit, Select a patient in the Patients list"
-          );
-          return;
-        }
-        setVisit(JSON.parse(visit));
-        return;
-      }, []);
-    
       useEffect(() => {
-        let visit = window.localStorage.getItem("currentPatient") ?? null;
-        visit = JSON.parse(visit) ?? null;
         if (visit) {
             getMotherPostNatalCareEncounters(visit.id);
         }
-      }, []);
+      }, [visit]);
     
       let getEncounterObservations = async (encounter) => {
         setObservations([]);
