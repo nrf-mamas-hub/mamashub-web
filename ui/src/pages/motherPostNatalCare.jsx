@@ -160,7 +160,6 @@ export default function MotherPostnatalCare() {
             return;
           }
         } catch (error) {
-          console.error(error);
           prompt(JSON.stringify(error));
           return;
         }
