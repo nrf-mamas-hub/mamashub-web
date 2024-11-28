@@ -30,7 +30,6 @@ import {
   import postnatalCareFields from "../lib/forms/motherPostNatalCare";
 
 export default function MotherPostnatalCare() {
-    let [patient, setPatient] = useState({});
     let [visit, setVisit] = useState(null);
     let [open, setOpen] = useState(false);
     let [loading, setLoading] = useState(false);
@@ -38,7 +37,6 @@ export default function MotherPostnatalCare() {
     let [observations, setObservations] = useState([]);
     let isMobile = useMediaQuery("(max-width:600px)");
     const [newVisit, setNewVisit] = useState(false);
-    let [motherPostNatalCare, setmotherPostNatalCare] = useState({});
     let [motherPostNatalCareEncounters, setmotherPostNatalCareEncounters] = useState(
         []
     );
@@ -85,7 +83,7 @@ export default function MotherPostnatalCare() {
         setTimeout(() => setOpen(false), 4000);
         return;
     }
-    const handleChange = (event, newValue) => setValue(newValue);
+    const handleChange = (newValue) => setValue(newValue);
     
     useEffect(() => {
         let visit = window.localStorage.getItem("currentPatient");
@@ -217,7 +215,6 @@ export default function MotherPostnatalCare() {
                       </TabList>
                     </Box>
                     <TabPanel value="1">
-                      {/* <p></p> */}
                       {!newVisit && (
                         <Grid container spacing={1} padding=".5em">
                           {motherPostNatalCareEncounters.length > 0 &&
@@ -360,8 +357,6 @@ export default function MotherPostnatalCare() {
                                   borderRadius: "10px",
                                 }}
                               >
-                                {/* <Typography sx={{ fontWeight: "bold" }} variant="p">Time: {new Date(observation.resource.meta.lastUpdated).toUTCString()}</Typography><br /> */}
-                                {/* <Typography variant="p">Observation Code: {JSON.stringify(observation.resource.code.coding)}</Typography> */}
                                 {observation.resource.code.coding &&
                                   observation.resource.code.coding.map(
                                     (entry, index) => {
@@ -379,7 +374,6 @@ export default function MotherPostnatalCare() {
                                                   .valueDateTime ??
                                                 "-"}
                                           </Typography>
-                                          {/* <br /> */}
                                         </React.Fragment>
                                       );
                                     }
