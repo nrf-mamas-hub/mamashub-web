@@ -1064,6 +1064,7 @@ export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any
     })
   }
 }
+
 export const MedicationRequest = (medication: any, medicationCoding: any, siteCoding: any, routeCoding: any, methodCoding: any, unitCoding: any) => {  
 
   const categoryCoding = () => {
