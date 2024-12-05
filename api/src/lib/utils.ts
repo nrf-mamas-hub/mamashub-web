@@ -127,22 +127,18 @@ export const parseFhirPatient = (patient: any) => {
   if (nextOfKinRelationship) {
     return {
       ...standardPatientInfo,
-      idNumber: _ids.NATIONAL_ID?.value || "",    
+      idNumber: _ids.NATIONAL_ID?.value || "",
       pncNumber: _ids.PNC_NUMBER?.value || "",
-      phone: patient.telecom[0].value,    
+      phone: patient.telecom[0].value,
       nextOfKinRelationship: nextOfKinRelationship,
       nextOfKinName: patient.contact[0].name.family,
       nextOfKinPhone: patient.contact[0].telecom[0].value,
     };
   } else {
     return {
-      ...standardPatientInfo, //more properties to be added based on the primary unique identifier for children, same as ANC/PNC number for mothers      
+      ...standardPatientInfo, //more properties to be added based on the primary unique identifier for children, same as ANC/PNC number for mothers
       motherName: patient.contact[0].name.family,
       motherPhone: patient.contact[0].telecom[0].value,
-      fatherName: patient.contact[1].name.family,
-      fatherPhone: patient.contact[1].telecom[0].value,
-      guardianName: patient.contact[2].name.family,
-      guardianPhone: patient.contact[2].telecom[0].value,
     };
   }
 };
@@ -196,7 +192,8 @@ export const createEncounter = (
   patientId: string,
   encounterId: string,
   encounterType: number = 2,
-  encounterCode: string | null = null
+  encounterCode: string | null = null,
+  locationId?: string
 ) => {
   if (encounterType > 3 || encounterType < 1) {
     console.error("Encounter type is either 1, 2 or 3");
@@ -255,6 +252,15 @@ export const createEncounter = (
         ],
       },
     ],
+    ...(locationId && {
+      location: [
+        {
+          location: {
+            reference: `Location/${locationId}`,
+          },
+        },
+      ],
+    }),
   };
 };
 
@@ -582,16 +588,31 @@ export let Patient = (patient: any) => {
       ],
     },
     identifier: [
-      { value: patient.ancCode, id: "ANC_NUMBER" },  /*the anc number is supposed to be conditionally added for mothers only. Only left since it is required */
-      { value: patient.kmhflCode, id: "KMHFL_CODE" }, /* on the frontend when displaying list of patients, for now. */
-      ...(patient.idNumber ? [      
-        { value: patient.idNumber, id: "NATIONAL_ID" },              
-      ] : [
-          { value: patient.birthNotificationNumber, id: "BIRTH_NOTIFICATION_NUMBER" },          
-          { value: patient.iprNumber, id: "IMMUNIZATION_PERMANENT_REGISTER_NUMBER" },
-          { value: patient.cwcNumber, id: "CHILD_WELFARE_CLINIC_NUMBER" },
-          { value: patient.birthCertificateNumber, id: "BIRTH_CERTIFICATE_NUMBER" }        
-      ])
+      {
+        value: patient.ancCode,
+        id: "ANC_NUMBER",
+      } /*the anc number is supposed to be conditionally added for mothers only. Only left since it is required */,
+      {
+        value: patient.kmhflCode,
+        id: "KMHFL_CODE",
+      } /* on the frontend when displaying list of patients, for now. */,
+      ...(patient.idNumber
+        ? [{ value: patient.idNumber, id: "NATIONAL_ID" }]
+        : [
+            {
+              value: patient.birthNotificationNumber,
+              id: "BIRTH_NOTIFICATION_NUMBER",
+            },
+            {
+              value: patient.iprNumber,
+              id: "IMMUNIZATION_PERMANENT_REGISTER_NUMBER",
+            },
+            { value: patient.cwcNumber, id: "CHILD_WELFARE_CLINIC_NUMBER" },
+            {
+              value: patient.birthCertificateNumber,
+              id: "BIRTH_CERTIFICATE_NUMBER",
+            },
+          ]),
     ],
     name: [{ family: patient.names, given: [patient.names] }],
     telecom: [{ value: patient.phone, system: "phone" }],
@@ -647,52 +668,54 @@ export let Patient = (patient: any) => {
               },
             ],
           },
+        ],
+  };
+};
+
+export let RelatedPerson = (relatedPerson: any) => {
+  return {
+    resourceType: "RelatedPerson",
+    ...(relatedPerson.id && { id: relatedPerson.id }),
+    ...(!relatedPerson.id && { id: uuidv4() }),
+    active: true,
+    patient: {
+      reference: `Patient/${relatedPerson.patientId}`,
+    },
+    relationship: [
+      {
+        coding: [
           {
-            telecom: [
-              {
-                value: patient.fatherPhone,
-                system: "phone",
-              },
-            ],
-            name: {
-              family: patient.fatherName,
-            },
-            relationship: [
-              {
-                coding: [
-                  {
-                    system: "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-                    code: "FTH",
-                    display: "Father",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            telecom: [
-              {
-                value: patient.guardianPhone,
-                system: "phone",
-              },
-            ],
-            name: {
-              family: patient.guardianName,
-            },
-            relationship: [
-              {
-                coding: [
-                  {
-                    system:
-                      "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
-                    code: "GUARD",
-                    display: "Guardian",
-                  },
-                ],
-              },
-            ],
+            system: relatedPerson.codingSystem,
+            code: relatedPerson.code,
+            display: relatedPerson.display,
           },
         ],
+      },
+    ],
+    name: [
+      {
+        family: relatedPerson.name,
+        given: [relatedPerson.name],
+      },
+    ],
+    telecom: [
+      {
+        system: "phone",
+        value: `${relatedPerson.phone}`,
+        use: "mobile",
+      },
+    ],
+  };
+};
+
+export const Location = (placeOfBirth: string, id: string) => {
+  return {
+    resourceType: "Location",
+    ...(id && { id: id }),
+    ...(!id && { id: uuidv4() }),
+    status: "active",
+    name: placeOfBirth,
+    mode: "kind",
   };
 };
 
@@ -746,3 +769,298 @@ export const Practitioner = async (id: string) => {
     return null;
   }
 };
+
+export const Appointment = (appointment: any) => {
+  if (appointment.serviceCategory < 1 || appointment.serviceCategory > 5) {
+    console.error("Service categories should range from 1 to 4");
+    return;
+  }
+
+  if (appointment.reason < 1 || appointment.reason > 8) {
+    console.error("Appointment reasons should range from 1 to 8");
+    return;
+  }
+
+  // these are the most common service categories I have identified for appointments in PNC
+  // advise if more or less are needed [@moturiphil, @bushisky]
+  // 1- Child Development
+  // 2- Community Healthcare
+  // 3- Counselling
+  // 4- General Practice
+  // 5- Physical Activities
+
+  const serviceCategoryCoding = () => {
+    switch (appointment.serviceCategory) {
+      case 1:
+        return {
+          code: "5",
+          display: "Child Development",
+        };
+
+      case 2:
+        return {
+          code: "7",
+          display: "Community Health Care",
+        };
+
+      case 3:
+        return {
+          code: "8",
+          display: "Counselling",
+        };
+
+      case 4:
+        return {
+          code: "17",
+          display: "General Practice",
+        };
+
+      default:
+        return {
+          code: "23",
+          display: "Physical Activity & Recreation",
+        };
+    }
+  };
+
+  // and these are the reasons I have identified as most fitting for all PNC appointments
+  const appointmentReasonCoding = () => {
+    switch (appointment.reason) {
+      case 1:
+        return {
+          code: "413744002",
+          display: " Cancer screening follow up",
+        };
+
+      case 2:
+        return {
+          code: "281010000",
+          display: "Child development checks",
+        };
+
+      case 3:
+        return {
+          code: "33879002",
+          display: "Administration of vaccine to produce active immunity",
+        };
+
+      case 4:
+        return {
+          code: "767224000",
+          display: "Administration of vitamin A",
+        };
+
+      case 5:
+        return {
+          code: "709542007",
+          display: " Administration of nutritional supplement",
+        };
+
+      case 6:
+        return {
+          code: "14369007",
+          display: "Deworming",
+        };
+
+      case 7:
+        return {
+          code: "399256002",
+          display: "Polymerase chain reaction test for HIV 1",
+        };
+
+      default:
+        return {
+          code: "409788009",
+          display: "Rapid HIV-1 antibody test",
+        };
+    }
+  };
+
+  return {
+    resourceType: "Appointment",
+    id: appointment.id || uuidv4(),
+    status: "booked",
+    class: [
+      {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            code: "AMB",
+            display: "ambulatory",
+          },
+        ],
+      },
+    ],
+    serviceCategory: [
+      {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/service-category",
+            ...{
+              ...serviceCategoryCoding(),
+            },
+          },
+        ],
+      },
+    ],
+    appointmentType: {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/v2-0276",
+          code: "FOLLOWUP",
+          display: "A follow up visit from a previous appointment",
+        },
+      ],
+    },
+    reasonCode: [
+      {
+        coding: [
+          {
+            system: "http://snomed.info/sct",
+            ...{
+              ...appointmentReasonCoding(),
+            },
+          },
+        ],
+      },
+    ],
+    description: appointment.description,
+    start: new Date(appointment.nextVisit).toISOString(),
+    end: new Date(appointment.nextVisit).toISOString(),
+    created: new Date().toISOString(),
+    ...(appointment.note && {
+      note: [
+        {
+          text: appointment.note,
+        },
+      ],
+    }),
+    subject: {
+      reference: `Patient/${appointment.patientId}`,
+    },
+    participant: [
+      {
+        actor: {
+          reference: `Patient/${appointment.patientId}`,
+          display: appointment.patientName,
+        },
+        required: "required",
+        status: "accepted",
+      },
+      {
+        type: [
+          {
+            coding: [
+              {
+                system:
+                  "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                code: "ATND",
+                display: "attender",
+              },
+            ],
+          },
+        ],
+        actor: {
+          reference: `Practitioner/${appointment.practitionerId}`,
+          display: appointment.practitionerName,
+        },
+        required: "required",
+        status: "accepted",
+      },
+    ],
+  };
+};
+
+export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any, routeCoding:any, unitCoding:any) => {
+  
+  return {
+    resourceType: "Immunization",
+    id: immunization.id || uuidv4(),
+    status: "completed",
+    vaccineCode: {
+      coding: [
+        {
+          system: vaccineCoding.system === "snomed" ? "http://snomed.info/sct" :
+            vaccineCoding.system === "hl7" ? "http://hl7.org/fhir/sid/cvx" :
+              vaccineCoding.system === "urn" ? "urn:oid:1.2.36.1.2001.1005.17" :
+                "http://41.89.93.172/fhir",
+          code: vaccineCoding.code,
+          display: vaccineCoding.display,
+        }
+      ]
+    },
+    patient: {
+      reference: `Patient/${immunization.patientId}`      
+    },
+    encounter: {
+      reference: `Encounter/${immunization.encounterId}`
+    },
+    occurrenceDateTime: new Date(immunization.immunizationDate).toISOString(),
+    recorded: new Date().toISOString(),
+    ...(immunization.manufacturerId && immunization.manufacturerId!=="" && {
+      manufacturer: {
+        reference: `Organization/${immunization.manufacturerId}`
+      }
+    }),
+    lotNumber: immunization.lotNumber,
+    expirationDate: new Date(immunization.expiryDate).toISOString().split("T")[0],
+    site: {
+      coding: [
+        {
+          system: siteCoding.system === "snomed" ? "http://snomed.info/sct" :
+            siteCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-ActSite" :
+              "http://41.89.93.172/fhir",
+          code: siteCoding.code,
+          display:siteCoding.display,
+        }
+      ]
+    },
+    route: {
+      coding: [
+        {
+          system: routeCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration" :
+            routeCoding.system === "snomed" ? "http://snomed.info/sct" :
+              "http://41.89.93.172/fhir",
+          code: routeCoding.code,
+          display: routeCoding.display
+        }
+      ]
+    },
+    doseQuantity: {
+      value: immunization.dosage,
+      unit: unitCoding.display,      
+      system: "http://unitsofmeasure.org",
+      code: unitCoding.code
+    },
+    performer: [{
+      actor: {
+        reference: `Practitioner/${immunization.practitionerId}`
+      }
+    }],
+    ...(immunization.additionalComments && immunization.additionalComments!=="" && {
+      note: [{
+        text:immunization.additionalComments
+      }]
+    }),
+    reasonCode: [{
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "127785005",
+          display: "Administration to produce immunity, either active or passive"
+        }
+      ]
+    }],
+    ...(immunization.fundingSource && {
+      fundingSource: {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+            code: immunization.fundingSourceCode,
+            display: immunization.fundingSourceDisplay
+          }
+        ]
+      }
+    })
+  }
+}
