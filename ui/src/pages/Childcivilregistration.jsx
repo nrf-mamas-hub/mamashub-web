@@ -25,7 +25,7 @@ import { createEncounter } from "../lib/api";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
 import { getSections } from "../lib/getFormSections";
-import childCivilRegistrationFormFields from "../lib/forms/Childcivilregistration";
+import childCivilRegistrationFormFields from "../lib/forms/childCivilRegistration";
 
 export default function ChildCivilRegistration({ userData }) {
   let [open, setOpen] = useState(false);
