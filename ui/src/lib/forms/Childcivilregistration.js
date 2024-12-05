@@ -39,7 +39,7 @@ const childCivilRegistrationFormFields = {
       type: 'text',
       validate: yup
       .number()
-      .typeError('Gestation must be a number') // Ensures only numbers are allowed
+      .typeError('Gestation must be a number')
       .required('Gestation At Birth is required'),
     width:  {
         xs: 12,
