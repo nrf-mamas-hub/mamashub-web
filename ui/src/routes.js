@@ -28,7 +28,6 @@ import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
 import ChildCivilRegistration from './pages/Childcivilregistration';
-import inactivatedPolioVaccine  from './pages/InactivatedPolioVaccine';
 
 const appRoutes = [
   {
@@ -154,11 +153,7 @@ const appRoutes = [
   {
     path: '/child-civil-registration',
     element: ChildCivilRegistration,
-  },
-  {
-    path: '/ipv',
-    element: inactivatedPolioVaccine,
-  },
+  }
 ];
 
 export default appRoutes
