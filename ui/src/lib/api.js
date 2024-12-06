@@ -132,3 +132,21 @@ export const createImmunization = async (immunizationDetails) => {
         return null;
     }
 }
+
+
+export const createMedicationRequest = async (medicationRequestDetails) => {    
+
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/medication-request`,
+            method: "POST",
+            data: JSON.stringify(medicationRequestDetails)
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null;
+    }
+}

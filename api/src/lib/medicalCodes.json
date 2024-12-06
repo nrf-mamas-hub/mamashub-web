@@ -28,6 +28,24 @@
         "mls":"hl7:mL:milliliter",
         "ml":"hl7:mL:milliliter",
         "drop":"hl7:[drp]:drop",
-        "drops":"hl7:[drp]:drop"
+        "drops":"hl7:[drp]:drop",
+        "entireUmbilicus":"snomed:265800007: Entire umbilicus",
+        "oralRegion":"snomed:836005:Oral region of face",
+        "conjuctiva":"snomed:1832000:Scleral conjunctiva",        
+        "topicalRoute":"snomed:6064005: Topical route",
+        "oralUse":"snomed:26643006: Oral use",
+        "ophthalmicUse":"snomed:54485002:Ophthalmic use",
+        "apply":"snomed:417924000:Apply",
+        "inject":"snomed:422145002:Inject",
+        "place":"snomed:421066005:Place",
+        "swishSwallow":"snomed:421298005:Swish and swallow",
+        "swallow":"snomed:421521009:Swallow",
+        "g":"hl7:g:gram",
+        "grams":"hl7:g:gram",
+        "mg":"hl7:mg:milligram",
+        "mgs":"hl7:mg:milligram",
+        "ug":"hl7:ug:microgram",
+        "microgram":"hl7:ug:microgram",
+        "IU":"hl7:[IU]:international unit"
     }
 }

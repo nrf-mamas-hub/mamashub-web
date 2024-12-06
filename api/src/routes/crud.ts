@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import db from '../lib/prisma';
 import {
     createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location, Appointment,
-    Immunization
+    Immunization, MedicationRequest
  } from "../lib/utils";
 import observationCodes from '../lib/observationCodes.json';
 import medicalCodesList from '../lib/medicalCodes.json';
@@ -400,36 +400,36 @@ router.post("/immunization", [requireJWTMiddleware], async (req: Request, res: R
         const { expiryDate, immunizationDate, lotNumber, dosage, additionalComments, unit } = vaccine;
     
 
-        let codings: { [key: string]: any } = {};        
+        let codings: { [key: string]: any } = {};
         
-            for (let prop of Object.keys(vaccine)) {
+        for (let prop of Object.keys(vaccine)) {
                 
-                if (prop !== "site" && prop !== "name" && prop !== "route" && prop !== "unit") {
-                    continue;
-                }
-
-                const medicalCodesKeys = vaccine[prop];
-
-                if (Object.keys(medicalCodes).indexOf(medicalCodesKeys) > -1) {
-
-                    let propWithCodingVariable = `${prop}Coding`;
-
-                    let codingData = medicalCodes[medicalCodesKeys];
-
-                    let coding = {                        
-                        system: codingData.split(":")[0], code: codingData.split(":")[1], display: codingData.split(":")[2]                        
-                    }                    
-                    
-                    codings = {
-                        ...codings,
-                        [propWithCodingVariable]: coding
-                    }
-                } else {
-                    console.log(`Error: property ${prop} not found`)
-                }
+            if (prop !== "site" && prop !== "name" && prop !== "route" && prop !== "unit") {
+                continue;
             }
 
-        let { nameCoding:vaccineCoding, siteCoding, routeCoding, unitCoding } = codings;
+            const medicalCodesKeys = vaccine[prop];
+
+            if (Object.keys(medicalCodes).indexOf(medicalCodesKeys) > -1) {
+
+                let propWithCodingVariable = `${prop}Coding`;
+
+                let codingData = medicalCodes[medicalCodesKeys];
+
+                let coding = {
+                    system: codingData.split(":")[0], code: codingData.split(":")[1], display: codingData.split(":")[2]
+                }
+                    
+                codings = {
+                    ...codings,
+                    [propWithCodingVariable]: coding
+                }
+            } else {
+                console.log(`Error: property ${prop} not found`)
+            }
+        }
+
+        let { nameCoding: vaccineCoding, siteCoding, routeCoding, unitCoding } = codings;
 
         const immunization = {
             id,
@@ -439,10 +439,10 @@ router.post("/immunization", [requireJWTMiddleware], async (req: Request, res: R
             manufacturerId,
             immunizationDate,
             lotNumber,
-            expiryDate, 
+            expiryDate,
             dosage,
             additionalComments,
-            dosageUnit: unit,            
+            dosageUnit: unit,
         }
 
         const immmunizationDetails = Immunization(immunization, vaccineCoding, siteCoding, routeCoding, unitCoding);
@@ -451,6 +451,68 @@ router.post("/immunization", [requireJWTMiddleware], async (req: Request, res: R
 
         res.json({ status: "success", immunizationId: id });
         
+    } catch (err) {
+        res.json({ err, status: "error" });
+    }
+});
+
+router.post("/medication-request", [requireJWTMiddleware], async (req: Request, res: Response) => {
+    
+    try {
+
+        let medicationRequestIds: { medication: string, status: string, medicationRequestId: string }[] = [];        
+
+        for (let medication of Object.keys(req.body)) {
+
+            let id = uuidv4();            
+
+            let administrationCodings: { [key: string]: any } = {};
+            let medicationCoding: {} = {};
+            
+            if (Object.keys(medicalCodes).indexOf(medication) > -1) {
+
+                medicationCoding = {
+                    ...medicationCoding,
+                    system: medicalCodes[medication].split(":")[0], code: medicalCodes[medication].split(":")[1], display: medicalCodes[medication].split(":")[2]
+                }                
+
+                for (let administration of Object.keys(req.body[medication])) {
+
+                    if (administration !== "site" && administration !== "method" && administration !== "route" && administration!=="unit") {
+                        continue;
+                    };
+
+                    let administrationWithCodingVariable = `${administration}Coding`;
+                    let administrationDetails = req.body[medication][administration];
+
+                    if (Object.keys(medicalCodes).indexOf(administrationDetails) > -1) {
+                        
+                        let codingData = medicalCodes[administrationDetails];
+
+                        let coding = {
+                            system: codingData.split(":")[0], code: codingData.split(":")[1], display: codingData.split(":")[2]                            
+                        }
+
+                        administrationCodings = {
+                            ...administrationCodings,
+                            [administrationWithCodingVariable]: coding,
+                        };
+                    }
+                }
+            
+            } else {
+                console.log(`Error: property ${medication} not found`);                
+            }
+
+            const { siteCoding, routeCoding, methodCoding, unitCoding } = administrationCodings;
+            const medicationRequestDetails = MedicationRequest({ id, ...req.body[medication] }, medicationCoding, siteCoding, routeCoding, methodCoding, unitCoding);    
+            
+            await FhirApi({ url: `/MedicationRequest/${id}`, method: "PUT", data: JSON.stringify(medicationRequestDetails) });              
+            
+            medicationRequestIds.push({ medication, status: "success", medicationRequestId: id });
+        }     
+        
+        res.json({ status: "success", data: medicationRequestIds });                    
     } catch (err) {
         res.json({ err, status: "error" });
     }
