@@ -150,3 +150,26 @@ export const createMedicationRequest = async (medicationRequestDetails) => {
         return null;
     }
 }
+
+export const createAllergyIntolerance = async (allergyIntoleranceDetails) => {
+    
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/allergy-intolerance`,
+            method: "POST",
+            data: JSON.stringify({
+                patientId: allergyIntoleranceDetails.patientId,
+                encounterId: allergyIntoleranceDetails.encounterId,
+                onset: allergyIntoleranceDetails.onset,
+                practitionerId: allergyIntoleranceDetails.practitionerId,
+                vaccine: allergyIntoleranceDetails.vaccine
+            })
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null;
+    }
+}
