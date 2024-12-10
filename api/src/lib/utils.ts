@@ -1206,3 +1206,74 @@ export const MedicationRequest = (medication: any, medicationCoding: any, siteCo
     }]
   }
 }
+
+export const AllergyIntolerance = (intolerance: any) => {        
+  
+  return {
+    
+    resourceType: "AllergyIntolerance",
+    id: intolerance.id || uuidv4(),
+    clinicalStatus: {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+          code: "active",
+          display: "Active"          
+        }
+      ]
+    },
+    verificationStatus: {
+      coding:
+        [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+            code: "confirmed",
+            display: "Confirmed"            
+        }
+      ]
+    },
+    type: "intolerance",
+    category: ["biologic"],
+    code: {
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "418038007",
+          display: "Propensity to adverse reactions to substance"
+        }
+      ]
+    },
+    patient: {
+      reference: `Patient/${intolerance.patientId}`
+    },
+    encounter: {
+      reference: `Encounter/${intolerance.encounterId}`
+    },
+    onsetDateTime: new Date(intolerance.onset).toISOString(),
+    recordedDate: new Date().toISOString(),
+    recorder: {
+      reference: `Practitioner/${intolerance.practitionerId}`
+    },
+    reaction: [{
+      substance: {
+        coding: [
+          {
+            system: intolerance.system,
+            code: intolerance.code,
+            display: intolerance.display
+          }
+        ]
+      },
+      manifestation: [{ //This is hardcoded since the booklet does not provide for a specific reaction manifestation. Should it be
+        coding: [       //available later on, this should be changed to dynamically code the manifestation.
+          {
+            system: "http://snomed.info/sct",
+            code: "29544009",
+            display: "Intolerance"
+          }
+        ]
+      }],
+      description: intolerance.description
+    }]
+  }
+}

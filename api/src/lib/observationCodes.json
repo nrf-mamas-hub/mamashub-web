@@ -493,6 +493,11 @@
         "breastUltrasoundTreatmentDiagnosisTreatmentIndicate": "snomed:119314000:Diagnosis Indicated By Breast Ultrasound",
         "breastCbeResult": "snomed:16983000:Breast CBE Result", 
         "dateOfImmunization":"snomed:7241000122103:Date of vaccination",
-        "nextVaccination":"snomed:789539003:Date immunization due"
+        "nextVaccination":"snomed:789539003:Date immunization due",
+        "batchNo":"snomed:213423442:Batch number",
+        "manufactureDate":"snomed:234298643:Manufacture date",
+        "expiryDate":"snomed:98757645:Expiry date",
+        "manufacturer":"snomed:7678634:Manufacturer name",
+        "intoleranceDescription":"snomed:7653753:Description"
     }
 }

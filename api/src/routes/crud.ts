@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import db from '../lib/prisma';
 import {
     createEncounter, createObservation, FhirApi, Patient, RelatedPerson, Location, Appointment,
-    Immunization, MedicationRequest
+    Immunization, MedicationRequest, AllergyIntolerance
  } from "../lib/utils";
 import observationCodes from '../lib/observationCodes.json';
 import medicalCodesList from '../lib/medicalCodes.json';
@@ -460,11 +460,11 @@ router.post("/medication-request", [requireJWTMiddleware], async (req: Request, 
     
     try {
 
-        let medicationRequestIds: { medication: string, status: string, medicationRequestId: string }[] = [];        
+        let medicationRequestIds: { medication: string, status: string, medicationRequestId: string }[] = [];
 
         for (let medication of Object.keys(req.body)) {
 
-            let id = uuidv4();            
+            let id = uuidv4();
 
             let administrationCodings: { [key: string]: any } = {};
             let medicationCoding: {} = {};
@@ -474,11 +474,11 @@ router.post("/medication-request", [requireJWTMiddleware], async (req: Request, 
                 medicationCoding = {
                     ...medicationCoding,
                     system: medicalCodes[medication].split(":")[0], code: medicalCodes[medication].split(":")[1], display: medicalCodes[medication].split(":")[2]
-                }                
+                }
 
                 for (let administration of Object.keys(req.body[medication])) {
 
-                    if (administration !== "site" && administration !== "method" && administration !== "route" && administration!=="unit") {
+                    if (administration !== "site" && administration !== "method" && administration !== "route" && administration !== "unit") {
                         continue;
                     };
 
@@ -490,7 +490,7 @@ router.post("/medication-request", [requireJWTMiddleware], async (req: Request, 
                         let codingData = medicalCodes[administrationDetails];
 
                         let coding = {
-                            system: codingData.split(":")[0], code: codingData.split(":")[1], display: codingData.split(":")[2]                            
+                            system: codingData.split(":")[0], code: codingData.split(":")[1], display: codingData.split(":")[2]
                         }
 
                         administrationCodings = {
@@ -501,21 +501,91 @@ router.post("/medication-request", [requireJWTMiddleware], async (req: Request, 
                 }
             
             } else {
-                console.log(`Error: property ${medication} not found`);                
+                console.log(`Error: property ${medication} not found`);
             }
 
             const { siteCoding, routeCoding, methodCoding, unitCoding } = administrationCodings;
-            const medicationRequestDetails = MedicationRequest({ id, ...req.body[medication] }, medicationCoding, siteCoding, routeCoding, methodCoding, unitCoding);    
+            const medicationRequestDetails = MedicationRequest({ id, ...req.body[medication] }, medicationCoding, siteCoding, routeCoding, methodCoding, unitCoding);
             
-            await FhirApi({ url: `/MedicationRequest/${id}`, method: "PUT", data: JSON.stringify(medicationRequestDetails) });              
+            await FhirApi({ url: `/MedicationRequest/${id}`, method: "PUT", data: JSON.stringify(medicationRequestDetails) });
             
             medicationRequestIds.push({ medication, status: "success", medicationRequestId: id });
-        }     
+        }
         
-        res.json({ status: "success", data: medicationRequestIds });                    
+        res.json({ status: "success", data: medicationRequestIds });
     } catch (err) {
         res.json({ err, status: "error" });
     }
-})
+});
+
+router.post("/allergy-intolerance", [requireJWTMiddleware], async (req: Request, res: Response) => {
+    
+    try {
+
+        let id = uuidv4();
+
+        const { patientId, vaccine } = req.body;
+
+        const getVaccineCoding = () => {
+
+            if (Object.keys(medicalCodes).indexOf(vaccine) > -1) {            
+                return ({ status: "success", data: medicalCodes[vaccine] });                
+            } else {
+                return ({status:"error", data:`Error: property ${vaccine} not found`});
+            }
+        }
+
+        const { status, data } = getVaccineCoding();
+
+        if (status !== "success") {
+            res.statusCode = 400;
+            res.json(data);            
+            return;
+        }
+
+        const vaccineCode = data.split(":")[1];
+
+        // retrieve last administered vaccine matching the suspected cause substance for given child
+        let lastSimilarSubstance = await (await FhirApi({ url: `/Immunization?patient=${patientId}&vaccine-code=${vaccineCode}&_sort=-_lastUpdated`, method: "GET" })).data;
+
+        let vaccineDetails: { [key: string]: any } = {}        
+
+        if (lastSimilarSubstance.total < 1) {   
+            
+            vaccineDetails = {
+                ...vaccineDetails,
+                system: data.split(":")[0] === "snomed" ? "http://snomed.info/sct" :                    
+                    data.split(":")[0] === "hl7" ? "http://hl7.org/fhir/sid/cvx" :                        
+                        data.split(":")[0] === "urn" ? "urn:oid:1.2.36.1.2001.1005.17" :                            
+                            "http://41.89.93.172/fhir",
+                code: vaccineCode,
+                display: data.split(":")[2]                
+            }
+        } else {
+            vaccineDetails = {
+                ...vaccineDetails,
+                ...lastSimilarSubstance.entry[0].resource.vaccineCode.coding[0]                
+            }
+        }
+
+        let { system, code, display } = vaccineDetails;
+
+        let allergyIntoleranceDetails = {
+            id, 
+            ...req.body,
+            system, 
+            code,
+            display,
+        }
+
+        await FhirApi({ url: `/AllergyIntolerance/${id}`, method: "PUT", data: JSON.stringify(AllergyIntolerance(allergyIntoleranceDetails)) });
+
+        res.json({ status: "success", allergyIntoleranceId: id });
+        
+    } catch (error) {
+        res.statusCode = 404;
+        res.json({ error, status: "error" });
+    }
+});
 
 export default router
