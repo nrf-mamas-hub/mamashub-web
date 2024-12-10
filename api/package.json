@@ -1,7 +1,6 @@
 {
   "name": "api",
   "version": "0.1.0",
-
   "dependencies": {
     "@js-fhir/client": "^0.2.4",
     "@prisma/client": "^4.5.0",
@@ -30,7 +29,7 @@
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
     "nodemon": "^2.0.7",
-    "prisma": "^5.17.0",
+    "prisma": "^5.21.1",
     "react-error-overlay": "6.0.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
