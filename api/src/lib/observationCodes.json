@@ -498,6 +498,9 @@
         "manufactureDate":"snomed:234298643:Manufacture date",
         "expiryDate":"snomed:98757645:Expiry date",
         "manufacturer":"snomed:7678634:Manufacturer name",
-        "intoleranceDescription":"snomed:7653753:Description"
+        "intoleranceDescription":"snomed:7653753:Description",
+        "toothObservation":"snomed:823743487: Tooth observed",
+        "ageOfBabyWhenToothSeen":"snomed:09394734: Age when tooth seen",
+        "dateToothSeen":"snomed:837467634:Date tooth seen"
     }
 }
