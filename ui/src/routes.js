@@ -33,6 +33,7 @@ import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 import DiphtheriaVaccination from './pages/Diphtheria';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
 import AEFIReportForm from './pages/AEFIReportForm';
+import RotaVirusVaccineForm from './pages/RotaVirusVaccine';
 
 const appRoutes = [
   {
@@ -178,6 +179,10 @@ const appRoutes = [
   {
     path: '/any-adverse-event',
     element: AEFIReportForm,
+  },
+  {
+    path: '/rota-virus-vaccine',
+    element: RotaVirusVaccineForm,
   }
 ];
 
