@@ -38,7 +38,7 @@ import {
     let isMobile = useMediaQuery("(max-width:600px)");
     const [newVisit, setNewVisit] = useState(false);
     let [babyTeeth,setBabyTeethRecord] = useState({});
-    let [ToothRecordEncounters, setToothRecordEncounters] = useState(
+    let [toothRecordEncounters, setToothRecordEncounters] = useState(
       []
     );
     
@@ -73,7 +73,6 @@ import {
       },
       validationSchema: validationSchema,
       onSubmit: (values) => {
-        console.log(values);
         setPreview(true);
         setInputData(values);
       },
@@ -109,24 +108,10 @@ import {
     }, []);
   
     useEffect(() => {
-      let visit = window.localStorage.getItem("currentPatient");
-      if (!visit) {
-        prompt(
-          "No patient visit not been initiated. To start a visit, Select a patient in the Patients list"
-        );
-        return;
-      }
-      setVisit(JSON.parse(visit));
-      return;
-    }, []);
-  
-    useEffect(() => {
-      let visit = window.localStorage.getItem("currentPatient") ?? null;
-      visit = JSON.parse(visit) ?? null;
       if (visit) {
         getBabyTeethEncounters(visit.id);
       }
-    }, []);
+    }, [visit]);
   
     let getEncounterObservations = async (encounter) => {
       setObservations([]);
@@ -148,7 +133,7 @@ import {
         })
       ).data;
     
-      setToothRecordEncounters(encounters.encounters);
+      setToothRecordEncounters((encounters.encounters).reverse());
       setLoading(false);
       return;
     };
@@ -178,7 +163,6 @@ import {
             headers: { "Content-Type": "application/json" },
           })
         ).json();
-        console.log(res);
   
         if (res.status === "success") {
           prompt("Record of baby's teeth development saved successfully");
@@ -247,10 +231,10 @@ import {
                   <TabPanel value="1">
                     {!newVisit && (
                     <Grid container spacing={1} padding=".5em">
-                      {ToothRecordEncounters.length > 0 &&
-                        ToothRecordEncounters.map((x, index) => {
+                      {toothRecordEncounters.length > 0 &&
+                        toothRecordEncounters.map((x, index) => {
                           return (
-                            <Grid item xs={12} md={12} lg={3}>
+                            <Grid key={index} item xs={12} md={12} lg={3}>                              
                               <Button
                                 variant="contained"
                                 onClick={(e) => {
@@ -263,7 +247,7 @@ import {
                             </Grid>
                           );
                         })}
-                         {ToothRecordEncounters.length < 8 && (
+                         {toothRecordEncounters.length < 8 && (
                       <Grid
                           item
                           xs={12}
@@ -277,7 +261,7 @@ import {
                         >
                           <Button
                             variant="contained"
-                            onClick={(e) => {
+                            onClick={() => {
                               setNewVisit(true);
                             }}
                             sx={{
@@ -290,11 +274,9 @@ import {
                       )}
                     </Grid>)}
                    
-                    {ToothRecordEncounters.length < 1 && loading && (
-                    
-                      <>
-                    {console.log( "Baby teethlength" ,ToothRecordEncounters.length)}
-                        <CircularProgress />
+                    {toothRecordEncounters.length < 1 && loading && (
+                      <>                      
+                        <CircularProgress />                          
                       </>
                     )}
                     <Divider />
@@ -304,7 +286,7 @@ import {
                         <FormFields 
                         formData={getSections(babyTeeth, )} 
                         formik={formik} 
-                        encounters={ToothRecordEncounters}
+                        encounters={toothRecordEncounters}
                         getEncounterObservations={getEncounterObservations}
                         /> 
                         <p></p>
@@ -365,15 +347,15 @@ import {
                 )}
                 <Grid container columnSpacing={1}>
                   {observations &&
-                    observations.map((observation) => {
+                    observations.map((observation, index) => {
                       return (
                         <>
-                          <Grid container>
+                          <Grid key={index} container>
                             {observation.resource.code.coding &&
-                              observation.resource.code.coding.map((entry) => {
+                              observation.resource.code.coding.map((entry, index) => {
                                 return (
                                   <>
-                                    <Grid item lg={6} xl={6} md={6} sm={6}>
+                                    <Grid key={index} item lg={6} xl={6} md={6} sm={6}>
                                       <Typography>{entry.display}</Typography>
                                     </Grid>
                                     <Grid item lg={6} xl={6} md={6} sm={6}>
