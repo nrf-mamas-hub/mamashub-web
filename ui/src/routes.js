@@ -32,6 +32,7 @@ import FamilyPlanning from './pages/FamilyPlanning';
 import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 import DiphtheriaVaccination from './pages/Diphtheria';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
+import AEFIReportForm from './pages/AEFIReportForm';
 
 const appRoutes = [
   {
@@ -173,6 +174,10 @@ const appRoutes = [
   {
     path: '/mother-postnatal-care',
     element: MotherPostnatalCare,
+  },
+  {
+    path: '/any-adverse-event',
+    element: AEFIReportForm,
   }
 ];
 
