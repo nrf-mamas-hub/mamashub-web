@@ -34,7 +34,7 @@ import DiphtheriaVaccination from './pages/Diphtheria';
 import OtherProblems from './pages/OtherProblems';
 import BroadClinicalReview from  './pages/BroadClinicalReview';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
-import RecordOfBabyTeethDevelopment from './pages/RecordOfBabyTeethDevelopment';
+import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
 
 const appRoutes = [
   {
