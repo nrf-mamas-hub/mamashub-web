@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 
 const BabTeethDevelopment = {
-  "Baby Teeth Development": [ 
+  "Baby's Teeth Development": [ 
     {
-      name: 'BabyTeethDevelopment',
-      label: 'Select Teeth Type',
+      name: 'teethObservation',
+      label: 'Observation',
       type: 'select',
       required: true,
       width: {
@@ -14,24 +14,21 @@ const BabTeethDevelopment = {
         lg: 6,
       },
       options: [
-        { value: 'LowerIncisor', label: 'Lower Incisor present?  (4-10 Months)' },
-        { value: 'upperIncisor', label: 'Upper Incisor Present? (6-12 months)' },
-        { value: 'lowerCanine', label: 'Lower Canine Present? (12-23 months)?' },
-        { value: 'upperCanine', label: 'Upper Canine present?(12-23 months)' },
-        { value: 'lowerFirstMolar', label: 'Lower First Molar Present?(12-18 months)' },
-        { value: 'upperFirstMolar', label: 'Upper First Molar?(12-18 months)' },
-        { value: 'lowerSecondMolar', label: 'Lower Second Molar(24-30 months)?' },
-        { value: 'upperSecondMolar', label: 'Upper second Molar present? (24-30 months)?' },
-      ],
-    
-      validate: yup.string().required('Relationship is required'),
-      
+        { value: 'Lower incisor', label: 'Lower Incisor (4-10 Months)' },
+        { value: 'Upper incisor', label: 'Upper Incisor (6-12 months)' },
+        { value: 'Lower canine', label: 'Lower Canine (12-23 months)' },
+        { value: 'Upper canine', label: 'Upper Canine (12-23 months)' },
+        { value: 'Lower first molar', label: 'Lower First Molar (12-18 months)' },
+        { value: 'Upper first molar', label: 'Upper First Molar (12-18 months)'},
+        { value: 'Lower second molar', label: 'Lower Second Molar (24-30 months)' },
+        { value: 'Upper second molar', label: 'Upper second Molar (24-30 months)' },
+      ],    
+      validate: yup.string().required('Teeth observation is required'),      
     },
     {
-      name: 'lowerIncisorFourToTenMonthsAgeOfBabyWhenToothSeen',
-      label: 'Age of baby when tooth seen (in months)',
+      name: 'ageOfBabyWhenToothSeen',
+      label: 'Age of baby when tooth seen',
       type: 'text',
-     //yup
      validate: yup.number(), 
       width: {
         xs: 5,
