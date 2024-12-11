@@ -12,31 +12,22 @@ import {
   } from "@mui/material";
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
-  import Layout from "../components/Layout";
-  import { getCookie } from "../lib/cookie";
   import Tab from "@mui/material/Tab";
   import TabContext from "@mui/lab/TabContext";
   import TabList from "@mui/lab/TabList";
   import TabPanel from "@mui/lab/TabPanel";
   import { Box } from "@mui/material";
-  import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-  import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
   import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
   import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-  import Radio from "@mui/material/Radio";
-  import RadioGroup from "@mui/material/RadioGroup";
-  import FormControlLabel from "@mui/material/FormControlLabel";
-  import FormLabel from "@mui/material/FormLabel";
   import CurrentPatient from "../components/CurrentPatient";
   import { apiHost, createEncounter, FhirApi } from "../lib/api";
   import { useFormik } from "formik";
   import * as yup from "yup";
   import Preview from "../components/Preview";
   import FormFields from "../components/FormFields";
-  import babyTeethRecord from "../lib/forms/RecordOfBabyTeethDevelopment";
-  import { getSections } from "../lib/getFormSections";
+  import formData from "../lib/forms/familyPlanning";
   
-  export default function RecordOfBabyTeethDevelopment() {
+  export default function FamilyPlanning() {
     let [visit, setVisit] = useState();
     let navigate = useNavigate();
     let [open, setOpen] = useState(false);
@@ -45,22 +36,19 @@ import {
     let [observations, setObservations] = useState([]);
     let isMobile = useMediaQuery("(max-width:600px)");
     const [newVisit, setNewVisit] = useState(false);
-    let [babyTeeth,setBabyTeethRecord] = useState({});
-    let [ToothRecordEncounters, setToothRecordEncounters] = useState(
+    let [familyPlanning, setFamilyPlanning] = useState({});
+    let [FamilyPlanningEncounters, setFamilyPlanningEncounters] = useState(
       []
     );
-    
     const handleClose = () => setOpenModal(false);
     const handleOpen = () => setOpenModal(true);
-  
-  
     const [value, setValue] = useState("1");
     let [openModal, setOpenModal] = useState(false);
   
     const [inputData, setInputData] = useState({});
     const [preview, setPreview] = useState(false);
-    const fieldValues = Object.values(babyTeeth).flat();
-   // const fieldValues = Object.values(getSections(babyTeeth,ToothRecordEncounters.length, ToothRecordEncounters.length+1 )).flat();
+  
+    const fieldValues = Object.values(formData).flat();
     const validationFields = fieldValues
       .filter((item) => item.validate)
       .map((item) => ({
@@ -98,7 +86,7 @@ import {
       return;
     }
   
-    const handleChange = (event, newValue) => {
+    const handleChange = (newValue) => {
       setValue(newValue);
     };
   
@@ -134,7 +122,7 @@ import {
       let visit = window.localStorage.getItem("currentPatient") ?? null;
       visit = JSON.parse(visit) ?? null;
       if (visit) {
-        getBabyTeethEncounters(visit.id);
+        getFamilyPlanningEncounters(visit.id);
       }
     }, []);
   
@@ -150,23 +138,23 @@ import {
       return;
     };
   
-    let getBabyTeethEncounters = async (patientId) => {
+    let getFamilyPlanningEncounters = async (patientId) => {
       setLoading(true);
       let encounters = await (
         await FhirApi({
-          url: `/crud/encounters?patient=${patientId}&encounterCode=${"BABY_TEETH_RECORD"}`,
+          url: `/crud/encounters?patient=${patientId}&encounterCode=${"FAMILY_PLANNING"}`,
         })
       ).data;
     
-      setToothRecordEncounters(encounters.encounters);
+      setFamilyPlanningEncounters(encounters.encounters);
       setLoading(false);
       return;
     };
     useEffect(()=>{
-      setBabyTeethRecord(babyTeethRecord);
+        setFamilyPlanning(formData);
     },[]);
-  
-    let saveBabyTeethRecords = async (values) => {
+
+    let saveFamilyPlanning = async (values) => {
       //get current patient
       if (!visit) {
         prompt(
@@ -177,7 +165,7 @@ import {
       let patient = visit.id;
       try {
         //create Encounter
-        let encounter = await createEncounter(patient, "BABY_TEETH_RECORD");
+        let encounter = await createEncounter(patient, "FAMILY_PLANNING");
   
         //Create and Post Observations
         let res = await (
@@ -194,10 +182,10 @@ import {
         console.log(res);
   
         if (res.status === "success") {
-          prompt("Baby Teeth Records saved successfully");
+          prompt("Family Planning saved successfully");
           // setValue('2')
           navigate(`/patients/${patient}`);
-          await getBabyTeethEncounters(patient);
+          await getFamilyPlanningEncounters(patient);
           setNewVisit(false);
           return;
         } else {
@@ -232,18 +220,17 @@ import {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              // onClose={""}
               message={message}
               key={"loginAlert"}
             />
             {visit && <CurrentPatient data={visit} />}
             {preview ? (
               <Preview
-                title="Baby Teeth Records a Preview"
-                format={getSections(babyTeeth)}
+                title="Family Planning a Preview"
+                format={familyPlanning}
                 data={{ ...inputData }}
                 close={() => setPreview(false)}
-                submit={saveBabyTeethRecords}
+                submit={saveFamilyPlanning}
               />
             ) : (
               <form onSubmit={formik.handleSubmit}>
@@ -256,15 +243,14 @@ import {
                       scrollButtons="auto"
                       aria-label="scrollable auto tabs example"
                     >
-                      <Tab label="Baby Teeth Records " value="1" />
+                      <Tab label="Family Planning" value="1" />
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    {/* <p></p> */}
                     {!newVisit && (
                     <Grid container spacing={1} padding=".5em">
-                      {ToothRecordEncounters.length > 0 &&
-                        ToothRecordEncounters.map((x, index) => {
+                      {FamilyPlanningEncounters.length > 0 &&
+                        FamilyPlanningEncounters.map((x, index) => {
                           return (
                             <Grid item xs={12} md={12} lg={3}>
                               <Button
@@ -279,7 +265,7 @@ import {
                             </Grid>
                           );
                         })}
-                         {ToothRecordEncounters.length < 8 && (
+                         {FamilyPlanningEncounters.length < 8 && (
                       <Grid
                           item
                           xs={12}
@@ -306,22 +292,18 @@ import {
                       )}
                     </Grid>)}
                    
-                    {ToothRecordEncounters.length < 1 && loading && (
-                    
+                    {FamilyPlanningEncounters.length < 1 && loading && (
                       <>
-                    {console.log( "Baby teethlength" ,ToothRecordEncounters.length)}
                         <CircularProgress />
                       </>
                     )}
                     <Divider />
                     {newVisit &&(
                       <>
-                      {}
-                     {/* ToothRecordEncounters.length, ToothRecordEncounters.length+1  */}
                         <FormFields 
-                        formData={getSections(babyTeeth, )} 
+                        formData={familyPlanning} 
                         formik={formik} 
-                        encounters={ToothRecordEncounters}
+                        encounters={FamilyPlanningEncounters}
                         getEncounterObservations={getEncounterObservations}
                         /> 
                         <p></p>
@@ -406,7 +388,6 @@ import {
                                   </>
                                 );
                               })}
-                            {/* <br /> */}
                             <p></p>
                           </Grid>
                         </>
@@ -420,3 +401,4 @@ import {
       </>
     );
   }
+  
