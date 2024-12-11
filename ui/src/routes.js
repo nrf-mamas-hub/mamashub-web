@@ -34,6 +34,7 @@ import DiphtheriaVaccination from './pages/Diphtheria';
 import OtherProblems from './pages/OtherProblems';
 import BroadClinicalReview from  './pages/BroadClinicalReview';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
+import RecordOfBabyTeethDevelopment from './pages/RecordOfBabyTeethDevelopment';
 
 const appRoutes = [
   {
@@ -183,6 +184,10 @@ const appRoutes = [
   {
     path: '/mother-postnatal-care',
     element: MotherPostnatalCare,
+  },
+  {
+    path: '/baby-teeth-development',
+    element: RecordOfBabyTeethDevelopment,
   }
 ];
 
