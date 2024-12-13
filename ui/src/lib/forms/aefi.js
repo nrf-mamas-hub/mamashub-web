@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const AEFIFields = {
   "Event details":[
     {
-      name: 'dateOfReport',
+      name: 'date',
       label: 'Date',
       type: 'date',
       required: true,
