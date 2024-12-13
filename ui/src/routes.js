@@ -35,7 +35,7 @@ import OtherProblems from './pages/OtherProblems';
 import BroadClinicalReview from  './pages/BroadClinicalReview';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
 import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
-import AEFIReportForm from './pages/AEFIReportForm';
+import AEFI from './pages/AEFI';
 
 const appRoutes = [
   {
