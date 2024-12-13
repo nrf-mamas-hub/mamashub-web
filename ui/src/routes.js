@@ -35,6 +35,7 @@ import OtherProblems from './pages/OtherProblems';
 import BroadClinicalReview from  './pages/BroadClinicalReview';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
 import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
+import AEFIReportForm from './pages/AEFIReportForm';
 
 const appRoutes = [
   {
@@ -185,9 +186,14 @@ const appRoutes = [
     path: '/mother-postnatal-care',
     element: MotherPostnatalCare,
   },
+
   {
     path: '/baby-teeth-development',
     element: RecordOfBabyTeethDevelopment,
+  },
+  {
+    path: '/any-adverse-event',
+    element: AEFIReportForm,
   }
 ];
 
