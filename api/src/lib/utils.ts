@@ -1064,3 +1064,216 @@ export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any
     })
   }
 }
+
+export const MedicationRequest = (medication: any, medicationCoding: any, siteCoding: any, routeCoding: any, methodCoding: any, unitCoding: any) => {  
+
+  const categoryCoding = () => {
+    
+    switch (medication.category) {
+      
+      case 1:
+        return {
+          code: "outpatient",
+          display: "Outpatient"
+        }
+      
+      default:
+        return {
+          code: "community",
+          display: "Community"
+        }
+    }
+  }
+  
+  return {
+    resourceType: "MedicationRequest",
+    id: medication.id || uuidv4(),    
+    meta: {
+      profile:["http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationRequest-uv-ips"]
+    },
+    status: "completed",
+    intent: "original-order",
+    ...(medication.category && medication.category !== "" && {
+      category: [{
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
+            ...{
+              ...categoryCoding()
+            }
+          }
+        ]
+      }]
+    }),
+    priority: "routine",
+    medicationCodeableConcept: {
+      coding: [
+        {
+          system: medicationCoding.system === "snomed" ? "http://snomed.info/sct" :
+          medicationCoding.system === "ciel" ? "https://CIELterminology.org" :
+            "http://41.89.93.172/fhir",
+          code: medicationCoding.code,
+          display: medicationCoding.display
+        }
+      ]
+    },
+    subject: {
+      reference: `Patient/${medication.patientId}`
+    },
+    encounter: {
+      reference: `Encounter/${medication.encounterId}`
+    },
+    authoredOn: new Date().toISOString(),
+    requester: {
+      reference: `Practitioner/${medication.practitionerId}`
+    },
+    performer: {
+      reference: `Patient/${medication.patientId}` //this indicated who performed the actual administration. For kids, i recommend the mother being
+    },                                             //performer
+    recorder: {
+      reference: `Practitioner/${medication.practitionerId}`
+    },
+    ...(medication.reason && medication.reason !== "" && {
+      reasonCode: [{
+        coding: [
+          {
+            system: medication.system,            
+            code: medication.reasonCode,
+            display: medication.reasonDisplay
+          }
+        ]
+      }]
+    }),
+    ...(medication.additionalComments && medication.additionalComments !== "" && {
+      note: [{
+        text: medication.additionalComments
+      }]
+    }),
+    dosageInstruction: [{
+      ...(medication.dosageInstructions && medication.dosageInstruction !== "" && {
+        text: medication.dosageInstruction
+      }),
+      ...(medication.additionalInstruction && medication.additionalInstruction !== "" && {
+        additionalInstruction: [{
+          coding: [
+            {
+              system: medication.additionalInstructionSystem,
+              code: medication.additionalInstructionCode,
+              display: medication.additionalInstructionDisplay
+            }
+          ]
+        }]
+      }),
+      site: {
+        coding: [
+          {
+            system: siteCoding.system === "snomed" ? "http://snomed.info/sct" :
+            siteCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-ActSite" :
+              "http://41.89.93.172/fhir",        
+            code: siteCoding.code,
+            display: siteCoding.display
+          }
+        ]
+      },
+      route: {
+        coding: [
+          {
+            system: routeCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration" :
+            routeCoding.system === "snomed" ? "http://snomed.info/sct" :
+              "http://41.89.93.172/fhir",
+            code: routeCoding.code,
+            display: routeCoding.display
+          }
+        ]
+      },
+      method: {
+        coding: [
+          {
+            system: methodCoding.system === "snomed" ?  "http://snomed.info/sct" : "http://41.89.93.172/fhir",
+            code: methodCoding.code,
+            display: methodCoding.display
+          }
+        ]
+      },
+      doseAndRate: [{
+        doseQuantity: {
+          value: medication.dosage,
+          unit: unitCoding.display,
+          system: "http://unitsofmeasure.org",      
+          code: unitCoding.code      
+        }
+      }]
+    }]
+  }
+}
+
+export const AllergyIntolerance = (intolerance: any) => {        
+  
+  return {
+    
+    resourceType: "AllergyIntolerance",
+    id: intolerance.id || uuidv4(),
+    clinicalStatus: {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+          code: "active",
+          display: "Active"          
+        }
+      ]
+    },
+    verificationStatus: {
+      coding:
+        [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+            code: "confirmed",
+            display: "Confirmed"            
+        }
+      ]
+    },
+    type: "intolerance",
+    category: ["biologic"],
+    code: {
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "418038007",
+          display: "Propensity to adverse reactions to substance"
+        }
+      ]
+    },
+    patient: {
+      reference: `Patient/${intolerance.patientId}`
+    },
+    encounter: {
+      reference: `Encounter/${intolerance.encounterId}`
+    },
+    onsetDateTime: new Date(intolerance.onset).toISOString(),
+    recordedDate: new Date().toISOString(),
+    recorder: {
+      reference: `Practitioner/${intolerance.practitionerId}`
+    },
+    reaction: [{
+      substance: {
+        coding: [
+          {
+            system: intolerance.system,
+            code: intolerance.code,
+            display: intolerance.display
+          }
+        ]
+      },
+      manifestation: [{ //This is hardcoded since the booklet does not provide for a specific reaction manifestation. Should it be
+        coding: [       //available later on, this should be changed to dynamically code the manifestation.
+          {
+            system: "http://snomed.info/sct",
+            code: "29544009",
+            display: "Intolerance"
+          }
+        ]
+      }],
+      description: intolerance.description
+    }]
+  }
+}
