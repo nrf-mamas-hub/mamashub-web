@@ -193,7 +193,7 @@ const appRoutes = [
   },
   {
     path: '/any-adverse-event',
-    element: AEFIReportForm,
+    element: AEFI,
   }
 ];
 
