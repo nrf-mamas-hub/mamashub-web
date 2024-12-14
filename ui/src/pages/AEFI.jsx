@@ -17,7 +17,7 @@ import { Box } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import CurrentPatient from "../components/CurrentPatient";
-import { createEncounter, FhirApi } from "../lib/api";
+import { createEncounter, FhirApi, createAllergyIntolerance } from "../lib/api";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Preview from "../components/Preview";
@@ -76,7 +76,25 @@ export default function AEFI({ userData }) {
       return;
     }
 
-    let encounter = await createEncounter(patient, "AEFI");    
+    let encounter = await createEncounter(patient, "AEFI"); 
+    
+    let aefiDetails = {
+      onset: values.date,
+      patientId: patient,      
+      practitionerId: userData?.practitionerId,
+      encounterId: encounter.id,      
+      description: values.intoleranceDescription,
+      vaccine: values.antigenOrVaccine
+    }
+
+    let { date, antigenOrVaccine, ...aefiObservations } = values;
+    
+    let allergyIntolerance = await createAllergyIntolerance(aefiDetails);
+
+    if (allergyIntolerance.status !== "success") {    
+      prompt("Error saving AEFI, please try again");
+      return;
+    }
 
     let res = await (
       await FhirApi({
@@ -85,7 +103,7 @@ export default function AEFI({ userData }) {
         data: JSON.stringify({
           patientId: patient,
           encounterId: encounter.id,
-          observations: values,
+          observations: aefiObservations
         }),
       })
     ).data;
@@ -100,7 +118,7 @@ export default function AEFI({ userData }) {
     }
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {    
     setValue(newValue);
   };
 
