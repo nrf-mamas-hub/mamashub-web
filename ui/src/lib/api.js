@@ -158,13 +158,7 @@ export const createAllergyIntolerance = async (allergyIntoleranceDetails) => {
         let res = await (await FhirApi({
             url: `/crud/allergy-intolerance`,
             method: "POST",
-            data: JSON.stringify({
-                patientId: allergyIntoleranceDetails.patientId,
-                encounterId: allergyIntoleranceDetails.encounterId,
-                onset: allergyIntoleranceDetails.onset,
-                practitionerId: allergyIntoleranceDetails.practitionerId,
-                vaccine: allergyIntoleranceDetails.vaccine
-            })
+            data: JSON.stringify(allergyIntoleranceDetails)            
         })).data;
 
         return res;
