@@ -31,6 +31,11 @@ import CancerScreening from './pages/cancerScreening';
 import FamilyPlanning from './pages/FamilyPlanning';
 import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
 import DiphtheriaVaccination from './pages/Diphtheria';
+import OtherProblems from './pages/OtherProblems';
+import BroadClinicalReview from  './pages/BroadClinicalReview';
+import MotherPostnatalCare from './pages/motherPostNatalCare';
+import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
+import AEFI from './pages/AEFI';
 import FeedingInfo from './pages/FeedingInformation';
 
 const appRoutes = [
@@ -154,7 +159,7 @@ const appRoutes = [
     path: '/nurse-dashboard',
     element: NurseDashboard,
   },
-  {
+  {  
     path: '/reproductive-organs-cancer-screening',
     element: CancerScreening,
   },
@@ -169,6 +174,27 @@ const appRoutes = [
   {
     path: '/diptheria-vaccine',
     element: DiphtheriaVaccination,
+  },
+  {
+    path: '/other-baby-problems',
+    element: OtherProblems,
+  },
+  {
+    path: '/broad-clinical-review',
+    element: BroadClinicalReview,
+  },
+  {
+    path: '/mother-postnatal-care',
+    element: MotherPostnatalCare,
+  },
+
+  {
+    path: '/baby-teeth-development',
+    element: RecordOfBabyTeethDevelopment,
+  },
+  {
+    path: '/any-adverse-event',
+    element: AEFI,
   },
   {
     path: '/feeding-information',

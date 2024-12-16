@@ -132,3 +132,38 @@ export const createImmunization = async (immunizationDetails) => {
         return null;
     }
 }
+
+
+export const createMedicationRequest = async (medicationRequestDetails) => {    
+
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/medication-request`,
+            method: "POST",
+            data: JSON.stringify(medicationRequestDetails)
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null;
+    }
+}
+
+export const createAllergyIntolerance = async (allergyIntoleranceDetails) => {
+    
+    try {
+
+        let res = await (await FhirApi({
+            url: `/crud/allergy-intolerance`,
+            method: "POST",
+            data: JSON.stringify(allergyIntoleranceDetails)            
+        })).data;
+
+        return res;
+        
+    } catch (error) {
+        return null;
+    }
+}
