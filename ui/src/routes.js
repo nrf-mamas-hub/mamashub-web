@@ -36,6 +36,7 @@ import BroadClinicalReview from  './pages/BroadClinicalReview';
 import MotherPostnatalCare from './pages/motherPostNatalCare';
 import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
 import AEFI from './pages/AEFI';
+import FeedingInfo from './pages/FeedingInformation';
 
 const appRoutes = [
   {
@@ -194,7 +195,11 @@ const appRoutes = [
   {
     path: '/any-adverse-event',
     element: AEFI,
-  }
+  },
+  {
+    path: '/feeding-information',
+    element: FeedingInfo,
+  },
 ];
 
 export default appRoutes;
