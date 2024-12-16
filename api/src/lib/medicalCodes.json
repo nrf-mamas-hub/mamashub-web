@@ -46,6 +46,14 @@
         "mgs":"hl7:mg:milligram",
         "ug":"hl7:ug:microgram",
         "microgram":"hl7:ug:microgram",
-        "IU":"hl7:[IU]:international unit"
+        "IU":"hl7:[IU]:international unit",
+        "BCG Vaccine":"snomed:1861000221106:BCG (Bacillus Calmette-Guerin) vaccine",
+        "Polio Vaccine":"snomed:1031000221108:Vaccine product containing Human poliovirus antigen (medicinal product)",
+        "Inactivated Polio Vaccine":"snomed:871740006:Inactivated polio vaccine",
+        "Diphtheria and Others Vaccine":"snomed:48028008:Haemophilus influenzae Type b (Hib)/diphtheria/tetanus/pertussis vaccine",
+        "Pneumococcal Conjugate Vaccine":"snomed:51451000087105: Pneumococcal 13-valent conjugate vaccine",
+        "Rota Virus Vaccine":"snomed:871761004:Rotavirus vaccine",
+        "Measles Rubella Vaccine":"snomed:61153008:Measles, mumps and rubella vaccine",
+        "Yellow Fever Vaccine":"snomed:56844000:Yellow fever vaccine product"
     }
 }
