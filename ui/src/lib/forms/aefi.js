@@ -25,14 +25,14 @@ const AEFIFields = {
       required: true,
       width: { xs: 12, sm: 12, md: 8, lg: 6 },
       options: [
-        { value: "bcg", label: "BCG Vaccine" },
-        { value: "polio", label: "Polio Vaccine" },
-        { value: "ipv", label: "IPV (Inactivated Polio Vaccine)" },
-        { value: "diptheria", label: "Diphtheria/Pertussis Vaccine" },
-        { value: "pneumococcal", label: "Pneumococcal Conjugate Vaccine" },
-        { value: "rotaVirus", label: "Rota Virus Vaccine" },
-        { value: "measlesRubella", label: "Measles Rubella Vaccine" },
-        { value: "yellowFever", label: "Yellow Fever Vaccine" }        
+        { value: "BCG Vaccine", label: "BCG Vaccine" },
+        { value: "Polio Vaccine", label: "Polio Vaccine" },
+        { value: "Inactivated Polio Vaccine", label: "IPV (Inactivated Polio Vaccine)" },
+        { value: "Diphtheria and Pertussis etc Vaccine", label: "Diphtheria/Pertussis Vaccine" },
+        { value: "Pneumococcal Conjugate Vaccine", label: "Pneumococcal Conjugate Vaccine" },
+        { value: "Rota Virus Vaccine", label: "Rota Virus Vaccine" },
+        { value: "Measles Rubella Vaccine", label: "Measles Rubella Vaccine" },
+        { value: "Yellow Fever Vaccine", label: "Yellow Fever Vaccine" }        
       ],
       validate: yup.string().required('Antigen/Vaccine is required'),
     },
