@@ -30,7 +30,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
-import childPostnatalCareFields from "../lib/forms/childPostnatalCare";
+import babyPostNatalCareFields from "../lib/forms/babyPostNatalCare";
 
 export default function ChildPostnatalCare() {
   let [patient, setPatient] = useState({});
@@ -53,7 +53,7 @@ export default function ChildPostnatalCare() {
   const [inputData, setInputData] = useState({});
   const [preview, setPreview] = useState(false);
 
-  const fieldValues = Object.values(childPostnatalCareFields).flat();
+  const fieldValues = Object.values(babyPostNatalCareFields).flat();
   const validationFields = fieldValues
     .filter((item) => item.validate)
     .map((item) => ({
@@ -228,7 +228,7 @@ export default function ChildPostnatalCare() {
           {preview ? (
             <Preview
               title="Present child postnatal Preview"
-              format={childPostnatalCareFields}
+              format={babyPostNatalCareFields}
               data={{ ...inputData }}
               close={() => setPreview(false)}
               submit={saveChildPostnatalCare}
@@ -317,7 +317,7 @@ export default function ChildPostnatalCare() {
                   {newVisit && (
                     <>
                       <FormFields
-                        formData={childPostnatalCareFields}
+                        formData={babyPostNatalCareFields}
                         formik={formik}
                         encounters={childPostnatalCareEncounters}
                         getEncounterObservations={getEncounterObservations}
