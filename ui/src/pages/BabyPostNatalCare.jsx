@@ -1,6 +1,5 @@
 import {
   Container,
-  TextField,
   Stack,
   Button,
   Grid,
@@ -13,8 +12,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
-import { getCookie } from "../lib/cookie";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -23,17 +20,16 @@ import { Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
 import CurrentPatient from "../components/CurrentPatient";
-import { apiHost, createEncounter, FhirApi } from "../lib/api";
+import { createEncounter, FhirApi } from "../lib/api";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
 import babyPostNatalCareFields from "../lib/forms/babyPostNatalCare";
 
-export default function ChildPostnatalCare() {
-  let [patient, setPatient] = useState({});
+export default function BabyPostNatalCare() {
+
   let [visit, setVisit] = useState();
   let [open, setOpen] = useState(false);
   let [loading, setLoading] = useState(false);
@@ -41,7 +37,6 @@ export default function ChildPostnatalCare() {
   let [observations, setObservations] = useState([]);
   let isMobile = useMediaQuery("(max-width:600px)");
   const [newVisit, setNewVisit] = useState(false);
-  let [childPostnatalCare, setChildPostnatalCare] = useState({});
   let [childPostnatalCareEncounters, setChildPostnatalCareEncounters] = useState(
     []
   );
@@ -52,6 +47,8 @@ export default function ChildPostnatalCare() {
 
   const [inputData, setInputData] = useState({});
   const [preview, setPreview] = useState(false);
+
+  const navigate = useNavigate();
 
   const fieldValues = Object.values(babyPostNatalCareFields).flat();
   const validationFields = fieldValues
@@ -74,9 +71,7 @@ export default function ChildPostnatalCare() {
       ...initialValues,
     },
     validationSchema: validationSchema,
-    // submit form
     onSubmit: (values) => {
-      // console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -91,7 +86,7 @@ export default function ChildPostnatalCare() {
     return;
   }
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
 
@@ -112,28 +107,13 @@ export default function ChildPostnatalCare() {
   }, []);
 
   useEffect(() => {
-    let visit = window.localStorage.getItem("currentPatient");
-    if (!visit) {
-      prompt(
-        "No patient visit not been initiated. To start a visit, Select a patient in the Client list"
-      );
-      return;
-    }
-    setVisit(JSON.parse(visit));
-    return;
-  }, []);
-
-  useEffect(() => {
-    let visit = window.localStorage.getItem("currentPatient") ?? null;
-    visit = JSON.parse(visit) ?? null;
     if (visit) {
-      getChildPostnatalCareEncounters(visit.id);
+      getBabyPostNatalCareEncounters(visit.id);
     }
-  }, []);
+  }, [visit]);
 
   let getEncounterObservations = async (encounter) => {
     setObservations([]);
-    // handleOpen();
     let observations = await (
       await FhirApi({ url: `/crud/observations?encounter=${encounter}` })
     ).data;
@@ -141,33 +121,31 @@ export default function ChildPostnatalCare() {
     return observations.observations;
   };
 
-  let getChildPostnatalCareEncounters = async (patientId) => {
+  let getBabyPostNatalCareEncounters = async (patientId) => {
     setLoading(true);
     let encounters = await (
       await FhirApi({
-        url: `/crud/encounters?patient=${patientId}&encounterCode=${"CHILD_POSTNATAL_CARE"}`,
+        url: `/crud/encounters?patient=${patientId}&encounterCode=${"BABY_POSTNATAL_CARE"}`,
       })
     ).data;
-    // console.log(encounters);
     setChildPostnatalCareEncounters(encounters.encounters);
     setLoading(false);
     return;
   };
   let saveChildPostnatalCare = async (values) => {
-    //get current patient
     if (!visit) {
       prompt(
         "No patient visit has been initiated. To start a visit, Select a patient in the client's list"
       );
       return;
     }
-    let patient = visit.id;
-    try {
-      //create Encounter
-      let encounter = await createEncounter(patient, "CHILD_POSTNATAL_CARE");
-      // console.log(encounter)
 
-      //Create and Post Observations
+    let patient = visit.id;
+
+    try {
+
+      let encounter = await createEncounter(patient, "BABY_POSTNATAL_CARE");
+
       let res = await (
         await FhirApi({
           url:`/crud/observations`,
@@ -179,12 +157,11 @@ export default function ChildPostnatalCare() {
           }),
         })
       ).data;
-      // console.log(res);
 
       if (res.status === "success") {
-        prompt("Present baby saved successfully");
-        // setValue('2')
-        await getChildPostnatalCareEncounters(patient);
+        prompt("Baby Postnatal Care saved successfully");
+        navigate(`/patients/${patient}`);
+        await getBabyPostNatalCareEncounters(patient);
         setNewVisit(false);
         return;
       } else {
@@ -192,7 +169,6 @@ export default function ChildPostnatalCare() {
         return;
       }
     } catch (error) {
-      console.error(error);
       prompt(JSON.stringify(error));
       return;
     }
@@ -220,7 +196,6 @@ export default function ChildPostnatalCare() {
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            // onClose={""}
             message={message}
             key={"loginAlert"}
           />
@@ -244,11 +219,10 @@ export default function ChildPostnatalCare() {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                   >
-                    <Tab label="Present Child" value="1" />
+                    <Tab label="Baby postnatal care" value="1" />
                   </TabList>
                 </Box>
                 <TabPanel value="1">
-                  {/* <p></p> */}
                   {!newVisit && (
                     <Grid container spacing={1} padding=".5em">
                       {childPostnatalCareEncounters.length > 0 &&
@@ -391,8 +365,6 @@ export default function ChildPostnatalCare() {
                               borderRadius: "10px",
                             }}
                           >
-                            {/* <Typography sx={{ fontWeight: "bold" }} variant="p">Time: {new Date(observation.resource.meta.lastUpdated).toUTCString()}</Typography><br /> */}
-                            {/* <Typography variant="p">Observation Code: {JSON.stringify(observation.resource.code.coding)}</Typography> */}
                             {observation.resource.code.coding &&
                               observation.resource.code.coding.map(
                                 (entry, index) => {
@@ -410,7 +382,6 @@ export default function ChildPostnatalCare() {
                                               .valueDateTime ??
                                             "-"}
                                       </Typography>
-                                      {/* <br /> */}
                                     </React.Fragment>
                                   );
                                 }
