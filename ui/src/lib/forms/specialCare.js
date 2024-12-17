@@ -1,217 +1,57 @@
+
+
 import * as yup from 'yup';
 
 const specialCare = {
-  "Reason for Special Care": [
+  'Reason for Special Care': [
     {
       name: 'reasonsForSpecialCare',
       label: 'Reason for Special Care (Tick as appropriate)',
-      type: 'radio',
-      options: [],
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-    },
-    {
-      name: 'birthWeightLessThanTwoAndHalfKg',
-      label: '',
       type: 'checkbox',
+      validate: yup.array().min(1, 'Please select at least one option'),
+      options: [
+        { value: 'Birth weight less than 2.5 kg', label: 'Birth weight less than 2.5 kg' },
+        { value: 'Birth less than two years after last birth', label: 'Birth less than two years after last birth' },
+        { value: 'Birth order fifth child or more', label: 'Birth order fifth child or more' },
+        { value: 'Born of a teenage mother', label: 'Born of a teenage mother' },
+        { value: 'Born of a mentally ill mother', label: 'Born of a mentally ill mother' },
+        { value: 'Child with developmental delays', label: 'Child with developmental delays' },
+        { value: 'Siblings with undernourishment', label: 'Siblings with undernourishment' },
+        { value: 'Multiple births', label: 'Multiple births' },
+        { value: 'Children with special needs', label: 'Children with special needs' },
+        { value: 'Orphans and vulnerable children', label: 'Orphans and vulnerable children' },
+        { value: 'Child has a disability', label: 'Child has a disability' },
+        { value: 'HIV-exposed infant', label: 'HIV-exposed infant' },
+        { value: 'History or signs of child abuse or neglect', label: 'History or signs of child abuse or neglect' },
+        { value: 'Cleft lip or palate', label: 'Cleft lip or palate' },
+        { value: 'Other', label: 'Other' },
+      ],
       width: {
         xs: 12,
         sm: 12,
         md: 12,
-        lg: 7,
+        lg: 12,
       },
-      options: [{ value: 'birthWeightLessThanTwoAndHalfKg', label: 'Birth weight less than 2.5 kg' }],
     },
     {
-      name: 'birthLessThanTwoYearsAfterLastBirth',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'birthLessThanTwoYearsAfterLastBirth', label: 'Birth less than two years after last birth' }],
-    },
-    {
-      name: 'birthOrderFifthChildOrMore',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'birthOrderFifthChildOrMore', label: 'Birth order fifth child or more' }],
-    },
-    {
-      name: 'bornOfATeenageMother',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'bornOfATeenageMother', label: 'Born of a teenage mother' }],
-    },
-    {
-      name: 'bornOfAMentallyIllMother',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'bornOfAMentallyIllMother', label: 'Born of a mentally ill mother' }],
-    },
-    {
-      name: 'childWithDevelopmentalDelays',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'childWithDevelopmentalDelays', label: 'Child with developmental delays' }],
-    },
-    {
-      name: 'siblingsUndernourishment',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'siblingsUndernourishment', label: 'Siblings with undernourishment' }],
-    },
-    {
-      name: 'multipleBirths',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'multipleBirths', label: 'Multiple births' }],
-    },
-    {
-      name: 'childrenWithSpecialNeeds',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'childrenWithSpecialNeeds', label: 'Children with special needs' }],
-    },
-    {
-      name: 'orphansAndVulnerableChildren',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'orphansAndVulnerableChildren', label: 'Orphans and vulnerable children' }],
-    },
-    {
-      name: 'childHasDisability',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'childHasDisability', label: 'Child has a disability' }],
-    },
-    {
-      name: 'hivExposedInfant',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'hivExposedInfant', label: 'HIV-exposed infant' }],
-    },
-    {
-      name: 'historyOrSignsOfChildAbuseOrNeglect',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'historyOrSignsOfChildAbuseOrNeglect', label: 'History or signs of child abuse or neglect' }],
-    },
-    {
-      name: 'cleftLipOrPalate',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'cleftLipOrPalate', label: 'Cleft lip or palate' }],
-    },
-    {
-      name: 'otherReasonForSpecialCare',
-      label: '',
-      type: 'checkbox',
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 7,
-      },
-      options: [{ value: 'Other', label: 'Other' }],
-    },
-    {
-      name: 'specifyOtherReasonForSpecialCare',  // Changed name to avoid conflict
+      name: 'specifyOtherReasonForSpecialCare',
       label: 'If other, please specify',
       type: 'text',
-      validate: yup.string(),
+      validate: yup.string().when('reasonsForSpecialCare', {
+        is: (val) => val && val.includes('Other'),
+        then: yup.string().required('Please specify the other reason for special care'),
+        otherwise: yup.string(),
+      }),
+      relevant: (values) =>
+        values.reasonsForSpecialCare && values.reasonsForSpecialCare.includes('Other'),
       width: {
         xs: 12,
         sm: 12,
         md: 12,
-        lg: 7,
+        lg: 12,
       },
-      relevant: values => values.otherReasonForSpecialCare?.includes('Other'),
-    }
-     
+    },
   ],
 };
 
 export default specialCare;
-
-
-
