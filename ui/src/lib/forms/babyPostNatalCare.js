@@ -1,9 +1,9 @@
 import * as yup from 'yup';
-import childpostnataldata from '../../data/child_postnatal_care.json';
+import babyPostNatalData from '../../data/baby_postnatal_care.json';
 
-const childPostnatalCareFields = {
+const babyPostNatalCareFields = {
   
- 'BABY': [
+ 'Visit details': [
     {
       name: 'generalTimingOfVisit',
       label: 'Timing of visit',
@@ -12,10 +12,10 @@ const childPostnatalCareFields = {
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 5,
+        md: 8,
+        lg: 6,
       },
-      options: Object.keys(childpostnataldata).map(key => ({
+      options: Object.keys(babyPostNatalData).map(key => ({
         value: key,
         label: key,
       })),
@@ -27,12 +27,12 @@ const childPostnatalCareFields = {
       validate: yup
         .date()
         .max(new Date(), 'Date of visit cannot be in the future')
-        .required('Next visit is required'),
+        .required('Date of visit is required'),
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 5,
+        md: 8,
+        lg: 6,
       },
     },
   ],
@@ -41,14 +41,14 @@ const childPostnatalCareFields = {
   [
     {
       name: 'generalCondition',
-      label: 'General Condition',
+      label: 'General condition',
       type: 'radio',
-      validate: yup.string(),
+      validate: yup.string().required('General condition is required'),
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 12,
+        md: 8,
+        lg: 6,
       },
       options: [
         { label: 'Well', value: 'Well' },
@@ -57,17 +57,19 @@ const childPostnatalCareFields = {
     },
     {
       name: 'generalConditionSpecify',
-      label: 'If Unwell, please specify',
-      type: 'text',
+      label: 'If unwell, please specify',
+      type: 'textarea',
       validate: yup.string(),
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 12,
+        md: 8,
+        lg: 6,
       },
       relevant: values => values.generalCondition === 'Unwell',
-    },
+    }
+    ],  
+   'Vitals':[
     {
       name: 'babyTemperature',
       label: 'Temperature',
@@ -76,24 +78,22 @@ const childPostnatalCareFields = {
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 3,
+        md: 8,
+        lg: 6,
       },
     },
     {
       name: 'breathsPerMinute',
       label: 'Breaths Per Minute',
       type: 'text',
-      validate: yup.number().required('Breath Per Minute is required'),
+      validate: yup.number().required('Breaths Per Minute is required'),
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 3,
+        md: 8,
+        lg: 6,
       },
     },
-    
-    
   ],
   
   'Feeding Method': [
@@ -102,7 +102,7 @@ const childPostnatalCareFields = {
       name: 'exclusiveBreastfeeding',
       label: 'Exclusive Breastfeeding',
       type: 'radio',
-      validate: yup.string().required('This field is required'),
+      validate: yup.string().required('Exclusive breastfeeding is required'),
       options: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' },
@@ -113,25 +113,14 @@ const childPostnatalCareFields = {
         md: 12,
         lg: 6,
       },
-    },
-    {
-      name: 'exclusiveBreastfeedingSpecify',
-      label: 'If No, please explain',
-      type: 'text',
-      validate: yup.string(),
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 6,
-      },
-      relevant: values => values.exclusiveBreastfeeding === 'No',
-    },
+    }
+  ],
+  'Breastfeeding':[
     {
       name: 'breastfeedingPositioning',
-      label: 'Breastfeeding Positioning',
+      label: 'Positioning:',
       type: 'radio',
-      validate: yup.string().required('This field is required'),
+      validate: yup.string().required('Positioning is required'),
       options: [
         { value: 'Correct', label: 'Correct' },
         { value: 'Not Correct', label: 'Not Correct' },
@@ -139,28 +128,15 @@ const childPostnatalCareFields = {
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 20,
+        md: 8,
+        lg: 6,
       },
-    },
-    {
-      name: 'breastfeedingBestPositioning',
-      label: 'If not correct, suggest the best way',
-      type: 'text',
-      validate: yup.string(),
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 12,
-      },
-      relevant: values => values.breastfeedingPositioning === 'Not Correct',
     },
     {
       name: 'breastfeedingAttachment',
-      label: 'Breastfeeding Attachment',
+      label: 'Attachment:',
       type: 'radio',
-      validate: yup.string().required('This field is required'),
+      validate: yup.string().required('Attachment is required'),
       options: [
         { value: 'Good', label: 'Good' },
         { value: 'Poor', label: 'Poor' },
@@ -168,8 +144,8 @@ const childPostnatalCareFields = {
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 20,
+        md: 8,
+        lg: 6,
       },
     },
   ],
@@ -178,9 +154,9 @@ const childPostnatalCareFields = {
 
     {
       name: 'umblicalCordStatus',
-      label: 'Umblical Cord Status',
+      label: 'Status',
       type: 'radio',
-      validate: yup.string().required(),
+      validate: yup.string().required('Umbilical cord status is required'),
       options: [
         { value: 'Clean', label: 'Clean' },
         { value: 'Dry', label: 'Dry' },
@@ -191,29 +167,30 @@ const childPostnatalCareFields = {
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 20,
+        md: 8,
+        lg: 6,
       },
     },
     {
       name: 'othersSpecify',
       label: 'If others, please specify',
-      type: 'text',
+      type: 'textarea',
       validate: yup.string(),
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 12,
+        md: 8,
+        lg: 6,
       },
       relevant: values => values.umblicalCordStatus === 'Others',
-    },
-
+    }
+  ],
+  'Irritability':[
     {
       name: 'irritable',
-      label: 'Irritable',
+      label: 'Irritable',      
       type: 'radio',
-      validate: yup.string().required(),
+      validate: yup.string().required('Irritability is required'),
       options: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' },
@@ -221,33 +198,34 @@ const childPostnatalCareFields = {
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
+        md: 8,
         lg: 6,
       },
     },
   ],
 
-  'Any other ':
+  'Other Problems ':
   [
     {
       name: 'anyOtherProblem',
       label: 'Any Other Problem?',
-      type: 'text',
+      type: 'textarea',
       validate: yup.string(),
       width: {
-        xs: 20,
-        sm: 20,
-        md: 20,
-        lg: 20,
+        xs: 12,
+        sm: 12,
+        md: 8,
+        lg: 6,
       },
-    },
-
-
+    }
+    ],    
+  'Immunization': [
+  
     {
       name: 'babyImmunizationStarted',
       label: 'Immunization Started',
       type: 'radio',
-      validate: yup.string().required(),
+      validate: yup.string().required('Immunization is required'),
       options: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' },
@@ -258,13 +236,14 @@ const childPostnatalCareFields = {
         md: 12,
         lg: 6,
       },
-    },
-
+    }
+  ],
+  'ART Prophylaxis':[
     {
       name: 'heiGivenArtProphylaxis',
-      label: 'HEI given ART prophylaxis:',
+      label: 'HEI given ART prophylaxis',
       type: 'radio',
-      validate: yup.string().required(),
+      validate: yup.string().required('ART prophylaxis is required'),
       options: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' },
@@ -275,26 +254,14 @@ const childPostnatalCareFields = {
         md: 12,
         lg: 20,
       },
-    },
-    {
-      name: 'heiNotGivenArtProphylaxis',
-      label: 'If No start on ART PROPHYLAXIS, see page 36 on booklet',
-      type: 'text',
-      validate: yup.string(),
-      width: {
-        xs: 12,
-        sm: 12,
-        md: 12,
-        lg: 12,
-      },
-      relevant: values => values.heiGivenArtProphylaxis === 'No',
-    },
-
+    }
+  ],
+  'Cotrimoxazole Prophylaxis':[
     {
       name: 'babyCotrimoxazoleProphylaxisInitiated',
-      label: 'Baby cotrimoxazole prophylaxis initiated:',
+      label: 'Baby cotrimoxazole prophylaxis initiated',
       type: 'radio',
-      validate: yup.string().required(),
+      validate: yup.string().required('Cotrimoxazole prophylaxis is required'),
       options: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' },
@@ -311,4 +278,4 @@ const childPostnatalCareFields = {
   ],
 };
 
-export default childPostnatalCareFields;
+export default babyPostNatalCareFields;
