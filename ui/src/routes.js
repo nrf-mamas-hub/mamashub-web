@@ -38,6 +38,7 @@ import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
 import AEFI from './pages/AEFI';
 import FeedingInfo from './pages/FeedingInformation';
 import BabyPostNatalCare from './pages/BabyPostNatalCare';
+import SpecialCare from './pages/SpecialCare';
 
 const appRoutes = [
   {
@@ -205,6 +206,10 @@ const appRoutes = [
     path: '/baby-postnatal-care',
     element: BabyPostNatalCare,
   }, 
+  {
+    path: '/reason-for-special-care',
+    element: SpecialCare ,
+  }
 ];
 
 export default appRoutes;
