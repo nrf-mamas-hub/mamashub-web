@@ -69,9 +69,7 @@ export default function DevelopmentalMilestones() {
       ...initialValues,
     },
     validationSchema: validationSchema,
-    // submit form
     onSubmit: (values) => {
-      console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -129,7 +127,6 @@ export default function DevelopmentalMilestones() {
   let getEncounterObservations = async (encounter) => {
     setObservations([]);
     handleOpen();
-    console.log(encounter);
     let observations = await (
       await FhirApi({
         url: `/crud/observations?encounter=${encounter}`,
@@ -146,8 +143,7 @@ export default function DevelopmentalMilestones() {
         url: `/crud/encounters?patient=${patientId}&encounterCode=${"DEVELOPMENTAL_MILESTONES"}`,
       })
     ).data;
-    console.log(encounters);
-    setDevelopmentalMilestonesEncounters(encounters.encounters);
+    setDevelopmentalMilestonesEncounters((encounters.encounters).reverse());
     setLoading(false);
     return;
   };
@@ -160,10 +156,8 @@ export default function DevelopmentalMilestones() {
     }
     let patient = visit.id;
     try {
-      //create Encounter
       let encounter = await createEncounter(patient, "DEVELOPMENTAL_MILESTONES");
       
-      //Create and Post Observations
       let res = await (
         await fetch(`${apiHost}/crud/observations`, {
           method: "POST",
@@ -175,7 +169,6 @@ export default function DevelopmentalMilestones() {
           headers: { "Content-Type": "application/json" },
         })
       ).json();
-      console.log(res);
 
       if (res.status === "success") {
         prompt("Developmental Miestones saved successfully");
@@ -188,7 +181,6 @@ export default function DevelopmentalMilestones() {
         return;
       }
     } catch (error) {
-      console.error(error);
       prompt(JSON.stringify(error));
       return;
     }
