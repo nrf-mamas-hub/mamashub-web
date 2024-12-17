@@ -37,7 +37,7 @@ import MotherPostnatalCare from './pages/motherPostNatalCare';
 import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
 import AEFI from './pages/AEFI';
 import FeedingInfo from './pages/FeedingInformation';
-import ChildPostnatalCare from './pages/childPostnatalCare';
+import BabyPostNatalCare from './pages/BabyPostNatalCare';
 
 const appRoutes = [
   {
@@ -202,8 +202,8 @@ const appRoutes = [
     element: FeedingInfo,
   },
   {
-    path: '/child-postnatal-care',
-    element: ChildPostnatalCare,
+    path: '/baby-postnatal-care',
+    element: BabyPostNatalCare,
   }, 
 ];
 
