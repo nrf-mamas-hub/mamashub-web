@@ -254,7 +254,7 @@ export default function BabyPostNatalCare() {
                             </Grid>
                           );
                         })}
-                      {childPostnatalCareEncounters.length < 5 && (
+                      {childPostnatalCareEncounters.length < 4 && (
                         <Grid
                           item
                           xs={12}
