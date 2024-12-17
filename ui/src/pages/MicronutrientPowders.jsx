@@ -180,7 +180,7 @@ export default function MotherPostnatalCare({ userData }) {
           if (res.status === "success") {
             prompt("Micronutrient Powders Administration saved successfully");
             // setValue('2')
-            navigate('/patients/${patient}');
+            navigate(`/patients/${patient}`);
             await getMicronutrientPowdersEncounters(patient);
             setNewVisit(false);
             return;
