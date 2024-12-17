@@ -27,7 +27,6 @@ import Facilites from './pages/Facilities';
 import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
-import MicronutrientPowders from './pages/MicronutrientPowders';
 import ReasonForSpecialCare from './pages/SpecialCare';
 
 const appRoutes = [
@@ -150,10 +149,6 @@ const appRoutes = [
   {
     path: '/nurse-dashboard',
     element: NurseDashboard,
-  },
-  {
-    path: '/micronutrient-powders',
-    element: MicronutrientPowders,
   },
   {
     path: '/reason-for-special-care',
