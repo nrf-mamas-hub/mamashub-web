@@ -302,15 +302,15 @@ export default function HeaderDrawer({ children }) {
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
-          name: "Child Postnatal Care",
+          name: "Baby Postnatal Care",
           icon: <EscalatorWarning />,
-          path: "/child-postnatal-care",
+          path: "/baby-postnatal-care",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Reason For Special Care",
           icon: <i className='fa-solid fa-notes-medical' ></i>,
-          path: "reason-for-special-care",
+          path: "/reason-for-special-care",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
@@ -321,18 +321,122 @@ export default function HeaderDrawer({ children }) {
         },
         {
           name: "Baby Problems",
-          icon: <Sick/>,
+          icon: <Sick />,
+          icon: <Sick />,
           path: "/other-baby-problems",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
           name: "Record of Baby Teeth Development",
-          icon: <ChildCare/>,
+          icon: <ChildCare />,
+          icon: <ChildCare />,
           path: "/baby-teeth-development",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
-        }
-
+        },
+        {
+          name: "Broad Clinical Review",
+          icon: <i className="fa-solid fa-stethoscope"></i>,
+          path: "/broad-clinical-review",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Developmental Milestones",
+          icon: <i className="fa-solid fa-shoe-prints"></i>,
+          path: "/developmental-milestones",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Identification of Early Eye Problems",
+          icon: <i className="fa-solid fa-eye"></i>,
+          path: "/identification-of-early-eye-problems",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Vitamin A Supplementation (VAS)",
+          icon: <i className="fa-solid fa-pills"></i>,
+          path: "/vas",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Micronutrient Powders (MNPs)",
+          icon: <i className="fa-solid fa-prescription-bottle-medical"></i>,              
+          path: "/micronutrient-powders",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"]
+        },
+        {
+          name: "Hopital Admissions",
+          icon: <i className="fa-solid fa-bed"></i>,              
+          path: "/hospital-admissions",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"]
+        },
       ],
+    },
+    {
+      name: "Immunization Forms",
+      icon: <i className="fa-solid fa-syringe"></i>,
+      roles: ["NURSE"],
+      children: [
+        {
+          name: "BCG Vaccine",
+          icon: <i className="fa-solid fa-shield-virus"></i>,
+          path: "/bcg-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Polio Vaccine",
+          icon: <i className="fa-solid fa-eye-dropper"></i>,
+          path: "/polio-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "IPV (Inactivated Polio Vaccine)",
+          icon: <i className="fa-solid fa-shield-virus"></i>,
+          path: "/ipv",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Diptheria/Pertussis",
+          icon: <i className="fa-solid fa-shield-virus"></i>,
+          path: "/diptheria-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Pneumococcal Conjugate Vaccine",
+          icon: <i className="fa-solid fa-shield-virus"></i>,
+          path: "/pneumococcal-conjugate-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Rota Virus Vaccine",
+          icon: <i className="fa-solid fa-eye-dropper"></i>,
+          path: "/rota-virus-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Measles Rubella Vaccine",
+          icon: <i className="fa-solid fa-shield-virus"></i>,
+          path: "/measles-rubella-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Yellow Fever Vaccine",
+          icon: <i className="fa-solid fa-shield-virus"></i>,
+          path: "/yellow-fever-vaccine",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "Other Vaccines",
+          icon: <i className="fa-solid fa-vials"></i>,
+          path: "/other-vaccines",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        },
+        {
+          name: "AEFI",
+          icon: <i className="fa-solid fa-hand-dots"></i>,
+          path: "/any-adverse-event",
+          roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
+        }
+      ]
     },
     {
       name: "Reports",
