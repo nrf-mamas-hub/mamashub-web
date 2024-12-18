@@ -200,6 +200,10 @@ const appRoutes = [
     element: FeedingInfo,
   },
   {
+    path: '/any-adverse-event',
+    element: AEFI
+  },
+  {
     path: '/baby-postnatal-care',
     element: BabyPostNatalCare,
   }, 
