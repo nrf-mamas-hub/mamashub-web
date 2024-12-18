@@ -192,7 +192,8 @@ export const createEncounter = (
   patientId: string,
   encounterId: string,
   encounterType: number = 2,
-  encounterCode: string | null = null
+  encounterCode: string | null = null,
+  locationId?: string
 ) => {
   if (encounterType > 3 || encounterType < 1) {
     console.error("Encounter type is either 1, 2 or 3");
@@ -251,6 +252,15 @@ export const createEncounter = (
         ],
       },
     ],
+    ...(locationId && {
+      location: [
+        {
+          location: {
+            reference: `Location/${locationId}`,
+          },
+        },
+      ],
+    }),
   };
 };
 
@@ -696,7 +706,18 @@ export let RelatedPerson = (relatedPerson: any) => {
       },
     ],
   };
-}; 
+};
+
+export const Location = (placeOfBirth: string, id: string) => {
+  return {
+    resourceType: "Location",
+    ...(id && { id: id }),
+    ...(!id && { id: uuidv4() }),
+    status: "active",
+    name: placeOfBirth,
+    mode: "kind",
+  };
+};
 
 export const createPractitioner = async (userId: string) => {
   try {
@@ -748,3 +769,511 @@ export const Practitioner = async (id: string) => {
     return null;
   }
 };
+
+export const Appointment = (appointment: any) => {
+  if (appointment.serviceCategory < 1 || appointment.serviceCategory > 5) {
+    console.error("Service categories should range from 1 to 4");
+    return;
+  }
+
+  if (appointment.reason < 1 || appointment.reason > 8) {
+    console.error("Appointment reasons should range from 1 to 8");
+    return;
+  }
+
+  // these are the most common service categories I have identified for appointments in PNC
+  // advise if more or less are needed [@moturiphil, @bushisky]
+  // 1- Child Development
+  // 2- Community Healthcare
+  // 3- Counselling
+  // 4- General Practice
+  // 5- Physical Activities
+
+  const serviceCategoryCoding = () => {
+    switch (appointment.serviceCategory) {
+      case 1:
+        return {
+          code: "5",
+          display: "Child Development",
+        };
+
+      case 2:
+        return {
+          code: "7",
+          display: "Community Health Care",
+        };
+
+      case 3:
+        return {
+          code: "8",
+          display: "Counselling",
+        };
+
+      case 4:
+        return {
+          code: "17",
+          display: "General Practice",
+        };
+
+      default:
+        return {
+          code: "23",
+          display: "Physical Activity & Recreation",
+        };
+    }
+  };
+
+  // and these are the reasons I have identified as most fitting for all PNC appointments
+  const appointmentReasonCoding = () => {
+    switch (appointment.reason) {
+      case 1:
+        return {
+          code: "413744002",
+          display: " Cancer screening follow up",
+        };
+
+      case 2:
+        return {
+          code: "281010000",
+          display: "Child development checks",
+        };
+
+      case 3:
+        return {
+          code: "33879002",
+          display: "Administration of vaccine to produce active immunity",
+        };
+
+      case 4:
+        return {
+          code: "767224000",
+          display: "Administration of vitamin A",
+        };
+
+      case 5:
+        return {
+          code: "709542007",
+          display: " Administration of nutritional supplement",
+        };
+
+      case 6:
+        return {
+          code: "14369007",
+          display: "Deworming",
+        };
+
+      case 7:
+        return {
+          code: "399256002",
+          display: "Polymerase chain reaction test for HIV 1",
+        };
+
+      default:
+        return {
+          code: "409788009",
+          display: "Rapid HIV-1 antibody test",
+        };
+    }
+  };
+
+  return {
+    resourceType: "Appointment",
+    id: appointment.id || uuidv4(),
+    status: "booked",
+    class: [
+      {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            code: "AMB",
+            display: "ambulatory",
+          },
+        ],
+      },
+    ],
+    serviceCategory: [
+      {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/service-category",
+            ...{
+              ...serviceCategoryCoding(),
+            },
+          },
+        ],
+      },
+    ],
+    appointmentType: {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/v2-0276",
+          code: "FOLLOWUP",
+          display: "A follow up visit from a previous appointment",
+        },
+      ],
+    },
+    reasonCode: [
+      {
+        coding: [
+          {
+            system: "http://snomed.info/sct",
+            ...{
+              ...appointmentReasonCoding(),
+            },
+          },
+        ],
+      },
+    ],
+    description: appointment.description,
+    start: new Date(appointment.nextVisit).toISOString(),
+    end: new Date(appointment.nextVisit).toISOString(),
+    created: new Date().toISOString(),
+    ...(appointment.note && {
+      note: [
+        {
+          text: appointment.note,
+        },
+      ],
+    }),
+    subject: {
+      reference: `Patient/${appointment.patientId}`,
+    },
+    participant: [
+      {
+        actor: {
+          reference: `Patient/${appointment.patientId}`,
+          display: appointment.patientName,
+        },
+        required: "required",
+        status: "accepted",
+      },
+      {
+        type: [
+          {
+            coding: [
+              {
+                system:
+                  "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                code: "ATND",
+                display: "attender",
+              },
+            ],
+          },
+        ],
+        actor: {
+          reference: `Practitioner/${appointment.practitionerId}`,
+          display: appointment.practitionerName,
+        },
+        required: "required",
+        status: "accepted",
+      },
+    ],
+  };
+};
+
+export const Immunization = (immunization:any, vaccineCoding:any, siteCoding:any, routeCoding:any, unitCoding:any) => {
+  
+  return {
+    resourceType: "Immunization",
+    id: immunization.id || uuidv4(),
+    status: "completed",
+    vaccineCode: {
+      coding: [
+        {
+          system: vaccineCoding.system === "snomed" ? "http://snomed.info/sct" :
+            vaccineCoding.system === "hl7" ? "http://hl7.org/fhir/sid/cvx" :
+              vaccineCoding.system === "urn" ? "urn:oid:1.2.36.1.2001.1005.17" :
+                "http://41.89.93.172/fhir",
+          code: vaccineCoding.code,
+          display: vaccineCoding.display,
+        }
+      ]
+    },
+    patient: {
+      reference: `Patient/${immunization.patientId}`      
+    },
+    encounter: {
+      reference: `Encounter/${immunization.encounterId}`
+    },
+    occurrenceDateTime: new Date(immunization.immunizationDate).toISOString(),
+    recorded: new Date().toISOString(),
+    ...(immunization.manufacturerId && immunization.manufacturerId!=="" && {
+      manufacturer: {
+        reference: `Organization/${immunization.manufacturerId}`
+      }
+    }),
+    lotNumber: immunization.lotNumber,
+    expirationDate: new Date(immunization.expiryDate).toISOString().split("T")[0],
+    site: {
+      coding: [
+        {
+          system: siteCoding.system === "snomed" ? "http://snomed.info/sct" :
+            siteCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-ActSite" :
+              "http://41.89.93.172/fhir",
+          code: siteCoding.code,
+          display:siteCoding.display,
+        }
+      ]
+    },
+    route: {
+      coding: [
+        {
+          system: routeCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration" :
+            routeCoding.system === "snomed" ? "http://snomed.info/sct" :
+              "http://41.89.93.172/fhir",
+          code: routeCoding.code,
+          display: routeCoding.display
+        }
+      ]
+    },
+    doseQuantity: {
+      value: immunization.dosage,
+      unit: unitCoding.display,      
+      system: "http://unitsofmeasure.org",
+      code: unitCoding.code
+    },
+    performer: [{
+      actor: {
+        reference: `Practitioner/${immunization.practitionerId}`
+      }
+    }],
+    ...(immunization.additionalComments && immunization.additionalComments!=="" && {
+      note: [{
+        text:immunization.additionalComments
+      }]
+    }),
+    reasonCode: [{
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "127785005",
+          display: "Administration to produce immunity, either active or passive"
+        }
+      ]
+    }],
+    ...(immunization.fundingSource && {
+      fundingSource: {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+            code: immunization.fundingSourceCode,
+            display: immunization.fundingSourceDisplay
+          }
+        ]
+      }
+    })
+  }
+}
+
+export const MedicationRequest = (medication: any, medicationCoding: any, siteCoding: any, routeCoding: any, methodCoding: any, unitCoding: any) => {  
+
+  const categoryCoding = () => {
+    
+    switch (medication.category) {
+      
+      case 1:
+        return {
+          code: "outpatient",
+          display: "Outpatient"
+        }
+      
+      default:
+        return {
+          code: "community",
+          display: "Community"
+        }
+    }
+  }
+  
+  return {
+    resourceType: "MedicationRequest",
+    id: medication.id || uuidv4(),    
+    meta: {
+      profile:["http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationRequest-uv-ips"]
+    },
+    status: "completed",
+    intent: "original-order",
+    ...(medication.category && medication.category !== "" && {
+      category: [{
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
+            ...{
+              ...categoryCoding()
+            }
+          }
+        ]
+      }]
+    }),
+    priority: "routine",
+    medicationCodeableConcept: {
+      coding: [
+        {
+          system: medicationCoding.system === "snomed" ? "http://snomed.info/sct" :
+          medicationCoding.system === "ciel" ? "https://CIELterminology.org" :
+            "http://41.89.93.172/fhir",
+          code: medicationCoding.code,
+          display: medicationCoding.display
+        }
+      ]
+    },
+    subject: {
+      reference: `Patient/${medication.patientId}`
+    },
+    encounter: {
+      reference: `Encounter/${medication.encounterId}`
+    },
+    authoredOn: new Date().toISOString(),
+    requester: {
+      reference: `Practitioner/${medication.practitionerId}`
+    },
+    performer: {
+      reference: `Patient/${medication.patientId}` //this indicated who performed the actual administration. For kids, i recommend the mother being
+    },                                             //performer
+    recorder: {
+      reference: `Practitioner/${medication.practitionerId}`
+    },
+    ...(medication.reason && medication.reason !== "" && {
+      reasonCode: [{
+        coding: [
+          {
+            system: medication.system,            
+            code: medication.reasonCode,
+            display: medication.reasonDisplay
+          }
+        ]
+      }]
+    }),
+    ...(medication.additionalComments && medication.additionalComments !== "" && {
+      note: [{
+        text: medication.additionalComments
+      }]
+    }),
+    dosageInstruction: [{
+      ...(medication.dosageInstructions && medication.dosageInstruction !== "" && {
+        text: medication.dosageInstruction
+      }),
+      ...(medication.additionalInstruction && medication.additionalInstruction !== "" && {
+        additionalInstruction: [{
+          coding: [
+            {
+              system: medication.additionalInstructionSystem,
+              code: medication.additionalInstructionCode,
+              display: medication.additionalInstructionDisplay
+            }
+          ]
+        }]
+      }),
+      site: {
+        coding: [
+          {
+            system: siteCoding.system === "snomed" ? "http://snomed.info/sct" :
+            siteCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-ActSite" :
+              "http://41.89.93.172/fhir",        
+            code: siteCoding.code,
+            display: siteCoding.display
+          }
+        ]
+      },
+      route: {
+        coding: [
+          {
+            system: routeCoding.system === "hl7" ? "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration" :
+            routeCoding.system === "snomed" ? "http://snomed.info/sct" :
+              "http://41.89.93.172/fhir",
+            code: routeCoding.code,
+            display: routeCoding.display
+          }
+        ]
+      },
+      method: {
+        coding: [
+          {
+            system: methodCoding.system === "snomed" ?  "http://snomed.info/sct" : "http://41.89.93.172/fhir",
+            code: methodCoding.code,
+            display: methodCoding.display
+          }
+        ]
+      },
+      doseAndRate: [{
+        doseQuantity: {
+          value: medication.dosage,
+          unit: unitCoding.display,
+          system: "http://unitsofmeasure.org",      
+          code: unitCoding.code      
+        }
+      }]
+    }]
+  }
+}
+
+export const AllergyIntolerance = (intolerance: any) => {        
+  
+  return {
+    
+    resourceType: "AllergyIntolerance",
+    id: intolerance.id || uuidv4(),
+    clinicalStatus: {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+          code: "active",
+          display: "Active"          
+        }
+      ]
+    },
+    verificationStatus: {
+      coding:
+        [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+            code: "confirmed",
+            display: "Confirmed"            
+        }
+      ]
+    },
+    type: "intolerance",
+    category: ["biologic"],
+    code: {
+      coding: [
+        {
+          system: "http://snomed.info/sct",
+          code: "418038007",
+          display: "Propensity to adverse reactions to substance"
+        }
+      ]
+    },
+    patient: {
+      reference: `Patient/${intolerance.patientId}`
+    },
+    encounter: {
+      reference: `Encounter/${intolerance.encounterId}`
+    },
+    onsetDateTime: new Date(intolerance.onset).toISOString(),
+    recordedDate: new Date().toISOString(),
+    recorder: {
+      reference: `Practitioner/${intolerance.practitionerId}`
+    },
+    reaction: [{
+      substance: {
+        coding: [
+          {
+            system: intolerance.system,
+            code: intolerance.code,
+            display: intolerance.display
+          }
+        ]
+      },
+      manifestation: [{ //This is hardcoded since the booklet does not provide for a specific reaction manifestation. Should it be
+        coding: [       //available later on, this should be changed to dynamically code the manifestation.
+          {
+            system: "http://snomed.info/sct",
+            code: "29544009",
+            display: "Intolerance"
+          }
+        ]
+      }],
+      description: intolerance.description
+    }]
+  }
+}
