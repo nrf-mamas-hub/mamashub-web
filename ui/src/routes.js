@@ -39,6 +39,7 @@ import AEFI from './pages/AEFI';
 import FeedingInfo from './pages/FeedingInformation';
 import BabyPostNatalCare from './pages/BabyPostNatalCare';
 import SpecialCare from './pages/SpecialCare';
+import RotaVirusVaccineForm from './pages/RotaVirusVaccine';
 
 const appRoutes = [
   {
@@ -195,10 +196,6 @@ const appRoutes = [
     element: RecordOfBabyTeethDevelopment,
   },
   {
-    path: '/any-adverse-event',
-    element: AEFI,
-  },
-  {
     path: '/feeding-information',
     element: FeedingInfo,
   },
@@ -209,7 +206,11 @@ const appRoutes = [
   {
     path: '/reason-for-special-care',
     element: SpecialCare ,
-  }
+  },
+  {
+    path: '/rota-virus-vaccine',
+    element: RotaVirusVaccineForm,
+  },
 ];
 
 export default appRoutes;
