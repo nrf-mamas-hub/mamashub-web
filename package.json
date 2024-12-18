@@ -6,13 +6,12 @@
     "typescript": "^5.5.4"
   },
   "scripts": {
-    "dev": "concurrently \"yarn dev:api\" \"yarn dev:ui\"",
+    "dev": "concurrently 'yarn dev:api' 'yarn dev:ui'",
     "dev:api": "yarn workspace api dev",
     "dev:ui": "yarn workspace ui start",
     "docker:build:api": "docker build ./api",
     "docker:build:ui": "docker build ./ui"
   },
-
   "workspaces": [
     "api",
     "ui"
