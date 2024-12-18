@@ -302,9 +302,9 @@ export default function HeaderDrawer({ children }) {
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
-          name: "Child Postnatal Care",
+          name: "Baby Postnatal Care",
           icon: <EscalatorWarning />,
-          path: "/child-postnatal-care",
+          path: "/baby-postnatal-care",
           roles: ["ADMINISTRATOR", "FACILITY ADMINISTRATOR", "NURSE"],
         },
         {
