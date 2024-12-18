@@ -40,7 +40,7 @@ import FeedingInfo from './pages/FeedingInformation';
 import BabyPostNatalCare from './pages/BabyPostNatalCare';
 import SpecialCare from './pages/SpecialCare';
 import RotaVirusVaccineForm from './pages/RotaVirusVaccine';
-import ChildCivilRegistration from './pages/Childcivilregistration';
+import ChildCivilRegistration from './pages/ChildCivilRegistration';
 
 const appRoutes = [
   {
