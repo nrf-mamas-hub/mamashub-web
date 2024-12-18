@@ -22,7 +22,7 @@ const specialCare = {
         { value: 'HIV-exposed infant', label: 'HIV-exposed infant' },
         { value: 'History or signs of child abuse or neglect', label: 'History or signs of child abuse or neglect' },
         { value: 'Cleft lip or palate', label: 'Cleft lip or palate' },
-        { value: 'Other', label: 'Other' },
+        { value: 'Other', label: 'Other' },   
       ],
       width: {
         xs: 12,
@@ -35,18 +35,13 @@ const specialCare = {
       name: 'specifyOtherReasonForSpecialCare',
       label: 'If other, please specify',
       type: 'text',
-      validate: yup.string().when('reasonsForSpecialCare', {
-        is: (val) => val && val.includes('Other'),
-        then: yup.string().required('Please specify the other reason for special care'),
-        otherwise: yup.string(),
-      }),
-      relevant: (values) =>
-        values.reasonsForSpecialCare && values.reasonsForSpecialCare.includes('Other'),
+      validate: yup.string(),
+      relevant: (values) => values.reasonsForSpecialCare.includes('Other'),      
       width: {
         xs: 12,
         sm: 12,
-        md: 12,
-        lg: 12,
+        md: 8,
+        lg: 6,
       },
     },
   ],

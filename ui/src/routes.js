@@ -27,8 +27,19 @@ import Facilites from './pages/Facilities';
 import MOH711 from './pages/MOH711';
 import Index from './pages/Index';
 import NurseDashboard from './pages/NurseDashboard';
-import ReasonForSpecialCare from './pages/SpecialCare';
-import MicronutrientPowders from './pages/MicronutrientPowders';
+import CancerScreening from './pages/cancerScreening';
+import FamilyPlanning from './pages/FamilyPlanning';
+import DevelopmentalMilestones from './pages/DevelopmentalMilestones';
+import DiphtheriaVaccination from './pages/Diphtheria';
+import OtherProblems from './pages/OtherProblems';
+import BroadClinicalReview from  './pages/BroadClinicalReview';
+import MotherPostnatalCare from './pages/motherPostNatalCare';
+import RecordOfBabyTeethDevelopment from './pages/BabyTeethDevelopment';
+import AEFI from './pages/AEFI';
+import FeedingInfo from './pages/FeedingInformation';
+import BabyPostNatalCare from './pages/BabyPostNatalCare';
+import SpecialCare from './pages/SpecialCare';
+import RotaVirusVaccineForm from './pages/RotaVirusVaccine';
 
 const appRoutes = [
   {
@@ -154,6 +165,35 @@ const appRoutes = [
   {
     path: '/reason-for-special-care',
     element: ReasonForSpecialCare,
+  },
+  {
+    path: '/mother-postnatal-care',
+    element: MotherPostnatalCare,
+  },
+
+  {
+    path: '/baby-teeth-development',
+    element: RecordOfBabyTeethDevelopment,
+  },
+  {
+    path: '/feeding-information',
+    element: FeedingInfo,
+  },
+  {
+    path: '/any-adverse-event',
+    element: AEFI
+  },
+  {
+    path: '/baby-postnatal-care',
+    element: BabyPostNatalCare,
+  }, 
+  {
+    path: '/reason-for-special-care',
+    element: SpecialCare ,
+  },
+  {
+    path: '/rota-virus-vaccine',
+    element: RotaVirusVaccineForm,
   },
   {
     path: '/micronutrient-powders',
