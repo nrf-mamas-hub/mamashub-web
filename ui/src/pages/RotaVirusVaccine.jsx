@@ -1,6 +1,5 @@
 import {
   Container,
-  TextField,
   Stack,
   Button,
   Grid,
@@ -13,8 +12,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
-import { getCookie } from "../lib/cookie";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -23,18 +20,17 @@ import { Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
 import CurrentPatient from "../components/CurrentPatient";
-import { apiHost, createEncounter, FhirApi } from "../lib/api";
+import { createEncounter, FhirApi } from "../lib/api";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
-import RotaVirusVaccineFields from "../lib/forms/RotaVirusVaccineForm";
+import rotaVirusVaccineFields from "../lib/forms/rotaVirusVaccineForm";
 import { getSections } from "../lib/getFormSections";
 
-export default function RotaVirusVaccineForm({ userData }) {
-  let [patient, setPatient] = useState({});
+export default function RotaVirusVaccineForm() {
+
   let [visit, setVisit] = useState();
   let [open, setOpen] = useState(false);
   let [loading, setLoading] = useState(false);
@@ -42,22 +38,20 @@ export default function RotaVirusVaccineForm({ userData }) {
   let [observations, setObservations] = useState([]);
   let isMobile = useMediaQuery("(max-width:600px)");
   const [newVisit, setNewVisit] = useState(false);
-  let [rotaVirusVaccine, setrotaVirusVaccine] = useState({});
-  let [RotaVirusVaccineFormEncounters, setRotaVirusVaccineFormEncounters] = useState(
+  let [rotaVirusVaccineFormEncounters, setRotaVirusVaccineFormEncounters] = useState(
       []
   );
   const handleClose = () => setOpenModal(false);
   const handleOpen = () => setOpenModal(true);
   const [value, setValue] = useState("1");
   let [openModal, setOpenModal] = useState(false);
-
   const [inputData, setInputData] = useState({});
   const [preview, setPreview] = useState(false);
 
 
   const navigate = useNavigate();
   
-  const fieldValues = Object.values(getSections(RotaVirusVaccineFields, RotaVirusVaccineFormEncounters.length, RotaVirusVaccineFormEncounters.length+1)).flat();
+  const fieldValues = Object.values(getSections(rotaVirusVaccineFields, rotaVirusVaccineFormEncounters.length, rotaVirusVaccineFormEncounters.length+1)).flat();
   const validationFields = fieldValues.map((item) => ({
       [item.name]: item.validate,
   }));
@@ -74,12 +68,9 @@ export default function RotaVirusVaccineForm({ userData }) {
   const formik = useFormik({
       initialValues: {
           ...initialValues,
-          facilityName: userData?.facilityName,
-          kmhflCode: userData?.kmhflCode,
       },
       validationSchema: validationSchema,
       onSubmit: (values) => {
-          console.log(values);
           setPreview(true);
           setInputData(values);
       },
@@ -90,7 +81,7 @@ export default function RotaVirusVaccineForm({ userData }) {
       setOpen(true);
       setTimeout(() => setOpen(false), 4000);
   }
-  const handleChange = (event, newValue) => setValue(newValue);
+  const handleChange = (newValue) => setValue(newValue);  
 
   useEffect(() => {
       let visit = window.localStorage.getItem("currentPatient");
@@ -109,28 +100,13 @@ export default function RotaVirusVaccineForm({ userData }) {
     }, []);
   
     useEffect(() => {
-      let visit = window.localStorage.getItem("currentPatient");
-      if (!visit) {
-        prompt(
-          "No patient visit not been initiated. To start a visit, Select a patient in the Patients list"
-        );
-        return;
-      }
-      setVisit(JSON.parse(visit));
-      return;
-    }, []);
-  
-    useEffect(() => {
-      let visit = window.localStorage.getItem("currentPatient") ?? null;
-      visit = JSON.parse(visit) ?? null;
       if (visit) {
           getRotaVirusVaccineFormEncounters(visit.id);
       }
-    }, []);
+    }, [visit]);
   
     let getEncounterObservations = async (encounter) => {
       setObservations([]);
-      // handleOpen();
       let observations = await (
         await FhirApi({ url: `/crud/observations?encounter=${encounter}` })
       ).data;
@@ -145,26 +121,26 @@ export default function RotaVirusVaccineForm({ userData }) {
           url: `/crud/encounters?patient=${patientId}&encounterCode=${"ROTA_VIRUS_VACCINE"}`,
         })
       ).data;
-      // console.log(encounters);
       setRotaVirusVaccineFormEncounters(encounters.encounters);
       setLoading(false);
       return;
     };
-    let saveRotaVirusVaccineForm = async (values) => {
-      //get current patient
+  
+  let saveRotaVirusVaccineForm = async (values) => {
+      
       if (!visit) {
         prompt(
           "No patient visit not been initiated. To start a visit, Select a patient in the Patient's list"
         );
         return;
       }
-      let patient = visit.id;
-      try {
-        //create Encounter
+    
+    let patient = visit.id;
+    
+    try {
+        
         let encounter = await createEncounter(patient, "ROTA_VIRUS_VACCINE");
-        // console.log(encounter)
   
-        //Create and Post Observations
         let res = await (
           await FhirApi({
             url:`/crud/observations`,
@@ -176,12 +152,10 @@ export default function RotaVirusVaccineForm({ userData }) {
             }),
           })
         ).data;
-        // console.log(res);
   
         if (res.status === "success") {
           prompt("Rota Virus Vaccine form saved successfully");
-          // setValue('2')
-          navigate('/patients/${patient}');
+          navigate(`/patients/${patient}`);
           await getRotaVirusVaccineFormEncounters(patient);
           setNewVisit(false);
           return;
@@ -190,7 +164,6 @@ export default function RotaVirusVaccineForm({ userData }) {
           return;
         }
       } catch (error) {
-        console.error(error);
         prompt(JSON.stringify(error));
         return;
       }
@@ -218,7 +191,6 @@ export default function RotaVirusVaccineForm({ userData }) {
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
               open={open}
-              // onClose={""}
               message={message}
               key={"loginAlert"}
             />
@@ -226,7 +198,7 @@ export default function RotaVirusVaccineForm({ userData }) {
             {preview ? (
               <Preview
                 title="Rota Virus Vaccine Preview"
-                format={getSections(RotaVirusVaccineFields, RotaVirusVaccineFormEncounters.length, RotaVirusVaccineFormEncounters.length+1)}
+                format={getSections(rotaVirusVaccineFields, rotaVirusVaccineFormEncounters.length, rotaVirusVaccineFormEncounters.length+1)}
                 data={{ ...inputData }}
                 close={() => setPreview(false)}
                 submit={saveRotaVirusVaccineForm}
@@ -246,11 +218,10 @@ export default function RotaVirusVaccineForm({ userData }) {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    {/* <p></p> */}
                     {!newVisit && (
                       <Grid container spacing={1} padding=".5em">
-                        {RotaVirusVaccineFormEncounters.length > 0 &&
-                         RotaVirusVaccineFormEncounters.map((x, index) => {
+                        {rotaVirusVaccineFormEncounters.length > 0 &&
+                         rotaVirusVaccineFormEncounters.map((x, index) => {
                             return (
                               <Grid item xs={12} md={12} lg={12} key={index}>
                                 <Button
@@ -278,7 +249,7 @@ export default function RotaVirusVaccineForm({ userData }) {
                               </Grid>
                             );
                           })}
-                        {RotaVirusVaccineFormEncounters.length < 2 && (
+                        {rotaVirusVaccineFormEncounters.length < 2 && (
                           <Grid
                             item
                             xs={12}
@@ -305,7 +276,7 @@ export default function RotaVirusVaccineForm({ userData }) {
                         )}
                       </Grid>
                     )}
-                    {RotaVirusVaccineFormEncounters.length < 1 && loading && (
+                    {rotaVirusVaccineFormEncounters.length < 1 && loading && (
                       <>
                         <CircularProgress />
                       </>
@@ -315,9 +286,9 @@ export default function RotaVirusVaccineForm({ userData }) {
                     {newVisit && (
                       <>
                         <FormFields
-                          formData={getSections(RotaVirusVaccineFields, RotaVirusVaccineFormEncounters.length, RotaVirusVaccineFormEncounters.length+1)}
+                          formData={getSections(rotaVirusVaccineFields, rotaVirusVaccineFormEncounters.length, rotaVirusVaccineFormEncounters.length+1)}
                           formik={formik}
-                          encounters={RotaVirusVaccineFormEncounters}
+                          encounters={rotaVirusVaccineFormEncounters}
                           getEncounterObservations={getEncounterObservations}
                         />
                         <p></p>
@@ -389,8 +360,6 @@ export default function RotaVirusVaccineForm({ userData }) {
                                 borderRadius: "10px",
                               }}
                             >
-                              {/* <Typography sx={{ fontWeight: "bold" }} variant="p">Time: {new Date(observation.resource.meta.lastUpdated).toUTCString()}</Typography><br /> */}
-                              {/* <Typography variant="p">Observation Code: {JSON.stringify(observation.resource.code.coding)}</Typography> */}
                               {observation.resource.code.coding &&
                                 observation.resource.code.coding.map(
                                   (entry, index) => {
@@ -408,7 +377,6 @@ export default function RotaVirusVaccineForm({ userData }) {
                                                 .valueDateTime ??
                                               "-"}
                                         </Typography>
-                                        {/* <br /> */}
                                       </React.Fragment>
                                     );
                                   }
