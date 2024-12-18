@@ -21,13 +21,14 @@ import { v4 as uuidv4 } from "uuid";
 import { FhirApi, apiHost } from "../lib/api";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { createEncounter } from "../lib/api";
+import { createEncounter, createLocation } from "../lib/api";
 import Preview from "../components/Preview";
 import FormFields from "../components/FormFields";
 import { getSections } from "../lib/getFormSections";
 import childCivilRegistrationFormFields from "../lib/forms/childiCivilRegistration";
 
 export default function ChildCivilRegistration({ userData }) {
+
   let [open, setOpen] = useState(false);
   let [message, setMessage] = useState(false);
   const [preview, setPreview] = useState(false);
@@ -58,9 +59,7 @@ export default function ChildCivilRegistration({ userData }) {
     },
 
     validationSchema: validationSchema,
-    // submit form
     onSubmit: (values) => {
-      console.log(values);
       setPreview(true);
       setInputData(values);
     },
@@ -75,7 +74,7 @@ export default function ChildCivilRegistration({ userData }) {
     return;
   }
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {    
     setValue(newValue);
     return;
   };
@@ -95,7 +94,6 @@ export default function ChildCivilRegistration({ userData }) {
         childPhysicalAddress: `${values.county} ${values.subCounty} ${values.ward} ${values.residenceOfChild}`
       };
 
-      // save patient in HAPI FHIR server first
       let id = uuidv4();
       let response = await FhirApi({
         url: `/crud/patients/${id}`,
@@ -103,59 +101,72 @@ export default function ChildCivilRegistration({ userData }) {
         data: JSON.stringify({ ...values, id: id, kmhflCode:userData?.kmhflCode }),
       });
 
-      const relatedPeople={
-        relatedPerson:id,
-        father:{
-          name:values.fatherName,
-          phone:values.fatherPhone
+      const relatedPeople = {        
+        relatedPerson: id,        
+        father: {          
+          name: values.fatherName,          
+          phone: values.fatherPhone          
         },
-        guardian:{
-          name:values.guardianName,
-          phone:values.guardianPhone
+        guardian: {          
+          name: values.guardianName,          
+          phone: values.guardianPhone          
+        }        
+      }
+
+      if (relatedPeople.father.name !== "" || relatedPeople.guardian.name !== "") {
+        
+        let relatedPersonResponse=await FhirApi({
+          url:`/crud/related-person`,
+          method: "POST",
+          data: JSON.stringify(relatedPeople)
+        })
+  
+        if (response.status !== "success" || relatedPersonResponse.status !== "success") {       
+          prompt("Could not submit child/related person details");
+          return;
         }
       }
 
-      let relatedPersonResponse=await FhirApi({
-        url:`/crud/related-person`,
-        method: "POST",
-        data: JSON.stringify(relatedPeople)
-      })
+      let locationResponse = await createLocation(values.placeOfBirth);
 
-      if (response.status !== "success" || relatedPersonResponse.status!=="success") {        
+      if (locationResponse.status !== "success") {
+        prompt("Cannot submit child place of birth");
         return;
       }
 
-      //Create Encounter
       let patientId = id;
-      //create encounter
-      setOpen(false)
+
+      setOpen(false);
+
       let encounter = await createEncounter(patientId, "CHILD_CIVIL_REGISTRATION");
+
       prompt("Registering child");
       
-      // Create and Post Observations
-      let res = await (
+      let res = await (        
         await fetch(`${apiHost}/crud/observations`, {
           method: "POST",
           body: JSON.stringify({
-            patientId: patientId,
+            patientId,
             encounterId: encounter.id,
-            observations: observations
+            observations: {
+              ...observations
+            }
           }),
           headers: { "Content-Type": "application/json" },
         })
       ).json();
+
       setOpen(false);
 
-      if (relatedPersonResponse.status === "success") {
-        prompt("Child created successfully...");
+      if (res.status === "success") {
+        prompt("Child details submitted successfully");
         navigate(`/patients/${id}`);
         return;
       } else {
-        prompt(relatedPersonResponse.error);
+        prompt("Cannot submit child details");
         return;
       }
     } catch (error) {
-      console.log(error);
       prompt(JSON.stringify(error));
       return;
     }
@@ -178,12 +189,11 @@ export default function ChildCivilRegistration({ userData }) {
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={open}
-            // onClose={""}
             message={message}
             key={"loginAlert"}
           />
 
-<TabContext value={value}>
+          <TabContext value={value}>            
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
                 value={value}
@@ -221,8 +231,7 @@ export default function ChildCivilRegistration({ userData }) {
                       variant="contained"
                       disableElevation
                       sx={{ backgroundColor: "gray" }}
-                      onClick={(e) => {
-                        // setAntenatalProfile({});
+                      onClick={() => {
                       }}
                     >
                       CANCEL
@@ -230,8 +239,8 @@ export default function ChildCivilRegistration({ userData }) {
 
                     <Button
                       variant="contained"
-                      onClick={(e) => {
-                        handleChange(null, "2");
+                      onClick={() => {
+                        handleChange("2");
                       }}
                       disableElevation
                       sx={{ backgroundColor: "#632165" }}
@@ -255,7 +264,7 @@ export default function ChildCivilRegistration({ userData }) {
                     <Button
                       variant="contained"
                       onClick={(e) => {
-                        handleChange(null, "1");
+                        handleChange("1");
                       }}
                       disableElevation
                       sx={{ backgroundColor: "gray" }}
@@ -265,7 +274,7 @@ export default function ChildCivilRegistration({ userData }) {
                     <Button
                       variant="contained"
                       onClick={(e) => {
-                        handleChange(null, "3");
+                        handleChange("3");
                       }}
                       disableElevation
                       sx={{ backgroundColor: "#632165" }}
@@ -287,7 +296,7 @@ export default function ChildCivilRegistration({ userData }) {
                     <Button
                       variant="contained"
                       onClick={(e) => {
-                        handleChange(null, "2");
+                        handleChange("2");
                       }}
                       disableElevation
                       sx={{ backgroundColor: "gray" }}
@@ -297,7 +306,7 @@ export default function ChildCivilRegistration({ userData }) {
                     <Button
                       variant="contained"
                       onClick={(e) => {
-                        handleChange(null, "4");
+                        handleChange("4");
                       }}
                       disableElevation
                       sx={{ backgroundColor: "#632165" }}
@@ -319,7 +328,7 @@ export default function ChildCivilRegistration({ userData }) {
                     <Button
                       variant="contained"
                       onClick={(e) => {
-                        handleChange(null, "3");
+                        handleChange("3");
                       }}
                       disableElevation
                       sx={{ backgroundColor: "gray" }}
