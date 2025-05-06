@@ -42,6 +42,7 @@ import SpecialCare from './pages/SpecialCare';
 import RotaVirusVaccineForm from './pages/RotaVirusVaccine';
 import ChildCivilRegistration from './pages/ChildCivilRegistration';
 import MicronutrientPowders from './pages/MicronutrientPowders';
+import PolioVaccination from './pages/PolioVaccine';
 
 const appRoutes = [
   {
@@ -226,7 +227,12 @@ const appRoutes = [
   {
     path: '/micronutrient-powders',
     element: MicronutrientPowders,
-  }
+  },
+  {
+    path: "/polio-vaccine",
+    element: PolioVaccination
+  },
+  
 ];
 
 export default appRoutes;
