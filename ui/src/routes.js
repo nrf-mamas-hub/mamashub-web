@@ -43,6 +43,7 @@ import RotaVirusVaccineForm from './pages/RotaVirusVaccine';
 import ChildCivilRegistration from './pages/ChildCivilRegistration';
 import MicronutrientPowders from './pages/MicronutrientPowders';
 import PolioVaccination from './pages/PolioVaccine';
+import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine';
 
 const appRoutes = [
   {
@@ -230,6 +231,10 @@ const appRoutes = [
     path: "/polio-vaccine",
     element: PolioVaccination
   },
+  {
+    path: "/pneumococcal-conjugate-vaccine",
+    element: PneumococalConjugateVaccination,
+  }
   
 ];
 
