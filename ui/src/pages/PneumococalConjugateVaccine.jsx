@@ -101,16 +101,9 @@ export default function PneumococalConjugateVaccination({userData}) {
           }, 4000);
           return;
         }
-        setVisit(JSON.parse(visit));
-        return;
-    }, []);
-
-    useEffect(() => {
-        let visit = window.localStorage.getItem("currentPatient") ?? null;
-        visit = JSON.parse(visit) ?? null;
-        if (visit) {
-          getPneumococalVaccinationEncounters(visit.id);
-        }
+        const parsedVisit = JSON.parse(visit);
+        setVisit(parsedVisit);
+        getPneumococalVaccinationEncounters(parsedVisit.id);
     }, []);
 
     let getEncounterObservations = async (encounter) => {
