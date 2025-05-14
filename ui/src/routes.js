@@ -44,6 +44,7 @@ import ChildCivilRegistration from './pages/ChildCivilRegistration';
 import MicronutrientPowders from './pages/MicronutrientPowders';
 import PolioVaccination from './pages/PolioVaccine';
 import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine';
+import MeasleRubellaVaccination from './pages/MeaslesRubellaVaccine';
 
 const appRoutes = [
   {
@@ -234,6 +235,10 @@ const appRoutes = [
   {
     path: "/pneumococcal-conjugate-vaccine",
     element: PneumococalConjugateVaccination,
+  },
+  {
+    path: '/measles-rubella-vaccine',
+    element: MeasleRubellaVaccination,
   }
   
 ];
