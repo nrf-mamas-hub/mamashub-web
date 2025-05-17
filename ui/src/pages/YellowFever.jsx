@@ -149,7 +149,6 @@ export default function YellowFeverVaccination({userData}) {
                 patient,
                 "YELLOW_FEVER_VACCINATION"
             );
-            console.log("encounter: ",encounter)
 
             let immunizationDetails = {
                 patientId: patient,
@@ -166,7 +165,6 @@ export default function YellowFeverVaccination({userData}) {
             };
 
             let immunization = await createImmunization(immunizationDetails);
-            console.log("immunization resource:",immunization)
 
             let appointmentDetails = {
                 serviceCategory:1,
@@ -181,7 +179,6 @@ export default function YellowFeverVaccination({userData}) {
             
             if (immunization.status === "success") {
                 yellowFeverVaccinationEncounters.length < 3 && await createAppointment(appointmentDetails);
-                console.log("Appointment:", appointmentDetails)
             } else {
                 prompt("Could not submit yellow fever vaccination details");
                 return;
@@ -207,7 +204,7 @@ export default function YellowFeverVaccination({userData}) {
                     headers: { "Content-Type": "application/json" },
                 })
             ).json();
-            console.log("observations", observations)
+            
 
             if (res.status === "success") {
                 prompt("Yellow Fever vaccination saved successfully");
