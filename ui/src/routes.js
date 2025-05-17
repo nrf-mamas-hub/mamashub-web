@@ -45,6 +45,7 @@ import MicronutrientPowders from './pages/MicronutrientPowders';
 import PolioVaccination from './pages/PolioVaccine';
 import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine';
 import MeasleRubellaVaccination from './pages/MeaslesRubellaVaccine';
+import YellowFeverVaccination from './pages/YellowFever';
 
 const appRoutes = [
   {
@@ -239,6 +240,10 @@ const appRoutes = [
   {
     path: '/measles-rubella-vaccine',
     element: MeasleRubellaVaccination,
+  },
+  {
+    path: '/yellow-fever-vaccine',
+    element: YellowFeverVaccination,
   }
   
 ];
