@@ -21,7 +21,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import CurrentPatient from "../components/CurrentPatient";
-import { apiHost, createEncounter, FhirApi, createImmunization, createAppointment } from "../lib/api";
+import { apiHost, createEncounter, FhirApi, createImmunization } from "../lib/api";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Preview from "../components/Preview";
@@ -87,7 +87,7 @@ export default function YellowFeverVaccination({userData}) {
 
     const handleChange = (newValue) => setValue(newValue);
 
-    let {practitionerId,names} = userData;
+    let {practitionerId} = userData;
 
     useEffect(() => {
             let visit = window.localStorage.getItem("currentPatient");
@@ -132,8 +132,6 @@ export default function YellowFeverVaccination({userData}) {
         return;
     };
 
-    let patientName = visit?.name;
-
     let saveYellowFeverVaccination = async (values) => {
         if (!visit) {
             prompt(
@@ -165,30 +163,14 @@ export default function YellowFeverVaccination({userData}) {
             };
 
             let immunization = await createImmunization(immunizationDetails);
-
-            let appointmentDetails = {
-                serviceCategory:1,
-                reason:3,
-                description: 'Routine yellow fever vaccination appointment',
-                nextVisit:values.dateOfNextVisit,
-                patientId:patient,
-                patientName,
-                practitionerId,
-                practitionerName:names,
-            }
             
-            if (immunization.status === "success") {
-                yellowFeverVaccinationEncounters.length < 3 && await createAppointment(appointmentDetails);
-            } else {
+            if (immunization.status !== "success") {
                 prompt("Could not submit yellow fever vaccination details");
                 return;
             }
 
             const yellowFeverObservations = {
                 dateOfImmunization: values.dateGiven,
-                ...(yellowFeverVaccinationEncounters.length < 2 && {
-                    nextVaccination: values.dateOfNextVisit
-                })
             };
 
             let res = await (
