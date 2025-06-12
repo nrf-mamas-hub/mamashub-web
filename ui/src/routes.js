@@ -244,10 +244,6 @@ const appRoutes = [
   {
     path: '/yellow-fever-vaccine',
     element: YellowFeverVaccination,
-  },
-  {
-    path: '/ipv',
-    element: inactivatedPolioVaccine,
   }
   
 ];
