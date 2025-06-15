@@ -46,6 +46,7 @@ import PolioVaccination from './pages/PolioVaccine';
 import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine';
 import MeasleRubellaVaccination from './pages/MeaslesRubellaVaccine';
 import YellowFeverVaccination from './pages/YellowFever';
+import InactivatedPolioVaccine from './pages/InactivatedPolioVaccine';
 
 const appRoutes = [
   {
@@ -244,8 +245,12 @@ const appRoutes = [
   {
     path: '/yellow-fever-vaccine',
     element: YellowFeverVaccination,
+  },
+  {
+    path: '/ipv',
+    element: InactivatedPolioVaccine,
   }
-  
+
 ];
 
 export default appRoutes;
