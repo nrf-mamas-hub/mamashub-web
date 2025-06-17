@@ -47,6 +47,7 @@ import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine
 import MeasleRubellaVaccination from './pages/MeaslesRubellaVaccine';
 import YellowFeverVaccination from './pages/YellowFever';
 import InactivatedPolioVaccine from './pages/InactivatedPolioVaccine';
+import CongenitalAbnormalities from './pages/CongenitalAbnormalities';
 
 const appRoutes = [
   {
@@ -249,6 +250,10 @@ const appRoutes = [
   {
     path: '/ipv',
     element: InactivatedPolioVaccine,
+  },
+  {
+    path: "/early-identification-of-congenital-abnormalities",
+    element: CongenitalAbnormalities
   }
 
 ];
