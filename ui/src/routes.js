@@ -47,6 +47,7 @@ import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine
 import MeasleRubellaVaccination from './pages/MeaslesRubellaVaccine';
 import YellowFeverVaccination from './pages/YellowFever';
 import InactivatedPolioVaccine from './pages/InactivatedPolioVaccine';
+import EarlyEyeProblems from './pages/eyeProblems';
 
 const appRoutes = [
   {
@@ -249,7 +250,12 @@ const appRoutes = [
   {
     path: '/ipv',
     element: InactivatedPolioVaccine,
+  },
+  {
+    path: "/identification-of-early-eye-problems",
+    element: EarlyEyeProblems
   }
+
 
 ];
 
