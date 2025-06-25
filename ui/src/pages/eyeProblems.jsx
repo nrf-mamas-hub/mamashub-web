@@ -106,7 +106,6 @@ export default function EarlyEyeProblems() {
     validationSchema: validationSchema,
     // submit form
     onSubmit: (values) => {
-      console.log(values);
       setPreview(true);
       setInputData(values);
     },
