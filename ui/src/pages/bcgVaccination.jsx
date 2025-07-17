@@ -146,7 +146,6 @@ export default function BcgVaccineForm({ userData }) {
       setObservations(encounterObservations);
       return encounterObservations;
     } catch (error) {
-      console.error("Error fetching observations:", error);
       setObservations([]);
       return [];
     }

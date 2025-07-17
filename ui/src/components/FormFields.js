@@ -606,13 +606,6 @@ export default function FormFields({ formik, formData, encounters, ...props }) {
                                     control={
                                       <Checkbox
                                         checked={Array.isArray(formik.values[field.name]) && formik.values[field.name].includes(option.value)}
-
-                                        // checked={formik.values[
-                                        //   field.name
-                                        // ].includes(option.value)}
-                                        // onChange={e =>
-                                        //   handleChangeChecked(e, field, option)
-                                        // }
                                         name={field.name}
                                         value={option.value}
                                       />
