@@ -49,6 +49,8 @@ import YellowFeverVaccination from './pages/YellowFever';
 import InactivatedPolioVaccine from './pages/InactivatedPolioVaccine';
 import EarlyEyeProblems from './pages/eyeProblems';
 import BcgVaccineForm from './pages/bcgVaccination';
+import CongenitalAbnormalities from './pages/CongenitalAbnormalities';
+
 
 const appRoutes = [
   {
@@ -259,6 +261,10 @@ const appRoutes = [
   {
     path: "/bcg-vaccine",
     element: BcgVaccineForm,
+  },
+  {
+    path: "/early-identification-of-congenital-abnormalities",
+    element: CongenitalAbnormalities
   },
 
 
