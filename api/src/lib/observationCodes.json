@@ -541,6 +541,14 @@
         "genitalia": "snomed:830010004:Genitalia:",
         "genitaliaRemarks": "snomed:830010004:Genitalia Remarks:",
         "anus": "snomed:300321007:Anus:",
-        "anusRemarks": "snomed:300321007:Anus Remarks:"
+        "anusRemarks": "snomed:300321007:Anus Remarks:",
+        "teoGivenTeo": "snomed:1201750003:TEO Given",
+        "pupil": "snomed:247010007:Pupil",
+        "sight": "snomed:285162009:Sight",
+        "squint": "snomed:22066006:Squint",
+        "anyOtherEyeProblem": "snomed:112081000119108:Any Other Problem",
+        "bcgScarDateChecked": "snomed:439771001:BCG Scar Date Checked",
+        "bcgScarPresence": "snomed:1340080008:BCG Scar Presence",
+        "repeatVaccineBcg": "snomed:42284007:Repeat BCG Vaccine"
     }
 }

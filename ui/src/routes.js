@@ -47,7 +47,10 @@ import PneumococalConjugateVaccination from './pages/PneumococalConjugateVaccine
 import MeasleRubellaVaccination from './pages/MeaslesRubellaVaccine';
 import YellowFeverVaccination from './pages/YellowFever';
 import InactivatedPolioVaccine from './pages/InactivatedPolioVaccine';
+import EarlyEyeProblems from './pages/eyeProblems';
+import BcgVaccineForm from './pages/bcgVaccination';
 import CongenitalAbnormalities from './pages/CongenitalAbnormalities';
+
 
 const appRoutes = [
   {
@@ -252,9 +255,18 @@ const appRoutes = [
     element: InactivatedPolioVaccine,
   },
   {
+    path: "/identification-of-early-eye-problems",
+    element: EarlyEyeProblems
+  },
+  {
+    path: "/bcg-vaccine",
+    element: BcgVaccineForm,
+  },
+  {
     path: "/early-identification-of-congenital-abnormalities",
     element: CongenitalAbnormalities
-  }
+  },
+
 
 ];
 

@@ -199,7 +199,7 @@ import {
           practitionerName:names,
         }
 
-        if (immunization.status = "success") {          
+        if (immunization.status === "success") {          
           diphtheriaVaccinationEncounters.length < 2 && await createAppointment(appointmentDetails);            
         } else {
           prompt("Could not submit diphtheria vaccination details.");
