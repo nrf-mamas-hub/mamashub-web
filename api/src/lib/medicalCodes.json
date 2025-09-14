@@ -54,6 +54,11 @@
         "Pneumococcal Conjugate Vaccine":"snomed:51451000087105: Pneumococcal 13-valent conjugate vaccine",
         "Rota Virus Vaccine":"snomed:871761004:Rotavirus vaccine",
         "Measles Rubella Vaccine":"snomed:61153008:Measles, mumps and rubella vaccine",
-        "Yellow Fever Vaccine":"snomed:56844000:Yellow fever vaccine product"
+        "Yellow Fever Vaccine":"snomed:56844000:Yellow fever vaccine product",
+        "Hepatitis B Vaccine":"SCTID: 871822003:Hepatitis B Vaccine",
+        "HPV Vaccine":"SCTID: 911000221103:HPV Vaccine",
+        "TCV":"snomed:56844000:Typhoid Conjugate Vaccine (TCV)",
+        "Malaria Vaccine":"SCTID: 45861000087106:Malaria vaccine",
+        "RSV":"SCTID: 51311000087100:Respiratory Syncytial Virus (RSV) vaccine"
     }
 }
