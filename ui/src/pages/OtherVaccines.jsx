@@ -176,10 +176,8 @@ export default function OtherVaccinesForm({ userData }) {
   let { practitionerId, names } = userData;
 
   try {
-    // 1. create encounter
     let encounter = await createEncounter(patient, "OTHER_VACCINES");
-
-    // 2. build immunization details to match createImmunization structure
+    
     let immunizationDetails = {
       patientId: patient,
       encounterId: encounter.id,
@@ -189,7 +187,6 @@ export default function OtherVaccinesForm({ userData }) {
       expiryDate: values.expiryDate || null,
       additionalComments: values.additionalComments || null,
 
-      // vaccine fields
       name: values.otherVaccinesName,
       immunizationDate: values.immunizationDateGiven,
       site: values.otherVaccinesSite,
@@ -198,9 +195,6 @@ export default function OtherVaccinesForm({ userData }) {
       unit: "mls",
     };
 
-    console.log("Submitting immunization:", immunizationDetails);
-
-    // 3. create immunization
     let immunization = await createImmunization(immunizationDetails);
 
     if (!immunization || immunization.status !== "success") {
@@ -208,7 +202,6 @@ export default function OtherVaccinesForm({ userData }) {
       return;
     }
 
-    // 4. save observations (optional)
     const otherVaccinesObservations = {
       dateOfImmunization: values.immunizationDateGiven,
       vaccineName: values.otherVaccinesName,
